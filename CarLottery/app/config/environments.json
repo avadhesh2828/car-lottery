@@ -1,0 +1,8 @@
+{
+  "staging": {
+    "BASE_URL": "https://poolbetstg.worldsbc.com"
+  },
+  "production": {
+    "BASE_URL": "https://poolbetstg.worldsbc.com"
+  }
+}
