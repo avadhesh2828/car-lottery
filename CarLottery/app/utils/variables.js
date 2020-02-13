@@ -6,7 +6,7 @@ import { responsiveSize } from './utils';
 const { width, height } = Dimensions.get('window');
 
 export const UIColors = {
-  navigationBar: 'orange',
+  navigationBar: '#006E32',
   navigationTitle: 'white',
   appBackGroundColor: 'white',
   primaryButton: '#4f5863',
@@ -55,7 +55,28 @@ export const itemSizes = {
   navLogoImageWidth: responsiveSize(150),
   navLogoImageHeight: responsiveSize(50),
   backIconWidth: responsiveSize(30),
-  headlineImageInDetail: responsiveSize(width - 20)
+  headlineImageInDetail: responsiveSize(width - 20),
+  iconSmall: responsiveSize(18),
+  iconExtraSmall: responsiveSize(14),
+  iconExtraExtraSmall: responsiveSize(12),
+  iconMedium: responsiveSize(20),
+  iconLarge: responsiveSize(22),
+  iconExtraLarge: responsiveSize(24),
+};
+
+export const fontName = {
+  sourceSansProBlack: 'SourceSansPro-Black',
+  sourceSansProBlackItalic: 'SourceSansPro-BlackItalic',
+  sourceSansProBold: 'SourceSansPro-Bold',
+  sourceSansProBoldItalic: 'SourceSansPro-BoldItalic',
+  sourceSansProExtraLight: 'SourceSansPro-ExtraLight',
+  sourceSansProExtraLightItalic: 'SourceSansPro-ExtraLightItalic',
+  sourceSansProItalic: 'SourceSansPro-Italic',
+  sourceSansProLight: 'SourceSansPro-Light',
+  sourceSansProLightItalic: 'SourceSansPro-LightItalic',
+  sourceSansProRegular: 'SourceSansPro-Regular',
+  sourceSansProSemiBold: 'SourceSansPro-SemiBold',
+  sourceSansProSemiBoldItalic: 'SourceSansPro-SemiBoldItalic',
 };
 
 export const fontWeights = {
