@@ -14,6 +14,7 @@ export const UIColors = {
   textDetail: '#434343',
   loderBackgroundColor: '#00000060',
   blueColor: 'blue',
+  purpleButtonColor: '#312C76',
 };
 
 export const fontSizes = {
@@ -50,7 +51,15 @@ export const spacing = {
 };
 
 export const itemSizes = {
+  defaultButtonHeight: responsiveSize(40),
+  defaultLargeButtonHeight: responsiveSize(56),
+  defaultSmallButtonHeight: responsiveSize(36),
+  extraSmallButtonHeight: responsiveSize(30),
+  titleHeight: 20,
+  mediumWidth: 60,
+  largeWidth: 80,
   defaultHeight: responsiveSize(50),
+  defaultIosTextInputHeight: responsiveSize(40),
   defaultWidth: responsiveSize(50),
   navLogoImageWidth: responsiveSize(150),
   navLogoImageHeight: responsiveSize(50),

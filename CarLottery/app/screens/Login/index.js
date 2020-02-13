@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, TextInput } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
@@ -11,7 +11,6 @@ import { spacing, UIColors, fontSizes, fontName, itemSizes } from '../../utils/v
 import { Localization } from '../../utils/localization';
 import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import ToggleIcon from '../../components/ToggleIcon';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const inputWidth = '90%';
 
@@ -33,13 +32,13 @@ const styles = StyleSheet.create({
   textInputContainer: {
     flexDirection: 'row',
     marginHorizontal: spacing.large,
-    height: itemSizes.defaultHeight,
+    height: itemSizes.defaultIosTextInputHeight,
     borderColor: 'gray',
     borderWidth: 1,
     alignItems: 'center',
   },
   textInput: {
-    height: itemSizes.defaultHeight,
+    height: itemSizes.defaultIosTextInputHeight,
     fontSize: fontSizes.small,
     color: UIColors.textTitle,
     borderLeftWidth: 1,
@@ -60,13 +59,34 @@ const styles = StyleSheet.create({
     marginLeft: spacing.large,
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: spacing.small,
   },
   forgotImage: {
     resizeMode: 'cover',
     height: itemSizes.iconSmall,
     width: itemSizes.iconSmall,
+    tintColor: UIColors.navigationBar,
   },
-  forgotText: {},
+  forgotText: {
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.extraSmall,
+    color: UIColors.textTitle,
+    paddingLeft: spacing.extraExtraSmall,
+  },
+  loginBtn: {
+    marginTop: spacing.small,
+    paddingVertical: spacing.small,
+    width: itemSizes.largeWidth,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: UIColors.purpleButtonColor,
+  },
+  loginBtntxt: {
+    color: UIColors.navigationTitle,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.extraSmall,
+  },
 });
 
 class Login extends Component {
@@ -197,7 +217,10 @@ class Login extends Component {
               source={images.questionIcon}
               style={styles.forgotImage}
             />
-            <Text style={styles.forgotText}>Forgot Password?</Text>
+            <Text style={styles.forgotText}>{Localization.loginScreen.ForgotPassword}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.loginBtn}>
+            <Text style={styles.loginBtntxt}>{Localization.loginScreen.LOGIN}</Text>
           </TouchableOpacity>
         </View>
       </View>

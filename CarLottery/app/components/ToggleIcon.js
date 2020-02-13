@@ -3,6 +3,7 @@ import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { images } from '../assets/images';
 import { responsiveFontSize } from '../utils/utils_functions';
+import { UIColors } from '../utils/variables';
 // import { isPortrait } from '../utils/utils';
 
 const styles = StyleSheet.create({
@@ -21,6 +22,9 @@ const styles = StyleSheet.create({
   landscapeMargin: {
     right: 30,
   },
+  toggleImage: {
+    tintColor: UIColors.textTitle,
+  },
 });
 
 const ToggleIcon = (props) => {
@@ -32,7 +36,7 @@ const ToggleIcon = (props) => {
       style={[styles.showPasswordButton]}
       onPress={() => props.showPassowrdText()}
     >
-      <Image source={imageSource} />
+      <Image style={styles.toggleImage} source={imageSource} />
     </TouchableOpacity>
   );
 };

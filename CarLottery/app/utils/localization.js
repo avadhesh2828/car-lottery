@@ -19,5 +19,6 @@ export const Localization = {
     LOGIN: 'Login',
     Email: 'Email',
     Password: 'Password',
+    ForgotPassword: 'Forgot Password?',
   },
 };
