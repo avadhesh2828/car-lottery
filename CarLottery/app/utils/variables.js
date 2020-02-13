@@ -6,7 +6,7 @@ import { responsiveSize } from './utils';
 const { width, height } = Dimensions.get('window');
 
 export const UIColors = {
-  navigationBar: 'orange',
+  navigationBar: '#006E32',
   navigationTitle: 'white',
   appBackGroundColor: 'white',
   primaryButton: '#4f5863',
@@ -14,6 +14,7 @@ export const UIColors = {
   textDetail: '#434343',
   loderBackgroundColor: '#00000060',
   blueColor: 'blue',
+  purpleButtonColor: '#312C76',
 };
 
 export const fontSizes = {
@@ -50,12 +51,41 @@ export const spacing = {
 };
 
 export const itemSizes = {
+  defaultButtonHeight: responsiveSize(40),
+  defaultLargeButtonHeight: responsiveSize(56),
+  defaultSmallButtonHeight: responsiveSize(36),
+  extraSmallButtonHeight: responsiveSize(30),
+  titleHeight: 20,
+  mediumWidth: 60,
+  largeWidth: 80,
   defaultHeight: responsiveSize(50),
+  defaultIosTextInputHeight: responsiveSize(40),
   defaultWidth: responsiveSize(50),
   navLogoImageWidth: responsiveSize(150),
   navLogoImageHeight: responsiveSize(50),
   backIconWidth: responsiveSize(30),
-  headlineImageInDetail: responsiveSize(width - 20)
+  headlineImageInDetail: responsiveSize(width - 20),
+  iconSmall: responsiveSize(18),
+  iconExtraSmall: responsiveSize(14),
+  iconExtraExtraSmall: responsiveSize(12),
+  iconMedium: responsiveSize(20),
+  iconLarge: responsiveSize(22),
+  iconExtraLarge: responsiveSize(24),
+};
+
+export const fontName = {
+  sourceSansProBlack: 'SourceSansPro-Black',
+  sourceSansProBlackItalic: 'SourceSansPro-BlackItalic',
+  sourceSansProBold: 'SourceSansPro-Bold',
+  sourceSansProBoldItalic: 'SourceSansPro-BoldItalic',
+  sourceSansProExtraLight: 'SourceSansPro-ExtraLight',
+  sourceSansProExtraLightItalic: 'SourceSansPro-ExtraLightItalic',
+  sourceSansProItalic: 'SourceSansPro-Italic',
+  sourceSansProLight: 'SourceSansPro-Light',
+  sourceSansProLightItalic: 'SourceSansPro-LightItalic',
+  sourceSansProRegular: 'SourceSansPro-Regular',
+  sourceSansProSemiBold: 'SourceSansPro-SemiBold',
+  sourceSansProSemiBoldItalic: 'SourceSansPro-SemiBoldItalic',
 };
 
 export const fontWeights = {

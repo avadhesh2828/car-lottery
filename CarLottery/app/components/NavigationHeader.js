@@ -19,6 +19,7 @@ import Navigation from '../utils/navigation';
 import {
   spacing, itemSizes, UIColors, fontSizes, fontWeights,
 } from '../utils/variables';
+import { isIOS, isIphoneX, NavBarHeight } from '../utils/plateformSpecific';
 
 const styles = StyleSheet.create({
   container: {
@@ -75,7 +76,7 @@ class NavigationHeader extends Component {
     } = this.props;
 
     return (
-      <View style={[styles.container, { backgroundColor: backgroundColor }]}>
+      <View style={[styles.container, { backgroundColor: backgroundColor, height: NavBarHeight }]}>
         <SafeAreaView style={styles.subContainer}>
           {
             showBackButton && (
