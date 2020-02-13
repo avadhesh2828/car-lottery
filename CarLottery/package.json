@@ -12,6 +12,7 @@
     "react-native": "0.59.9",
     "react-native-gesture-handler": "~1.4.0",
     "react-native-reanimated": "^1.4.0",
+    "react-native-screens": "^2.0.0-beta.2",
     "react-navigation": "^4.0.10",
     "react-navigation-redux-helpers": "^4.0.1",
     "react-navigation-stack": "^1.10.3",
@@ -31,7 +32,7 @@
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react": "^7.18.3",
     "jest": "^24.9.0",
     "jetifier": "^1.6.4",
     "metro-react-native-babel-preset": "^0.57.0",
@@ -39,5 +40,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./app/assets/fonts/"
+    ]
   }
 }
