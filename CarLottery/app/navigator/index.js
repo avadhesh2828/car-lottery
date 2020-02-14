@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { screenNames } from '../utils/constant';
 import Splash from '../screens/Splash';
 import Login from '../screens/Login';
+import Signup from '../screens/Signup';
 
 const MainNavigator = createStackNavigator(
   {
@@ -13,6 +14,10 @@ const MainNavigator = createStackNavigator(
     Login: {
       screen: Login,
       key: screenNames.LOGIN_SCREEN,
+    },
+    Signup: {
+      screen: Signup,
+      key: screenNames.SIGNUP_SCREEN,
     },
   },
   {

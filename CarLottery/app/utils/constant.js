@@ -1,6 +1,7 @@
 export const screenNames = {
   SPLASH_SCREEN: 'Splash',
   LOGIN_SCREEN: 'Login',
+  SIGNUP_SCREEN: 'Signup',
 };
 
 export const appIntervals = {
@@ -10,12 +11,16 @@ export const appIntervals = {
 export const InputKey = {
   email: 'email',
   password: 'password',
+  confirmPassword: 'confirmPassword',
+  mobileNumber: 'mobileNumber',
+  referalId: 'referalId',
 };
 
 export const KeyboardType = {
   emailAddress: 'email-address',
   decimalPad: 'decimal-pad',
   numeric: 'numeric',
+  phonePad: 'phone-pad',
 };
 
 export const ReturnKeyType = {
