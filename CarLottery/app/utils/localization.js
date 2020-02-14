@@ -21,4 +21,12 @@ export const Localization = {
     Password: 'Password',
     ForgotPassword: 'Forgot Password?',
   },
+  SignupScreen: {
+    Signup: 'Signup',
+    ConfirmPassword: 'Confirm Password',
+    MobileNumber: 'Mobile Number',
+    referalCode: 'Have a Referal Code',
+    refererId: 'Referer ID',
+    termsAndPolicy: 'I agree with terms conditions and privacy policy',
+  },
 };
