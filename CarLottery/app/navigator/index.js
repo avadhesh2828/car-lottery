@@ -4,6 +4,7 @@ import { screenNames } from '../utils/constant';
 import Splash from '../screens/Splash';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
+import Home from '../screens/Home';
 
 const MainNavigator = createStackNavigator(
   {
@@ -18,6 +19,10 @@ const MainNavigator = createStackNavigator(
     Signup: {
       screen: Signup,
       key: screenNames.SIGNUP_SCREEN,
+    },
+    Home: {
+      screen: Home,
+      key: screenNames.HOME_SCREEN,
     },
   },
   {

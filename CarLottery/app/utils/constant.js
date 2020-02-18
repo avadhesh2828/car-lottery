@@ -2,6 +2,7 @@ export const screenNames = {
   SPLASH_SCREEN: 'Splash',
   LOGIN_SCREEN: 'Login',
   SIGNUP_SCREEN: 'Signup',
+  HOME_SCREEN: 'Home',
 };
 
 export const appIntervals = {

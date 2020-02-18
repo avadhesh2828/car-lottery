@@ -15,6 +15,7 @@ export const UIColors = {
   loderBackgroundColor: '#00000060',
   blueColor: 'blue',
   purpleButtonColor: '#312C76',
+  grayBackgroundColor: '#E5E0DF',
 };
 
 export const fontSizes = {
