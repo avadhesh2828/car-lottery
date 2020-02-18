@@ -26,7 +26,7 @@ class Splash extends Component {
 
   goToScreen() {
     // this.props.getSportsRequest();
-    let screenName = screenNames.LOGIN_SCREEN;
+    let screenName = screenNames.HOME_SCREEN;
     Navigation.sharedInstance().resetRouteName(screenName);
   }
 

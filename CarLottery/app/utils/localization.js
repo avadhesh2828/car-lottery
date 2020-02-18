@@ -29,4 +29,9 @@ export const Localization = {
     refererId: 'Referer ID',
     termsAndPolicy: 'I agree with terms conditions and privacy policy',
   },
+  homeScreen: {
+    Buy: 'Buy',
+    View: 'View',
+    TicketBrought: 'Ticket\nBrought',
+  },
 };
