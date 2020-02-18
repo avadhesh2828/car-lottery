@@ -4,6 +4,7 @@ const hidePassowrd = require('./hide_passowrd.png');
 const showPassowrd = require('./show_passowrd.png');
 const passwordIcon = require('./password.png');
 const questionIcon = require('./question_icon.png');
+const searchIcon = require('./magnifying_glass.png');
 
 export const images = {
   logo,
@@ -12,4 +13,5 @@ export const images = {
   showPassowrd,
   passwordIcon,
   questionIcon,
+  searchIcon,
 };

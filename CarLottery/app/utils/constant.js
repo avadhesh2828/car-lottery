@@ -3,6 +3,8 @@ export const screenNames = {
   LOGIN_SCREEN: 'Login',
   SIGNUP_SCREEN: 'Signup',
   HOME_SCREEN: 'Home',
+  MY_TICKETS_SCREEN: 'MyTickets',
+  MY_TICKET_DETAIL_SCREEN: 'MyTicketDetail',
 };
 
 export const appIntervals = {
