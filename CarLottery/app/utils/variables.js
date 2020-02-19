@@ -6,11 +6,12 @@ import { responsiveSize } from './utils';
 const { width, height } = Dimensions.get('window');
 
 export const UIColors = {
-  navigationBar: '#006E32',
+  navigationBar: '#008840',
   navigationTitle: 'white',
   appBackGroundColor: 'white',
   primaryButton: '#4f5863',
   textTitle: 'black',
+  grayText: 'gray',
   textDetail: '#434343',
   loderBackgroundColor: '#00000060',
   blueColor: 'blue',
@@ -41,6 +42,7 @@ export const spacing = {
   border: responsiveSize(1),
   borderDouble: responsiveSize(2),
   extraExtraSmall: responsiveSize(3),
+  smallHalf: responsiveSize(4),
   extraSmall: responsiveSize(5),
   small: responsiveSize(8),
   semiMedium: responsiveSize(10),

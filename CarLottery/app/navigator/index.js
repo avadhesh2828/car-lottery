@@ -5,6 +5,7 @@ import Splash from '../screens/Splash';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Home from '../screens/Home';
+import MyTicketDetail from '../screens/MyTicketDetail';
 
 const MainNavigator = createStackNavigator(
   {
@@ -23,6 +24,10 @@ const MainNavigator = createStackNavigator(
     Home: {
       screen: Home,
       key: screenNames.HOME_SCREEN,
+    },
+    MyTicketDetail: {
+      screen: MyTicketDetail,
+      key: screenNames.MY_TICKET_DETAIL_SCREEN,
     },
   },
   {
