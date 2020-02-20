@@ -15,6 +15,8 @@ export const Localization = {
     header: 'No Internet Connection Available',
     message: 'Please check your internet connection.',
   },
+  update: 'Update',
+  cancel: 'Cancel',
   loginScreen: {
     LOGIN: 'Login',
     Email: 'Email',
@@ -33,5 +35,17 @@ export const Localization = {
     Buy: 'Buy',
     View: 'View',
     TicketBrought: 'Ticket\nBrought',
+  },
+  myTicketDetailScreen: {},
+  userProfileScreen: {
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    dateOfBirth: 'Date of Birth',
+    gender: 'Gender',
+    country: 'Country',
+    state: 'State',
+    city: 'City',
+    address: 'Address',
+    zipCode: 'Zip Code',
   },
 };

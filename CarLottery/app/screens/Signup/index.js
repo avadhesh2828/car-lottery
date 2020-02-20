@@ -10,6 +10,7 @@ import CustomTextInput from '../../components/CustomTextInput';
 import { spacing, UIColors, fontSizes, fontName, itemSizes } from '../../utils/variables';
 import { Localization } from '../../utils/localization';
 import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
+import { isIOS } from '../../utils/plateformSpecific';
 
 
 const inputWidth = '90%';
@@ -32,13 +33,13 @@ const styles = StyleSheet.create({
   textInputContainer: {
     flexDirection: 'row',
     marginHorizontal: spacing.large,
-    height: itemSizes.defaultIosTextInputHeight,
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     borderColor: 'gray',
     borderWidth: 1,
     alignItems: 'center',
   },
   textInput: {
-    height: itemSizes.defaultIosTextInputHeight,
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     fontSize: fontSizes.small,
     color: UIColors.textTitle,
     borderLeftWidth: 1,
@@ -207,7 +208,7 @@ class Signup extends Component {
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
-        <KeyboardAwareScrollView style={{flex: 1}}>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
             <Text style={styles.loginText}>{Localization.SignupScreen.Signup}</Text>
             <View style={[styles.textInputContainer, { marginTop: spacing.extraLarge }]}>

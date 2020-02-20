@@ -6,6 +6,7 @@ import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Home from '../screens/Home';
 import MyTicketDetail from '../screens/MyTicketDetail';
+import UserProfile from '../screens/UserProfile';
 
 const MainNavigator = createStackNavigator(
   {
@@ -28,6 +29,10 @@ const MainNavigator = createStackNavigator(
     MyTicketDetail: {
       screen: MyTicketDetail,
       key: screenNames.MY_TICKET_DETAIL_SCREEN,
+    },
+    UserProfile: {
+      screen: UserProfile,
+      key: screenNames.USER_PROFILE,
     },
   },
   {

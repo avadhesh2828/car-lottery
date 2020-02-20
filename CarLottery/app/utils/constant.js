@@ -5,6 +5,7 @@ export const screenNames = {
   HOME_SCREEN: 'Home',
   MY_TICKETS_SCREEN: 'MyTickets',
   MY_TICKET_DETAIL_SCREEN: 'MyTicketDetail',
+  USER_PROFILE: 'UserProfile',
 };
 
 export const appIntervals = {
@@ -13,10 +14,15 @@ export const appIntervals = {
 
 export const InputKey = {
   email: 'email',
+  firstName: 'firstName',
+  lastName: 'lastName',
   password: 'password',
   confirmPassword: 'confirmPassword',
   mobileNumber: 'mobileNumber',
   referalId: 'referalId',
+  city: 'city',
+  address: 'address',
+  zipCode: 'zipCode',
 };
 
 export const KeyboardType = {
