@@ -21,13 +21,13 @@ class Splash extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => { this.goToScreen() }, appIntervals.SPLASH_INTERVAL);
+    setTimeout(() => { this.goToScreen(); }, appIntervals.SPLASH_INTERVAL);
   }
 
   goToScreen() {
     // this.props.getSportsRequest();
-    let screenName = screenNames.USER_PROFILE;
-    Navigation.sharedInstance().resetRouteName(screenName);
+    const screenName = screenNames.HOME_SCREEN;
+    Navigation.sharedInstance().resetRouteName('TabNavigator');
   }
 
   render() {
@@ -35,12 +35,13 @@ class Splash extends Component {
       <ImageBackground
         source={images.logo}
         resizeMode={'center'}
-        style={styles.splashImage} />
+        style={styles.splashImage}
+      />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = () => UserActions;
@@ -48,4 +49,3 @@ const mapDispatchToProps = () => UserActions;
 const SplashScreen = connect(mapStateToProps, mapDispatchToProps)(Splash);
 
 export default SplashScreen;
-

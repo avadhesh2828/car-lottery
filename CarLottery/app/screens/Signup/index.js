@@ -1,5 +1,8 @@
+/* eslint-disable react/sort-comp */
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import UserActions from '../../actions';
@@ -7,7 +10,9 @@ import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
 import NavigationHeader from '../../components/NavigationHeader';
 import CustomTextInput from '../../components/CustomTextInput';
-import { spacing, UIColors, fontSizes, fontName, itemSizes } from '../../utils/variables';
+import {
+  spacing, UIColors, fontSizes, fontName, itemSizes,
+} from '../../utils/variables';
 import { Localization } from '../../utils/localization';
 import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
@@ -51,6 +56,14 @@ const styles = StyleSheet.create({
     width: inputWidth,
   },
   emailIcon: {
+    tintColor: UIColors.purpleButtonColor,
+    width: itemSizes.iconLarge,
+    height: itemSizes.iconLarge,
+    marginHorizontal: spacing.medium,
+    resizeMode: 'cover',
+  },
+  checkIcon: {
+    // tintColor: UIColors.,
     width: itemSizes.iconLarge,
     height: itemSizes.iconLarge,
     marginHorizontal: spacing.medium,
@@ -73,8 +86,8 @@ const styles = StyleSheet.create({
   checkBoxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: spacing.large,
-    paddingTop: spacing.extraSmall,
+    marginLeft: spacing.semiMedium,
+    paddingTop: spacing.medium,
   },
   referalTxt: {
     color: UIColors.textTitle,
@@ -92,8 +105,42 @@ class Signup extends Component {
       password: '',
       confirmPassword: '',
       referalId: '',
+      have_Refferal: images.unCheckedIcon,
+      Terms_Condtion: images.unCheckedIcon,
+      is_Check: false,
+      is_Terms_Check: false,
       // isShowPassword: false,
     };
+  }
+
+  Reffral_Image=() => {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (this.state.is_Check === true) {
+      this.setState({
+        have_Refferal: images.checkedIcon,
+      });
+      this.state.is_Check = false;
+    } else {
+      this.setState({
+        have_Refferal: images.unCheckedIcon,
+      });
+      this.state.is_Check = true;
+    }
+  }
+
+  Terms_Condtion_Image=() => {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (this.state.is_Terms_Check === true) {
+      this.setState({
+        Terms_Condtion: images.checkedIcon,
+      });
+      this.state.is_Terms_Check = false;
+    } else {
+      this.setState({
+        Terms_Condtion: images.unCheckedIcon,
+      });
+      this.state.is_Terms_Check = true;
+    }
   }
 
   onChangeEmailText(email) {
@@ -204,6 +251,11 @@ class Signup extends Component {
       password,
       confirmPassword,
       referalId,
+      have_Refferal,
+      Terms_Condtion,
+      is_Check,
+      is_Terms_Check,
+
     } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
@@ -229,7 +281,7 @@ class Signup extends Component {
               />
             </View>
             <View style={[styles.textInputContainer, { marginTop: spacing.extraLarge }]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.mobileIcon} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -288,10 +340,13 @@ class Signup extends Component {
               /> */}
             </View>
             <View style={styles.checkBoxContainer}>
+              <TouchableOpacity onPress={this.Reffral_Image}>
+                {console.log('isCheck', is_Check)}
+                <Image style={[styles.checkIcon, { backgroundColor: is_Check ? UIColors.purpleButtonColor : 'transparent' }]} source={have_Refferal} />
+              </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.referalCode}</Text>
             </View>
             <View style={[styles.textInputContainer, { marginTop: spacing.small }]}>
-              <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -308,6 +363,10 @@ class Signup extends Component {
               />
             </View>
             <View style={styles.checkBoxContainer}>
+              <TouchableOpacity onPress={this.Terms_Condtion_Image}>
+                <Image style={styles.emailIcon} source={Terms_Condtion} />
+
+              </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.termsAndPolicy}</Text>
             </View>
             <TouchableOpacity style={styles.loginBtn}>
@@ -320,7 +379,7 @@ class Signup extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = () => UserActions;
