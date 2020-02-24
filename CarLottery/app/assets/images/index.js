@@ -14,7 +14,7 @@ const myTicket = require('./bill.png');
 const help = require('./question.png');
 const home = require('./home.png');
 const register = require('./Register.png');
-const mobileIcon = require('./phone.png');
+const mobileIcon = require('./mobile.png');
 const unCheckedIcon = require('./unchecked.png');
 const checkedIcon = require('./tick.png');
 

@@ -62,6 +62,13 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing.medium,
     resizeMode: 'cover',
   },
+  checkIcon: {
+    // tintColor: UIColors.,
+    width: itemSizes.iconLarge,
+    height: itemSizes.iconLarge,
+    marginHorizontal: spacing.medium,
+    resizeMode: 'cover',
+  },
   loginBtn: {
     marginTop: spacing.large,
     paddingVertical: spacing.small,
@@ -100,8 +107,8 @@ class Signup extends Component {
       referalId: '',
       have_Refferal: images.unCheckedIcon,
       Terms_Condtion: images.unCheckedIcon,
-      is_Check: true,
-      is_Terms_Check: true,
+      is_Check: false,
+      is_Terms_Check: false,
       // isShowPassword: false,
     };
   }
@@ -334,7 +341,8 @@ class Signup extends Component {
             </View>
             <View style={styles.checkBoxContainer}>
               <TouchableOpacity onPress={this.Reffral_Image}>
-                <Image style={styles.emailIcon} source={have_Refferal} />
+                {console.log('isCheck', is_Check)}
+                <Image style={[styles.checkIcon, { backgroundColor: is_Check ? UIColors.purpleButtonColor : 'transparent' }]} source={have_Refferal} />
               </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.referalCode}</Text>
             </View>
