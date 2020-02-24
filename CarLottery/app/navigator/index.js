@@ -7,32 +7,64 @@ import Signup from '../screens/Signup';
 import Home from '../screens/Home';
 import MyTicketDetail from '../screens/MyTicketDetail';
 import UserProfile from '../screens/UserProfile';
+import TabNavigator from './TabNavigator';
 
 const MainNavigator = createStackNavigator(
   {
     Splash: {
       screen: Splash,
       key: screenNames.SPLASH_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
     },
     Login: {
       screen: Login,
       key: screenNames.LOGIN_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
     },
     Signup: {
       screen: Signup,
       key: screenNames.SIGNUP_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
     },
     Home: {
       screen: Home,
       key: screenNames.HOME_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
     },
-    MyTicketDetail: {
+    MyTicketDetails: {
       screen: MyTicketDetail,
       key: screenNames.MY_TICKET_DETAIL_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
     },
     UserProfile: {
       screen: UserProfile,
       key: screenNames.USER_PROFILE,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    TabNavigator: {
+      screen: TabNavigator,
+      key: screenNames.TAB_NAVIGATOR,
+      navigationOptions: {
+        header: null,
+      },
     },
   },
   {
