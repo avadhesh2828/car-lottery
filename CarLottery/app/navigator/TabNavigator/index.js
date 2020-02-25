@@ -10,7 +10,7 @@ import Login from './LoginTabNavigator';
 import SignUp from './SignUpTabNavigator';
 // import InviteFriend from './InviteFriend';
 import Home from './HomeTabNavigator';
-import MyTicket from './MyTicket';
+import Lobby from './LobbyTabNavigator';
 import { images } from '../../assets/images';
 import {
   UIColors, itemSizes, spacing,
@@ -62,8 +62,8 @@ export default createBottomTabNavigator(
       },
     },
     Lobby: {
-      screen: MyTicket,
-      key: 'MyTicket',
+      screen: Lobby,
+      key: 'Lobby',
       navigationOptions: {
         header: null,
         tabBarLabel: 'Lobby',
