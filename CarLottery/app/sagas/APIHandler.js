@@ -46,6 +46,7 @@ export const isSessionTimeoutError = (apiResponse) => {
 };
 
 const isJSON = (apiResponse) => {
+  console.log('apiResponse', JSON.stringify(apiResponse));
   const contentType = apiResponse.headers.get('content-type');
   const isValid = contentType && contentType.indexOf('application/json') !== -1;
   return isValid;
@@ -90,10 +91,14 @@ export const serverMessage = (parsedResponse) => {
 
 export const showErrorMessage = (response, parsedResponse) => {
   let errorMessage = Localization.serverErrorMessage;
+  if (parsedResponse && (parsedResponse.GlobalError || parsedResponse.Message)) {
+    showPopupAlert((parsedResponse.GlobalError || parsedResponse.Message));
+    return;
+  }
   if (isSessionTimeoutError(response)) {
     errorMessage = Localization.sessionErrorMessage;
     showPopupAlertWithTitle('Alert!', errorMessage, () => {
-     // logout();
+    // logout();
     });
     return;
   }

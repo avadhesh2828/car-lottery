@@ -39,7 +39,8 @@ export const ReturnKeyType = {
 };
 
 const constant = {
-  APP_ACCESS_TOKEN: 'APP_ACCESS_TOKEN',
+  SESSION_KEY: 'SESSION_KEY',
+  PROFILE_DATA: 'PROFILE_DATA',
 };
 
 export default constant;
