@@ -1,11 +1,11 @@
 import { api } from './api';
 import getHeaders from './headers';
-import { userData } from '../utils/global';
+import { UserData } from '../utils/global';
 
 const apiCall = (url, method, body, headers) => api(
   url,
   method,
-  getHeaders(userData.authToken, headers),
+  getHeaders(UserData.BearerToken, headers),
   body,
 );
 
