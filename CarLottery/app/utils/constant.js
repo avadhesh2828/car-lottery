@@ -7,6 +7,7 @@ export const screenNames = {
   MY_TICKET_DETAIL_SCREEN: 'MyTicketDetail',
   USER_PROFILE: 'UserProfile',
   TAB_NAVIGATOR: 'TabNavigator',
+  LOBBY_SCREEN: 'Lobby',
 };
 
 export const appIntervals = {

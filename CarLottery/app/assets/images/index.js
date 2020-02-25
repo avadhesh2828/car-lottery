@@ -17,6 +17,8 @@ const register = require('./Register.png');
 const mobileIcon = require('./mobile.png');
 const unCheckedIcon = require('./unchecked.png');
 const checkedIcon = require('./tick.png');
+const checkedIconRadio = require('./Switchercopy.png');
+const uncheckedIconRadio = require('./Switcher.png');
 
 export const images = {
   logo,
@@ -38,4 +40,6 @@ export const images = {
   mobileIcon,
   unCheckedIcon,
   checkedIcon,
+  checkedIconRadio,
+  uncheckedIconRadio,
 };

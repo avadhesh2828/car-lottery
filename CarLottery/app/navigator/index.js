@@ -8,6 +8,7 @@ import Home from '../screens/Home';
 import MyTicketDetail from '../screens/MyTicketDetail';
 import UserProfile from '../screens/UserProfile';
 import TabNavigator from './TabNavigator';
+import Lobby from '../screens/Lobby';
 
 const MainNavigator = createStackNavigator(
   {
@@ -30,6 +31,14 @@ const MainNavigator = createStackNavigator(
     Signup: {
       screen: Signup,
       key: screenNames.SIGNUP_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    Lobby: {
+      screen: Lobby,
+      key: screenNames.LOBBY_SCREEN,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,
