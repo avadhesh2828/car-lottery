@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet, View, Text, Image, TouchableOpacity,
+} from 'react-native';
 import { connect } from 'react-redux';
 import UserActions from '../../actions';
+import PropTypes from 'prop-types';
 import Navigation from '../../utils/navigation';
 // import { screenNames, appIntervals } from '../../utils/constant';
 import { images } from '../../assets/images';
 import NavigationHeader from '../../components/NavigationHeader';
 import CustomTextInput from '../../components/CustomTextInput';
-import { spacing, UIColors, fontSizes, fontName, itemSizes } from '../../utils/variables';
+import {
+  spacing, UIColors, fontSizes, fontName, itemSizes,
+} from '../../utils/variables';
 import { Localization } from '../../utils/localization';
 import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import ToggleIcon from '../../components/ToggleIcon';
+import { showPopupAlert } from '../../utils/showAlert';
+import { isNetworkConnected } from '../../utils/utils';
+import base64 from 'react-native-base64';
 
 const inputWidth = '90%';
 
@@ -161,6 +169,31 @@ class Login extends Component {
     this.setState({ isShowPassword: !this.state.isShowPassword });
   }
 
+  loginAction() {
+    const { email, password } = this.state;
+    const { loginRequest } = this.props;
+    const errorMessage = this.getValidationErrorMessage();
+    if (errorMessage) {
+      showPopupAlert(errorMessage);
+    } else {
+      isNetworkConnected((isConnected) => {
+        if (isConnected) {
+          const data = {
+            // email: 'smenariya@gammastack.com',
+            email,
+            password: base64.encode(password),
+            device_id: 1,
+            device_type: 1,
+            remember_me: false,
+            user_type: '0',
+            other_session_key: '',
+          };
+          loginRequest(data);
+        }
+      });
+    }
+  }
+
 
   render() {
     const {
@@ -219,7 +252,7 @@ class Login extends Component {
             />
             <Text style={styles.forgotText}>{Localization.loginScreen.ForgotPassword}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn}>
+          <TouchableOpacity style={styles.loginBtn} onPress={() => this.loginAction()}>
             <Text style={styles.loginBtntxt}>{Localization.loginScreen.LOGIN}</Text>
           </TouchableOpacity>
         </View>
@@ -228,7 +261,15 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+Login.propTypes = {
+  loginRequest: PropTypes.func,
+};
+
+Login.defaultProps = {
+  loginRequest: () => {},
+};
+
+const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = () => UserActions;

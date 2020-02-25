@@ -1,8 +1,8 @@
 {
   "staging": {
-    "BASE_URL": "https://poolbetstg.worldsbc.com"
+    "BASE_URL": "http://139.59.41.130"
   },
   "production": {
-    "BASE_URL": "https://poolbetstg.worldsbc.com"
+    "BASE_URL": "http://139.59.41.130"
   }
 }

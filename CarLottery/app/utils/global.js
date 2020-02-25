@@ -1,5 +1,6 @@
 
-export const userData = {
-  authToken: '',
-  userName: '',
+export const UserData = {
+  // BearerToken: '',
+  SessionKey: '',
+  ProfileData: {},
 };
