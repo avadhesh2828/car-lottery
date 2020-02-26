@@ -6,14 +6,14 @@ const MyFinanceTabNavigator = createStackNavigator(
   {
     MyFinance: {
       screen: MyFinance,
-      key: 'MyFinance ',
+      key: 'MyFinance',
       navigationOptions: {
         header: null,
       },
     },
   },
   {
-    initialRouteName: 'MyFinance ',
+    initialRouteName: 'MyFinance',
   },
 );
 

@@ -3,9 +3,10 @@ import { ImageBackground, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
-import { screenNames, appIntervals, constant } from '../../utils/constant';
+import constant, { screenNames, appIntervals } from '../../utils/constant';
 import { images } from '../../assets/images';
-
+import { Storage } from '../../storage/storage';
+import { UserData } from '../../utils/global';
 const styles = StyleSheet.create({
   splashImage: {
     flex: 1,
@@ -21,24 +22,23 @@ class Splash extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => { this.goToScreen(); }, appIntervals.SPLASH_INTERVAL);
+    setTimeout(() => { this.navigateToCurrentScreen(); }, appIntervals.SPLASH_INTERVAL);
   }
 
   navigateToCurrentScreen() {
     Storage.getItemWithKey(constant.SESSION_KEY, (response) => {
-      let screen = 'BeforeLoginTabNavigator';
-      if (response && response.SESSION_KEY) {
-        screen = 'AffterLoginTabNavigator';
+      let screen = 'TabNavigator';
+      if (response) {
+        UserData.SessionKey = response;
+        screen = 'TabLoginNavigator';
       } else {
-        screen = 'BeforeLoginTabNavigator';
+        screen = 'TabNavigator';
       }
       this.goToScreen(screen);
     });
   }
 
   goToScreen(screen) {
-    // this.props.getSportsRequest();
-    const screenName = screenNames.HOME_SCREEN;
     Navigation.sharedInstance().resetRouteName(screen);
   }
 
