@@ -8,6 +8,7 @@ export const screenNames = {
   USER_PROFILE: 'UserProfile',
   TAB_NAVIGATOR: 'TabNavigator',
   LOBBY_SCREEN: 'Lobby',
+  TAB_LOGIN_NAVIGATOR: 'TabLoginNavigator',
 };
 
 export const appIntervals = {

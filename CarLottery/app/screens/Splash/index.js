@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
-import { screenNames, appIntervals } from '../../utils/constant';
+import { screenNames, appIntervals, constant } from '../../utils/constant';
 import { images } from '../../assets/images';
 
 const styles = StyleSheet.create({
@@ -24,10 +24,22 @@ class Splash extends Component {
     setTimeout(() => { this.goToScreen(); }, appIntervals.SPLASH_INTERVAL);
   }
 
-  goToScreen() {
+  navigateToCurrentScreen() {
+    Storage.getItemWithKey(constant.SESSION_KEY, (response) => {
+      let screen = 'BeforeLoginTabNavigator';
+      if (response && response.SESSION_KEY) {
+        screen = 'AffterLoginTabNavigator';
+      } else {
+        screen = 'BeforeLoginTabNavigator';
+      }
+      this.goToScreen(screen);
+    });
+  }
+
+  goToScreen(screen) {
     // this.props.getSportsRequest();
     const screenName = screenNames.HOME_SCREEN;
-    Navigation.sharedInstance().resetRouteName('TabNavigator');
+    Navigation.sharedInstance().resetRouteName(screen);
   }
 
   render() {
