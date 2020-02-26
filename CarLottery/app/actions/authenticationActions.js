@@ -32,3 +32,7 @@ export const getSportsFailure = () => ({
   type: GET_SPORTS_FAILURE,
 });
 
+export const registerRequest = (data) => ({
+  type: REGISTER_REQUEST,
+  data,
+});

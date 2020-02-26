@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "^2.2.0",
+    "lodash": "^4.17.15",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-base64": "0.0.2",

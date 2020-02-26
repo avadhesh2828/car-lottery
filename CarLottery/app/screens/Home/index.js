@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl,
+  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -28,38 +30,25 @@ const styles = StyleSheet.create({
     height: spacing.small,
     backgroundColor: UIColors.grayBackgroundColor,
   },
+  blankContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: (Dimensions.get('window').width - 10) / 2,
+    margin: spacing.extraSmall,
+  },
 });
-
-const hotLotteries = [
-  {
-    contest_unique_id: 't9XKeRJju',
-    contest_name: 'Play & Win New S presso',
-    start_date_time: '2020-01-21 05:00:00+00',
-    status: '1',
-    modified_date: '2020-02-14 10:54:27+00',
-    entry_fee: '9',
-    jackpot_prize: 'Car Galaxy',
-    jackpot_prize_image: '5e2ac0b99626a761642136',
-    consolation_prizes: '{"2": "lenovo computer"}',
-    fill_percent: '56.0000000000000000',
-  },
-  {
-    contest_unique_id: 't9XKeRKju',
-    contest_name: 'Play & Win New Audi',
-    start_date_time: '2020-01-21 05:00:00+00',
-    status: '1',
-    modified_date: '2020-02-15 10:54:27+00',
-    entry_fee: '12',
-    jackpot_prize: 'Won Audi',
-    jackpot_prize_image: '5e2ac0b99626a761642136',
-    consolation_prizes: '{"2": "lenovo computer"}',
-    fill_percent: '60.0000000000000000',
-  },
-];
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Home extends Component {
+  componentDidMount() {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.getHotLotteriesRequest();
+  }
+
   render() {
+    const { dashboard } = this.props;
+    const { hotLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
@@ -78,11 +67,16 @@ class Home extends Component {
                   refreshing={false}
                 />
             )}
-              renderItem={(item) => (
-                <LotteryCell
-                  item={item.item}
-                />
-              )}
+              renderItem={(item) => {
+                if (_.isEmpty(item.item)) {
+                  return <View style={styles.blankContainer} />;
+                }
+                return (
+                  <LotteryCell
+                    item={item.item}
+                  />
+                );
+              }}
             />
           )
             : (<BackgroundMessage title="No data available" />)}
@@ -92,7 +86,18 @@ class Home extends Component {
   }
 }
 
+Home.propTypes = {
+  getHotLotteriesRequest: PropTypes.func,
+  dashboard: PropTypes.object,
+};
+
+Home.defaultProps = {
+  getHotLotteriesRequest: () => {},
+  dashboard: {},
+};
+
 const mapStateToProps = (state) => ({
+  dashboard: state.dashboardReducer,
 });
 
 const mapDispatchToProps = () => UserActions;

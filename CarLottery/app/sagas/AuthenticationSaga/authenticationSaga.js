@@ -8,6 +8,7 @@ import {
   getSportsSuccess,
   getSportsFailure,
   LOGIN_REQUEST,
+  REGISTER_REQUEST,
 } from '../../actions/authenticationActions';
 
 import {
@@ -18,6 +19,7 @@ import {
 import {
   getSportsUrl,
   loginUrl,
+  signupUrl,
 } from '../../api/urls';
 
 import {
@@ -26,12 +28,13 @@ import {
   parsedAPIResponse,
   showErrorMessage,
   showExceptionErrorMessage,
+  showSuccessMessage,
 } from '../APIHandler';
 
 import { UserData } from '../../utils/global';
 import Navigation from '../../utils/navigation';
 import { Storage } from '../../storage/storage';
-import constant from '../../utils/constant';
+import constant, { screenNames } from '../../utils/constant';
 import { showPopupAlert } from '../../utils/showAlert';
 
 
@@ -115,6 +118,39 @@ function* loginRequest(action) {
   }
 }
 
+function* signupRequest(action) {
+  yield put(showLoader());
+  try {
+    const response = yield call(
+      apiCall,
+      signupUrl,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parseResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      // showPopupAlert('signup success');
+      showSuccessMessage(parsedResponse);
+      Navigation.sharedInstance().pushToScreen(screenNames.LOGIN_SCREEN);
+      // TODO put response in user
+      // UserData.user = parsedResponse;
+      // UserData.BearerToken = parsedResponse.access_token;
+      // yield call(loginRequestSuccess, parsedResponse);
+    } else {
+      showErrorMessage(response, parsedResponse);
+      // yield put(userLoginFailure(parsedResponse));
+      // yield call(loginRequestFailed, response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    console.log('error', error);
+    // yield put(userLoginFailure());
+    showExceptionErrorMessage();
+    // yield put(userLoginStatus(false));
+  }
+}
+
 
 // get SportsList
 function* getSportsList(action) {
@@ -147,5 +183,6 @@ export default function* sportsSaga() {
   yield all([
     takeLatest(GET_SPORTS_REQUEST, getSportsList),
     takeLatest(LOGIN_REQUEST, loginRequest),
+    takeLatest(REGISTER_REQUEST, signupRequest),
   ]);
 }
