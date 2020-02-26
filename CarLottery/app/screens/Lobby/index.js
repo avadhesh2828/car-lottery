@@ -164,7 +164,7 @@ class Lobby extends Component {
               <Image style={styles.searchIconStyle} source={images.searchIcon} />
             </TouchableOpacity>
           </View>
-          <View style={{ padding: spacing.semiMedium}}>
+          <View style={{ padding: spacing.semiMedium }}>
             <Text style={styles.radiobtnTxt}>
               {'Show only\nhot lottery'}
             </Text>
