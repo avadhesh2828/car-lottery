@@ -16,6 +16,9 @@ import {
 import { Localization } from '../../utils/localization';
 import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
+import { showPopupAlert } from '../../utils/showAlert';
+import { isNetworkConnected } from '../../utils/utils';
+import base64 from 'react-native-base64';
 
 
 const inputWidth = '90%';
@@ -107,7 +110,7 @@ class Signup extends Component {
       referalId: '',
       have_Refferal: images.unCheckedIcon,
       Terms_Condtion: images.unCheckedIcon,
-      is_Check: false,
+      isReferalCheck: false,
       is_Terms_Check: false,
       // isShowPassword: false,
     };
@@ -115,16 +118,16 @@ class Signup extends Component {
 
   Reffral_Image=() => {
     // eslint-disable-next-line react/destructuring-assignment
-    if (this.state.is_Check === true) {
+    if (this.state.isReferalCheck === true) {
       this.setState({
         have_Refferal: images.checkedIcon,
+        isReferalCheck: false,
       });
-      this.state.is_Check = false;
     } else {
       this.setState({
         have_Refferal: images.unCheckedIcon,
+        isReferalCheck: true,
       });
-      this.state.is_Check = true;
     }
   }
 
@@ -211,9 +214,10 @@ class Signup extends Component {
   }
 
   getValidationErrorMessage() {
-    // const {
-    //   email, username, password,
-    // } = this.state;
+    const {
+      email, mobileNumber, password, confirmPassword, referalId,
+      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check
+    } = this.state;
     // // Email
     // if (!email) {
     //   return commonLocalizeStrings.emptyEmailErrorMessage;
@@ -238,6 +242,33 @@ class Signup extends Component {
     return null;
   }
 
+  signupAction() {
+    const {
+      email, mobileNumber, password, confirmPassword, referalId,
+      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check
+    } = this.state;
+    const { registerRequest } = this.props;
+    const errorMessage = this.getValidationErrorMessage();
+    if (errorMessage) {
+      showPopupAlert(errorMessage);
+    } else {
+      isNetworkConnected((isConnected) => {
+        const paramsObject = {
+          email,
+          password: base64.encode(password),
+          confirm_password: base64.encode(confirmPassword),
+          phone_number: mobileNumber,
+          referral_code: referalId,
+          user_type: '0',
+          is_referral: isReferalCheck,
+        };
+        if (isConnected) {
+          registerRequest(paramsObject);
+        }
+      });
+    }
+  }
+
 
   render() {
     // const {
@@ -253,7 +284,7 @@ class Signup extends Component {
       referalId,
       have_Refferal,
       Terms_Condtion,
-      is_Check,
+      isReferalCheck,
       is_Terms_Check,
 
     } = this.state;
@@ -341,8 +372,7 @@ class Signup extends Component {
             </View>
             <View style={styles.checkBoxContainer}>
               <TouchableOpacity onPress={this.Reffral_Image}>
-                {console.log('isCheck', is_Check)}
-                <Image style={[styles.checkIcon, { backgroundColor: is_Check ? UIColors.purpleButtonColor : 'transparent' }]} source={have_Refferal} />
+                <Image style={[styles.checkIcon, { backgroundColor: isReferalCheck ? UIColors.purpleButtonColor : 'transparent' }]} source={have_Refferal} />
               </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.referalCode}</Text>
             </View>
@@ -369,7 +399,7 @@ class Signup extends Component {
               </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.termsAndPolicy}</Text>
             </View>
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={styles.loginBtn} onPress={() => this.signupAction()}>
               <Text style={styles.loginBtntxt}>{Localization.SignupScreen.Signup}</Text>
             </TouchableOpacity>
           </View>

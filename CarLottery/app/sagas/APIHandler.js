@@ -73,15 +73,15 @@ export const isValidAPIResponse = (parsedResponse) => {
 
 export const serverMessage = (parsedResponse) => {
   let parsedServerMessage = '';
-  if (parsedResponse && parsedResponse.message) {
-    if (typeof parsedResponse.message === 'string') {
-      parsedServerMessage = parsedResponse.message;
-    } else if (typeof parsedResponse.message === 'object') {
-      for (let i = 0; i < parsedResponse.message.length; i += 1) {
-        if (i === parsedResponse.message.length - 1) {
-          parsedServerMessage += `${parsedResponse.message[i]}`;
+  if (parsedResponse && parsedResponse.Message) {
+    if (typeof parsedResponse.Message === 'string') {
+      parsedServerMessage = parsedResponse.Message;
+    } else if (typeof parsedResponse.Message === 'object') {
+      for (let i = 0; i < parsedResponse.Message.length; i += 1) {
+        if (i === parsedResponse.Message.length - 1) {
+          parsedServerMessage += `${parsedResponse.Message[i]}`;
         } else {
-          parsedServerMessage += `${parsedResponse.message[i]}\n`;
+          parsedServerMessage += `${parsedResponse.Message[i]}\n`;
         }
       }
     }
