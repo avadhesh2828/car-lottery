@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
   StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, Dimensions,
@@ -42,6 +43,13 @@ const styles = StyleSheet.create({
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
+  }
+
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
     this.props.getHotLotteriesRequest();

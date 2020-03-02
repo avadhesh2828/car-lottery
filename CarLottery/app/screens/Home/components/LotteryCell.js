@@ -1,7 +1,13 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Text, Dimensions } from 'react-native';
+import {
+  View, TouchableOpacity, Image, StyleSheet, Text, Dimensions,
+} from 'react-native';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import PropTypes from 'prop-types';
-import { spacing, itemSizes, UIColors, fontName, fontSizes } from '../../../utils/variables';
+import {
+  spacing, itemSizes, UIColors, fontName, fontSizes,
+} from '../../../utils/variables';
 import { images } from '../../../assets/images';
 import { responsiveFontSize } from '../../../utils/utils_functions';
 import { responsiveSize } from '../../../utils/utils';
@@ -117,13 +123,33 @@ const LotteryCell = (props) => {
             <Text style={styles.ticketTxt}>{Localization.homeScreen.TicketBrought}</Text>
             <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>3</Text>
           </View> */}
+          <View style={styles.ticketContainer}>
+            <MultiSlider
+              selectedStyle={{
+                backgroundColor: 'green',
+              }}
+              unselectedStyle={{
+                backgroundColor: UIColors.grayBackgroundColor,
+              }}
+              containerStyle={{
+                height: itemSizes.defaultButtonHeight,
+              }}
+              markerStyle={{
+                height: spacing.semiMedium,
+                width: spacing.semiMedium,
+                backgroundColor: 'green',
+              }}
+              trackStyle={{
+                height: spacing.semiMedium,
+                backgroundColor: 'red',
+              }}
+              sliderLength={itemSizes.navLogoImageWidth}
+            />
+          </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buyBtn}>
-            <Text style={styles.txtStyle}>{Localization.homeScreen.Buy}</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.viewBtn}>
-            <Text style={styles.txtStyle}>{Localization.homeScreen.View}</Text>
+            <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.openDetailBtn}>
             <Text style={styles.txtStyle}>...</Text>

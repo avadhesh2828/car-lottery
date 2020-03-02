@@ -32,8 +32,7 @@ export const Localization = {
     termsAndPolicy: 'I agree with terms conditions and privacy policy',
   },
   homeScreen: {
-    Buy: 'Buy',
-    View: 'View',
+    Play: 'Play',
     TicketBrought: 'Ticket\nBrought',
   },
   myTicketDetailScreen: {},
