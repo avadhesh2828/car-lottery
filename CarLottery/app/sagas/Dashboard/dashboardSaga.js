@@ -7,6 +7,12 @@ import {
   GET_HOT_LOTTERIES_REQUEST,
   getHotLotteriesSuccess,
   getHotLotteriesFailure,
+  LOBBY_FILTER_REQUEST,
+  lobbyFilterSuccess,
+  lobbyFilterFailure,
+  GET_LOBBY_HOT_LOTTERIES_REQUEST,
+  getLobbyHotLotteriesSuccess,
+  getLobbyHotLotteriesFailure,
 } from '../../actions/dashboardActions';
 
 import {
@@ -16,6 +22,7 @@ import {
 
 import {
   commonHotLotteriesUrl,
+  lobbyFilterUrl,
 } from '../../api/urls';
 
 import {
@@ -33,7 +40,7 @@ import { Storage } from '../../storage/storage';
 import constant, { screenNames } from '../../utils/constant';
 import { showPopupAlert } from '../../utils/showAlert';
 
-// get SportsList
+// Home Page
 function* getHotLotteries(action) {
   try {
     yield put(showLoader());
@@ -45,7 +52,7 @@ function* getHotLotteries(action) {
     );
     yield put(hideLoader());
     const parsedResponse = yield call(parsedAPIResponse, response);
-    console.log('parsedResponse', parsedResponse);
+    // console.log('parsedResponse', parsedResponse);
     if (isSuccessAPI(response) && parsedResponse) {
       let dataResponse = {};
       dataResponse = parsedResponse;
@@ -61,8 +68,66 @@ function* getHotLotteries(action) {
   }
 }
 
+// Lobby Page
+function* lobbyFilter(action) {
+  try {
+    yield put(showLoader());
+    const url = lobbyFilterUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.GET,
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(lobbyFilterSuccess(dataResponse));
+    } else {
+      yield put(lobbyFilterFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(lobbyFilterFailure());
+  }
+}
+
+function* getLobbyHotLotteries(action) {
+  try {
+    yield put(showLoader());
+    const url = commonHotLotteriesUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getLobbyHotLotteriesSuccess(dataResponse));
+    } else {
+      yield put(getLobbyHotLotteriesFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getLobbyHotLotteriesFailure());
+  }
+}
+
 export default function* sportsSaga() {
   yield all([
     takeLatest(GET_HOT_LOTTERIES_REQUEST, getHotLotteries),
+    takeLatest(LOBBY_FILTER_REQUEST, lobbyFilter),
+    takeLatest(GET_LOBBY_HOT_LOTTERIES_REQUEST, getLobbyHotLotteries),
   ]);
 }
