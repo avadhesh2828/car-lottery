@@ -107,37 +107,40 @@ const styles = StyleSheet.create({
 });
 
 
-const LotteryCell = (props) => (
-  <View style={styles.mainContainer}>
-    <View style={styles.imageContainer}>
-      <Image
-        source={images.passwordIcon}
-        style={styles.lotteryImage}
-      />
-    </View>
+const LotteryCell = (props) => {
+  const { item, contestImgUrl } = props;
+  return (
+    <View style={styles.mainContainer}>
+      <View style={styles.imageContainer}>
+        <Image
+          source={images.passwordIcon}
+          style={styles.lotteryImage}
+        />
+      </View>
 
-    <View style={styles.detailContainer}>
-      <Text style={styles.lotteryTitle}> Won Audi R8</Text>
-      <View style={styles.subContainer}>
-        <View style={styles.ticketContainer}>
-          <Text style={styles.ticketTxt}>{Localization.homeScreen.TicketBrought}</Text>
-          <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>3</Text>
+      <View style={styles.detailContainer}>
+        <Text style={styles.lotteryTitle}>{item.contest_name}</Text>
+        <View style={styles.subContainer}>
+          <View style={styles.ticketContainer}>
+            <Text style={styles.ticketTxt}>{Localization.homeScreen.TicketBrought}</Text>
+            <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>3</Text>
+          </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.buyBtn}>
+            <Text style={styles.txtStyle}>{Localization.homeScreen.Buy}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.viewBtn}>
+            <Text style={styles.txtStyle}>{Localization.homeScreen.View}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.openDetailBtn}>
+            <Text style={styles.txtStyle}>...</Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buyBtn}>
-          <Text style={styles.txtStyle}>{Localization.homeScreen.Buy}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.viewBtn}>
-          <Text style={styles.txtStyle}>{Localization.homeScreen.View}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.openDetailBtn}>
-          <Text style={styles.txtStyle}>...</Text>
-        </TouchableOpacity>
-      </View>
     </View>
-  </View>
-);
+  );
+};
 
 LotteryCell.propTypes = {
 };

@@ -5,10 +5,11 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, TextInput,
+  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, TextInput, Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import _ from 'lodash';
 import UserActions from '../../actions';
 // import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -19,6 +20,9 @@ import {
 import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
+import { contestImgUrl } from '../../api/urls';
+import PropTypes from 'prop-types';
+
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -32,6 +36,13 @@ const styles = StyleSheet.create({
     flex: 2,
     height: spacing.small,
     backgroundColor: UIColors.grayBackgroundColor,
+  },
+  blankContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: (Dimensions.get('window').width - 10) / 2,
+    margin: spacing.extraSmall,
   },
   subContainer: {
     flexDirection: 'row',
@@ -86,32 +97,32 @@ const styles = StyleSheet.create({
   },
 });
 
-const hotLotteries = [
-  {
-    contest_unique_id: 't9XKeRJju',
-    contest_name: 'Play & Win New S presso',
-    start_date_time: '2020-01-21 05:00:00+00',
-    status: '1',
-    modified_date: '2020-02-14 10:54:27+00',
-    entry_fee: '9',
-    jackpot_prize: 'Car Galaxy',
-    jackpot_prize_image: '5e2ac0b99626a761642136',
-    consolation_prizes: '{"2": "lenovo computer"}',
-    fill_percent: '56.0000000000000000',
-  },
-  {
-    contest_unique_id: 't9XKeRKju',
-    contest_name: 'Play & Win New Audi',
-    start_date_time: '2020-01-21 05:00:00+00',
-    status: '1',
-    modified_date: '2020-02-15 10:54:27+00',
-    entry_fee: '12',
-    jackpot_prize: 'Won Audi',
-    jackpot_prize_image: '5e2ac0b99626a761642136',
-    consolation_prizes: '{"2": "lenovo computer"}',
-    fill_percent: '60.0000000000000000',
-  },
-];
+// const hotLotteries = [
+//   {
+//     contest_unique_id: 't9XKeRJju',
+//     contest_name: 'Play & Win New S presso',
+//     start_date_time: '2020-01-21 05:00:00+00',
+//     status: '1',
+//     modified_date: '2020-02-14 10:54:27+00',
+//     entry_fee: '9',
+//     jackpot_prize: 'Car Galaxy',
+//     jackpot_prize_image: '5e2ac0b99626a761642136',
+//     consolation_prizes: '{"2": "lenovo computer"}',
+//     fill_percent: '56.0000000000000000',
+//   },
+//   {
+//     contest_unique_id: 't9XKeRKju',
+//     contest_name: 'Play & Win New Audi',
+//     start_date_time: '2020-01-21 05:00:00+00',
+//     status: '1',
+//     modified_date: '2020-02-15 10:54:27+00',
+//     entry_fee: '12',
+//     jackpot_prize: 'Won Audi',
+//     jackpot_prize_image: '5e2ac0b99626a761642136',
+//     consolation_prizes: '{"2": "lenovo computer"}',
+//     fill_percent: '60.0000000000000000',
+//   },
+// ];
 
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -123,6 +134,16 @@ class Lobby extends Component {
       Showlottery: images.uncheckedIconRadio,
       is_Radio_check: 'false',
     };
+  }
+
+  componentDidMount() {
+    this.runApis();
+    // this.props.lobbyFilterRequest();
+  }
+
+  runApis() {
+    this.props.lobbyFilterRequest();
+    this.props.getLobbyHotLotteriesRequest();
   }
 
   Show_hot_Lottery = () => {
@@ -146,6 +167,8 @@ class Lobby extends Component {
 
 
   render() {
+    const { dashboard } = this.props;
+    const { lobbyHotLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
@@ -179,12 +202,12 @@ class Lobby extends Component {
           </View>
         </View>
         <View style={styles.listView}>
-          { hotLotteries.length !== 0 ? (
+          { lobbyHotLotteries.length !== 0 ? (
             <FlatList
               key="v"
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={() => <View style={styles.seperator} />}
-              data={formateData(hotLotteries, 6)}
+              data={formateData(lobbyHotLotteries, 2)}
               numColumns={2}
             // onEndReached={() => props.handleLoadMore()}
               onEndThreshold={0.1}
@@ -193,11 +216,22 @@ class Lobby extends Component {
                   refreshing={false}
                 />
             )}
-              renderItem={(item) => (
-                <LotteryCell
-                  item={item.item}
-                />
-              )}
+              renderItem={(item) => {
+                if (_.isEmpty(item.item)) {
+                  return <View style={styles.blankContainer} />;
+                }
+                return (
+                  <LotteryCell
+                    item={item.item}
+                    contestImgUrl={contestImgUrl}
+                  />
+                );
+              }}
+              // renderItem={(item) => (
+              //   <LotteryCell
+              //     item={item.item}
+              //   />
+              // )}
             />
           )
             : (<BackgroundMessage title="No data available" />)}
@@ -207,7 +241,20 @@ class Lobby extends Component {
   }
 }
 
-const mapStateToProps = () => ({
+Lobby.propTypes = {
+  getLobbyHotLotteriesRequest: PropTypes.func,
+  dashboard: PropTypes.object,
+  lobbyFilterRequest: PropTypes.func,
+};
+
+Lobby.defaultProps = {
+  getLobbyHotLotteriesRequest: () => {},
+  lobbyFilterRequest: () => {},
+  dashboard: {},
+};
+
+const mapStateToProps = (state) => ({
+  dashboard: state.dashboardReducer,
 });
 
 const mapDispatchToProps = () => UserActions;

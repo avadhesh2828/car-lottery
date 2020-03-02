@@ -16,6 +16,7 @@ import { Localization } from '../../utils/localization';
 import { formateData } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
+import { contestImgUrl } from '../../api/urls';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -74,6 +75,7 @@ class Home extends Component {
                 return (
                   <LotteryCell
                     item={item.item}
+                    contestImgUrl={contestImgUrl}
                   />
                 );
               }}

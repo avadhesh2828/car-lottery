@@ -28,13 +28,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: responsiveSize(150),
     borderColor: 'transparent',
-    backgroundColor: 'yellow',
   },
   lotteryImage: {
     height: responsiveSize(150),
     width: '100%',
-    resizeMode: 'contain',
-    backgroundColor: 'red',
+    resizeMode: 'stretch',
   },
   detailContainer: {
     flex: 1,
@@ -102,12 +100,12 @@ const styles = StyleSheet.create({
 
 
 const LotteryCell = (props) => {
-  const { item } = props;
+  const { item, contestImgUrl } = props;
   return (
     <View style={styles.mainContainer}>
       <View style={styles.imageContainer}>
         <Image
-          source={images.passwordIcon}
+          source={{ uri: contestImgUrl(item.jackpot_prize_image) }}
           style={styles.lotteryImage}
         />
       </View>
@@ -115,10 +113,10 @@ const LotteryCell = (props) => {
       <View style={styles.detailContainer}>
         <Text style={styles.lotteryTitle}>{item.contest_name}</Text>
         <View style={styles.subContainer}>
-          <View style={styles.ticketContainer}>
+          {/* <View style={styles.ticketContainer}>
             <Text style={styles.ticketTxt}>{Localization.homeScreen.TicketBrought}</Text>
             <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>3</Text>
-          </View>
+          </View> */}
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.buyBtn}>

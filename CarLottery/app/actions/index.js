@@ -10,9 +10,17 @@ import {
 } from './authenticationActions';
 
 import {
+  // Home
   getHotLotteriesRequest,
   getHotLotteriesSuccess,
   getHotLotteriesFailure,
+  // lobby
+  lobbyFilterRequest,
+  lobbyFilterSuccess,
+  lobbyFilterFailure,
+  getLobbyHotLotteriesRequest,
+  getLobbyHotLotteriesSuccess,
+  getLobbyHotLotteriesFailure,
 } from './dashboardActions';
 
 const actions = {
@@ -24,6 +32,12 @@ const actions = {
   getHotLotteriesRequest,
   getHotLotteriesSuccess,
   getHotLotteriesFailure,
+  lobbyFilterRequest,
+  lobbyFilterSuccess,
+  lobbyFilterFailure,
+  getLobbyHotLotteriesRequest,
+  getLobbyHotLotteriesSuccess,
+  getLobbyHotLotteriesFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);
