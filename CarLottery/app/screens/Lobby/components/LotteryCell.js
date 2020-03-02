@@ -5,6 +5,7 @@ import {
   View, TouchableOpacity, Image, StyleSheet, Text, Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import {
   spacing, itemSizes, UIColors, fontName, fontSizes,
 } from '../../../utils/variables';
@@ -35,6 +36,12 @@ const styles = StyleSheet.create({
     height: responsiveSize(150),
     borderColor: 'transparent',
     backgroundColor: 'yellow',
+  },
+  lotteryFillPercent: {
+    marginLeft: spacing.small,
+    fontSize: fontSizes.extraSmall,
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
   },
   lotteryImage: {
     height: responsiveSize(150),
@@ -77,19 +84,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  buyBtn: {
-    backgroundColor: UIColors.navigationBar,
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'center',
-    marginHorizontal: spacing.extraSmall,
-  },
-  viewBtn: {
+  playBtn: {
     backgroundColor: UIColors.purpleButtonColor,
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    marginHorizontal: spacing.extraSmall,
+    marginHorizontal: spacing.small,
   },
   openDetailBtn: {
     flex: 0.5,
@@ -118,25 +118,48 @@ const LotteryCell = (props) => {
         />
       </View>
 
-      <View style={styles.detailContainer}>
-        <Text style={styles.lotteryTitle}>{item.contest_name}</Text>
-        <View style={styles.subContainer}>
-          <View style={styles.ticketContainer}>
-            <Text style={styles.ticketTxt}>{Localization.homeScreen.TicketBrought}</Text>
-            <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>3</Text>
-          </View>
+    <View style={styles.detailContainer}>
+      <Text style={styles.lotteryTitle}> Won Audi R8</Text>
+      <View style={styles.subContainer}>
+        <View style={styles.ticketContainer}>
+          <MultiSlider
+            min={0}
+            max={100}
+            // values={[item.fill_percent]}
+            selectedStyle={{
+              backgroundColor: 'green',
+            }}
+            unselectedStyle={{
+              backgroundColor: UIColors.grayBackgroundColor,
+            }}
+            containerStyle={{
+              height: itemSizes.defaultButtonHeight,
+            }}
+            markerStyle={{
+              borderRadius: spacing.semiMedium,
+              height: spacing.semiMedium,
+              width: spacing.semiMedium,
+              backgroundColor: 'green',
+            }}
+            trackStyle={{
+              height: spacing.semiMedium,
+              backgroundColor: 'green',
+            }}
+            sliderLength={120}
+          />
+          <Text style={styles.lotteryFillPercent}>
+            {/* {Math.trunc(item.fill_percent)} */}
+            %
+          </Text>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buyBtn}>
-            <Text style={styles.txtStyle}>{Localization.homeScreen.Buy}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.viewBtn}>
-            <Text style={styles.txtStyle}>{Localization.homeScreen.View}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.openDetailBtn}>
-            <Text style={styles.txtStyle}>...</Text>
-          </TouchableOpacity>
-        </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.playBtn}>
+          <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.openDetailBtn}>
+          <Text style={styles.txtStyle}>...</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

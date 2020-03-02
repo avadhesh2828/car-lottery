@@ -53,6 +53,12 @@ const styles = StyleSheet.create({
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProRegular,
   },
+  lotteryFillPercent: {
+    marginLeft: spacing.small,
+    fontSize: fontSizes.extraSmall,
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+  },
   subContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -75,19 +81,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  buyBtn: {
-    backgroundColor: UIColors.navigationBar,
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'center',
-    marginHorizontal: spacing.extraSmall,
-  },
-  viewBtn: {
+  playBtn: {
     backgroundColor: UIColors.purpleButtonColor,
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    marginHorizontal: spacing.extraSmall,
+    marginHorizontal: spacing.small,
   },
   openDetailBtn: {
     flex: 0.5,
@@ -102,6 +101,15 @@ const styles = StyleSheet.create({
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.extraSmall,
   },
+  entryFeeTextStyle: {
+    position: 'absolute',
+    right: 0,
+    top: 5,
+    marginRight: spacing.semiMedium,
+    color: UIColors.appBackGroundColor,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.medium,
+  },
 });
 
 
@@ -114,6 +122,10 @@ const LotteryCell = (props) => {
           source={{ uri: contestImgUrl(item.jackpot_prize_image) }}
           style={styles.lotteryImage}
         />
+        <Text style={styles.entryFeeTextStyle}>
+          ₦
+          {item.entry_fee}
+        </Text>
       </View>
 
       <View style={styles.detailContainer}>
@@ -125,6 +137,9 @@ const LotteryCell = (props) => {
           </View> */}
           <View style={styles.ticketContainer}>
             <MultiSlider
+              min={0}
+              max={100}
+              values={[item.fill_percent]}
               selectedStyle={{
                 backgroundColor: 'green',
               }}
@@ -135,20 +150,25 @@ const LotteryCell = (props) => {
                 height: itemSizes.defaultButtonHeight,
               }}
               markerStyle={{
+                borderRadius: spacing.semiMedium,
                 height: spacing.semiMedium,
                 width: spacing.semiMedium,
                 backgroundColor: 'green',
               }}
               trackStyle={{
                 height: spacing.semiMedium,
-                backgroundColor: 'red',
+                backgroundColor: 'green',
               }}
-              sliderLength={itemSizes.navLogoImageWidth}
+              sliderLength={120}
             />
+            <Text style={styles.lotteryFillPercent}>
+              {Math.trunc(item.fill_percent)}
+              %
+            </Text>
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.viewBtn}>
+          <TouchableOpacity style={styles.playBtn}>
             <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.openDetailBtn}>
