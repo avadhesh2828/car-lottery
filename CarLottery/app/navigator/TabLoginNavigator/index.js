@@ -106,7 +106,7 @@ export default createBottomTabNavigator(
       key: 'MyFinance',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Register',
+        tabBarLabel: 'Home',
         tabBarIcon: ({ focused }) => (
           focused
             ? <Image style={styles.tabIcon} source={images.register} />

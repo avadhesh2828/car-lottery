@@ -49,6 +49,7 @@ function setUserDetailsInPersitantStorage(parsedResponse) {
 }
 
 function* loginRequestSuccess(parsedResponse) {
+  // console.log('parsedResponse', parsedResponse);
   yield put(hideLoader());
   const { user } = parsedResponse;
   // yield put(setProfileImage(user.profile_pic, user.username));
@@ -56,6 +57,7 @@ function* loginRequestSuccess(parsedResponse) {
   UserData.user = user;
   UserData.SessionKey = parsedResponse.session_key;
   UserData.ProfileData = parsedResponse.profile_data;
+  Navigation.sharedInstance().resetRouteName('TabLoginNavigator');
   // TODO: Will remove with dashboard refactor code.
   // yield put(userLoginSucces(parsedResponse));
   // yield put(userLoginStatus(true));
@@ -99,7 +101,7 @@ function* loginRequest(action) {
       JSON.stringify(action.data),
     );
     const parsedResponse = yield call(parsedAPIResponse, response);
-    console.log('parseResponse', parsedResponse);
+    // console.log('parseResponse', parsedResponse);
     if (isSuccessAPI(response) && parsedResponse) {
       // TODO put response in user
       // UserData.user = parsedResponse;

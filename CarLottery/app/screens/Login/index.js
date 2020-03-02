@@ -176,8 +176,8 @@ class Login extends Component {
     if (errorMessage) {
       showPopupAlert(errorMessage);
     } else {
-      isNetworkConnected((isConnected) => {
-        if (isConnected) {
+      // isNetworkConnected((isConnected) => {
+      //   if (isConnected) {
           const data = {
             // email: 'smenariya@gammastack.com',
             email,
@@ -189,8 +189,8 @@ class Login extends Component {
             other_session_key: '',
           };
           loginRequest(data);
-        }
-      });
+        // }
+      // });
     }
   }
 
