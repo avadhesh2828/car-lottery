@@ -19,6 +19,8 @@ const unCheckedIcon = require('./unchecked.png');
 const checkedIcon = require('./tick.png');
 const checkedIconRadio = require('./Switchercopy.png');
 const uncheckedIconRadio = require('./Switcher.png');
+const livestatusIcon = require('./Livecopy2x.png');
+const enteryfeeIcon = require('./Tagcopy2.png');
 
 export const images = {
   logo,
@@ -42,4 +44,6 @@ export const images = {
   checkedIcon,
   checkedIconRadio,
   uncheckedIconRadio,
+  livestatusIcon,
+  enteryfeeIcon,
 };

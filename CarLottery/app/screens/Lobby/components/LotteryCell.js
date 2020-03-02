@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
@@ -48,6 +49,15 @@ const styles = StyleSheet.create({
     width: '100%',
     resizeMode: 'contain',
     backgroundColor: 'red',
+  },
+  entryfeeImage: {
+    backgroundColor: 'pink',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    height: 50,
+    width: '20%',
+    resizeMode: 'contain',
   },
   detailContainer: {
     flex: 1,
@@ -104,6 +114,15 @@ const styles = StyleSheet.create({
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.extraSmall,
   },
+  entryFeeTextStyle: {
+    position: 'absolute',
+    right: 0,
+    top: 10,
+    marginRight: spacing.semiMedium,
+    color: UIColors.appBackGroundColor,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.medium,
+  },
 });
 
 
@@ -116,50 +135,59 @@ const LotteryCell = (props) => {
           source={images.passwordIcon}
           style={styles.lotteryImage}
         />
+        <Image
+          source={images.enteryfeeIcon}
+          style={styles.entryfeeImage}
+        />
+        <Text style={styles.entryFeeTextStyle}>
+          ₦
+          {item.entry_fee}
+        </Text>
       </View>
 
-    <View style={styles.detailContainer}>
-      <Text style={styles.lotteryTitle}> Won Audi R8</Text>
-      <View style={styles.subContainer}>
-        <View style={styles.ticketContainer}>
-          <MultiSlider
-            min={0}
-            max={100}
-            // values={[item.fill_percent]}
-            selectedStyle={{
-              backgroundColor: 'green',
-            }}
-            unselectedStyle={{
-              backgroundColor: UIColors.grayBackgroundColor,
-            }}
-            containerStyle={{
-              height: itemSizes.defaultButtonHeight,
-            }}
-            markerStyle={{
-              borderRadius: spacing.semiMedium,
-              height: spacing.semiMedium,
-              width: spacing.semiMedium,
-              backgroundColor: 'green',
-            }}
-            trackStyle={{
-              height: spacing.semiMedium,
-              backgroundColor: 'green',
-            }}
-            sliderLength={120}
-          />
-          <Text style={styles.lotteryFillPercent}>
-            {/* {Math.trunc(item.fill_percent)} */}
-            %
-          </Text>
+      <View style={styles.detailContainer}>
+        <Text style={styles.lotteryTitle}> Won Audi R8</Text>
+        <View style={styles.subContainer}>
+          <View style={styles.ticketContainer}>
+            <MultiSlider
+              min={0}
+              max={100}
+              values={[item.fill_percent]}
+              selectedStyle={{
+                backgroundColor: 'green',
+              }}
+              unselectedStyle={{
+                backgroundColor: UIColors.grayBackgroundColor,
+              }}
+              containerStyle={{
+                height: itemSizes.defaultButtonHeight,
+              }}
+              markerStyle={{
+                borderRadius: spacing.semiMedium,
+                height: spacing.semiMedium,
+                width: spacing.semiMedium,
+                backgroundColor: 'green',
+              }}
+              trackStyle={{
+                height: spacing.semiMedium,
+                backgroundColor: 'green',
+              }}
+              sliderLength={120}
+            />
+            <Text style={styles.lotteryFillPercent}>
+              {Math.trunc(item.fill_percent)}
+              %
+            </Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.playBtn}>
-          <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.openDetailBtn}>
-          <Text style={styles.txtStyle}>...</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.playBtn}>
+            <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.openDetailBtn}>
+            <Text style={styles.txtStyle}>...</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
