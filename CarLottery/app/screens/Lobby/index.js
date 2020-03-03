@@ -269,9 +269,9 @@ class Lobby extends Component {
                   height: spacing.extraLarge,
                   width: spacing.extraLarge,
                 }}
-                sliderLength={300}
                 values={[multiSliderValue[0], multiSliderValue[1]]}
                 onValuesChange={(e) => this.multiSliderValuesChange(e)}
+                sliderLength={Dimensions.get('window').width - 80}
                 min={0}
                 max={1200}
                 step={1}
