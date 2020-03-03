@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, TextInput, RefreshControl,
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Text,
+  Modal,
+  Image,
+  TouchableOpacity,
+  DatePickerAndroid,
+  DatePickerIOS,
+  Keyboard,
+  TextInput,
+  RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -13,12 +24,15 @@ import {
 } from '../../utils/variables';
 import { responsiveSize } from '../../utils/utils';
 import HeaderContainer from './components/HeaderContainer';
+import DateManager from '../../utils/dateManager';
 import { Localization } from '../../utils/localization';
 import CustomTextInput from '../../components/CustomTextInput';
+import CustomText from '../../components/CustomText';
 import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
 
 const inputWidth = '90%';
+let isOpenDOBPicker = false;
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -27,7 +41,6 @@ const styles = StyleSheet.create({
   subContainer: {
     flex: 1,
     marginVertical: spacing.extraLarge,
-    backgroundColor: 'orange',
   },
   personalText: {
     fontSize: fontSizes.extraSmall,
@@ -96,6 +109,13 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.extraExtraSmall,
     fontFamily: fontName.sourceSansProRegular,
   },
+  dobContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: spacing.small,
+    borderColor: 'gray',
+    borderLeftWidth: spacing.border,
+  }
 });
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -107,7 +127,8 @@ class UserProfile extends Component {
       lastName: '',
       mobileNumber: '',
       email: '',
-      dob: '',
+      dob: new Date(),
+      isShowDatePicker: false,
       gender: '',
       country: '',
       state: '',
@@ -205,6 +226,38 @@ class UserProfile extends Component {
     }
   }
 
+  onChangeDobText(dob) {
+    this.setState({ dob });
+  }
+
+  getValidationErrorMessage() {
+    // const {
+    //   email, username, password,
+    // } = this.state;
+    // // Email
+    // if (!email) {
+    //   return commonLocalizeStrings.emptyEmailErrorMessage;
+    // }
+    // if (!isValidEmail(email)) {
+    //   return commonLocalizeStrings.invalidEmailErrorMessage;
+    // }
+    // // Username
+    // if (!username) {
+    //   return commonLocalizeStrings.emptyUsernameErrorMessage;
+    // }
+    // if (!isValidUsername(username)) {
+    //   return commonLocalizeStrings.invalidUsernameErrorMessage;
+    // }
+    // // Password
+    // if (!password) {
+    //   return commonLocalizeStrings.emptyPasswordErrorMessage;
+    // }
+    // // if (!isValidPassword(password)) {
+    // //   return commonLocalizeStrings.invalidPasswordErrorMessage;
+    // // }
+    return null;
+  }
+
   getTextInputReference(key, reference) {
     switch (key) {
       case InputKey.firstName:
@@ -242,38 +295,78 @@ class UserProfile extends Component {
     }
   }
 
-  getValidationErrorMessage() {
-    // const {
-    //   email, username, password,
-    // } = this.state;
-    // // Email
-    // if (!email) {
-    //   return commonLocalizeStrings.emptyEmailErrorMessage;
-    // }
-    // if (!isValidEmail(email)) {
-    //   return commonLocalizeStrings.invalidEmailErrorMessage;
-    // }
-    // // Username
-    // if (!username) {
-    //   return commonLocalizeStrings.emptyUsernameErrorMessage;
-    // }
-    // if (!isValidUsername(username)) {
-    //   return commonLocalizeStrings.invalidUsernameErrorMessage;
-    // }
-    // // Password
-    // if (!password) {
-    //   return commonLocalizeStrings.emptyPasswordErrorMessage;
-    // }
-    // // if (!isValidPassword(password)) {
-    // //   return commonLocalizeStrings.invalidPasswordErrorMessage;
-    // // }
+  setDOBDate(newDate) {
+    this.setState({ dob: newDate });
+  }
+
+  androidPicker = async () => {
+    try {
+      const {
+        action, year, month, day,
+      } = await DatePickerAndroid.open({
+        date: new Date(),
+        maxDate: new Date(),
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        const date = new Date(year, month, day);
+        this.setState({ isShowDatePicker: false, dob: date });
+      } else {
+        this.setState({
+          isShowDatePicker: false,
+        });
+      }
+    } catch ({ code, message }) {
+      console.warn('Warning !', message);
+    }
+  }
+
+  updateStateDOB() {
+    this.setState({
+      isShowDatePicker: !this.state.isShowDatePicker,
+    });
+  }
+
+  dismissKeyBoard() {
+    Keyboard.dismiss();
+    if (this.state.isShowDatePicker) {
+      this.setState({ isShowDatePicker: false });
+    }
+  }
+
+  showDOBPicker() {
+    Keyboard.dismiss();
+    isOpenDOBPicker = true;
+    if (isIOS) {
+      return (
+        <View style={{ flex: 1 }}>
+          <DatePickerIOS
+            date={this.state.dob}
+            mode="date"
+            onDateChange={this.setDOBDate}
+            maximumDate={new Date()}
+          />
+          <View style={[styles.cellView, { flexDirection: 'row' }]}>
+            <TouchableOpacity
+              onPress={() => this.updateStateDOB()}
+              style={styles.okCancelButton}
+            >
+              <Text style={styles.okCancelButtonText}>
+                Ok
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+      );
+    }
+    this.androidPicker();
     return null;
   }
 
   render() {
     const {
       email, firstName, lastName, mobileNumber, dob, gender, country,
-      state, city, address, zipCode,
+      state, city, address, zipCode, isShowDatePicker,
     } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
@@ -350,7 +443,19 @@ class UserProfile extends Component {
                 autoCapitalize="none"
               />
             </View>
-            {/* ======== */}
+            <View style={styles.textInputContainer}>
+              <Image style={styles.emailIcon} source={images.email} />
+              <View style={styles.dobContainer}>
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  onPress={() => this.updateStateDOB()}
+                >
+                  <Text style={[isOpenDOBPicker ? { color: UIColors.primaryText } : { color: UIColors.grayText }]}>
+                    {isOpenDOBPicker ? DateManager.formatDateWithDash(dob) : 'Date of Birth'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
             <View style={[styles.textInputContainer, { }]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
@@ -412,6 +517,22 @@ class UserProfile extends Component {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
+        { isShowDatePicker && (isIOS
+          ? (
+            <Modal
+              visible={isShowDatePicker}
+              transparent
+            >
+              <View style={styles.pickerModal}>
+                {this.showDOBPicker()}
+              </View>
+            </Modal>
+          )
+          : (
+            <View style={styles.pickerModal}>
+              {this.showDOBPicker()}
+            </View>
+          ))}
       </SafeAreaView>
     );
   }
