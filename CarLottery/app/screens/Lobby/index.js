@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-sequences */
 /* eslint-disable react/sort-comp */
 /* eslint-disable no-unused-vars */
@@ -11,6 +12,7 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import UserActions from '../../actions';
 // import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -22,7 +24,7 @@ import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
-
+import CustomLabel from './CustomLabel';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
     margin: spacing.extraSmall,
   },
   subContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     marginTop: spacing.mediumLarge,
     marginBottom: spacing.mediumLarge,
   },
@@ -86,15 +88,30 @@ const styles = StyleSheet.create({
 
   },
   radiobtnIcon: {
-    width: itemSizes.iconLarge,
-    height: itemSizes.iconLarge,
-    marginHorizontal: spacing.medium,
+    width: itemSizes.iconSmall,
+    height: itemSizes.iconSmall,
+    marginHorizontal: spacing.small,
     resizeMode: 'cover',
   },
   radiobtnTxt: {
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.tiny,
+  },
+  sliderTxt1: {
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.small,
+  },
+  sliderTxt2: {
+    flex: 1,
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.small,
+  },
+  sliderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -134,6 +151,7 @@ class Lobby extends Component {
       searchValue: '',
       Showlottery: images.uncheckedIconRadio,
       is_Radio_check: 'false',
+      multiSliderValue: [200, 1000],
     };
   }
 
@@ -208,40 +226,90 @@ class Lobby extends Component {
     this.setState({ searchValue: text });
   }
 
+  multiSliderValuesChange(e) {
+    this.setState({ multiSliderValue: e });
+    console.log(this.state.multiSliderValue);
+  }
+
 
   render() {
     const { dashboard } = this.props;
+    const { multiSliderValue } = this.state;
     const { lobbyHotLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
         <View style={styles.subContainer}>
-          <View style={styles.SearchContainer}>
-            <TextInput
-              underlineColorAndroid={'transparent'}
-              style={styles.textInputStyle}
-              placeholder={'Search by Lottery name'}
-              placeholderTextColor={UIColors.grayText}
-              onChangeText={(text)=> this.onChangeText(text)}
-              clearButtonMode={'always'}
-              value={this.state.searchValue}
-            />
-            <TouchableOpacity style={styles.searchButton}>
-              <Image style={styles.searchIconStyle} source={images.searchIcon} />
-            </TouchableOpacity>
+          <View style={{ flexDirection: 'column' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={styles.sliderTxt1}>{multiSliderValue[0]}</Text>
+              </View>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={styles.sliderTxt2}>{multiSliderValue[1]}</Text>
+              </View>
+            </View>
+            <View style={styles.sliderContainer}>
+              <MultiSlider
+                selectedStyle={{
+                  height: spacing.semiMedium,
+                  backgroundColor: 'green',
+                }}
+                unselectedStyle={{
+                  borderRadius: 12,
+                  height: spacing.semiMedium,
+                  backgroundColor: 'gray',
+                }}
+                markerStyle={{
+                  height: spacing.extraLarge,
+                  width: spacing.extraLarge,
+                  backgroundColor: UIColors.purpleButtonColor,
+                }}
+                touchDimensions={{
+                  height: spacing.extraLarge,
+                  width: spacing.extraLarge,
+                }}
+                sliderLength={300}
+                values={[multiSliderValue[0], multiSliderValue[1]]}
+                onValuesChange={(e) => this.multiSliderValuesChange(e)}
+                min={0}
+                max={1200}
+                step={1}
+                allowOverlap
+                snapped
+                enabledTwo
+                customLabel={CustomLabel}
+              />
+            </View>
           </View>
-          <View style={{ padding: spacing.semiMedium }}>
-            <Text style={styles.radiobtnTxt}>
-              {'Show only\nhot lottery'}
-            </Text>
-            {/* <Text style={styles.radiobtnTxt}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={styles.SearchContainer}>
+              <TextInput
+                underlineColorAndroid={'transparent'}
+                style={styles.textInputStyle}
+                placeholder={'Search by Lottery name'}
+                placeholderTextColor={UIColors.grayText}
+                onChangeText={(text)=> this.onChangeText(text)}
+                clearButtonMode={'always'}
+                value={this.state.searchValue}
+              />
+              <TouchableOpacity style={styles.searchButton}>
+                <Image style={styles.searchIconStyle} source={images.searchIcon} />
+              </TouchableOpacity>
+            </View>
+            <View style={{ alignItems: 'center', marginLeft: spacing.small, flexDirection: 'row' }}>
+              <Text style={styles.radiobtnTxt}>
+                {'Show only\nhot lottery'}
+              </Text>
+              {/* <Text style={styles.radiobtnTxt}>
               hot lottery
             </Text> */}
-          </View>
-          <View style={{ margin: spacing.semiMedium }}>
-            <TouchableOpacity onPress={this.Show_hot_Lottery}>
-              <Image style={styles.radiobtnIcon} source={this.state.Showlottery} />
-            </TouchableOpacity>
+            </View>
+            <View style={{ alignItems: 'center', marginTop: spacing.small, flexDirection: 'row' }}>
+              <TouchableOpacity onPress={this.Show_hot_Lottery}>
+                <Image style={styles.radiobtnIcon} source={this.state.Showlottery} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={styles.listView}>

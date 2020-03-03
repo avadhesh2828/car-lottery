@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.small,
   },
   ticketContainer: {
-    width: '50%',
+    borderRadius: spacing.extraExtraSmall,
+    backgroundColor: UIColors.grayBackgroundColor,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -151,35 +152,23 @@ const LotteryCell = (props) => {
         <Text style={styles.lotteryTitle}> Won Audi R8</Text>
         <View style={styles.subContainer}>
           <View style={styles.ticketContainer}>
-            <MultiSlider
-              min={0}
-              max={100}
-              values={[item.fill_percent]}
-              selectedStyle={{
-                backgroundColor: 'green',
-              }}
-              unselectedStyle={{
-                backgroundColor: UIColors.grayBackgroundColor,
-              }}
-              containerStyle={{
-                height: itemSizes.defaultButtonHeight,
-              }}
-              markerStyle={{
-                borderRadius: spacing.semiMedium,
-                height: spacing.semiMedium,
-                width: spacing.semiMedium,
-                backgroundColor: 'green',
-              }}
-              trackStyle={{
-                height: spacing.semiMedium,
-                backgroundColor: 'green',
+            <View style={item.fill_percent > 0 ? {
+              position: 'absolute',
+              top: 2,
+              left: 0,
+              borderRadius: spacing.extraExtraSmall,
+              height: itemSizes.iconExtraSmall,
+              width: `${Math.trunc(item.fill_percent)}%`,
+              backgroundColor: 'green',
+            }
+              : {
               }}
             />
-            <Text style={styles.lotteryFillPercent}>
-              {Math.trunc(item.fill_percent)}
-              %
-            </Text>
           </View>
+          <Text style={styles.lotteryFillPercent}>
+            {Math.trunc(item.fill_percent)}
+            %
+          </Text>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.playBtn}>
