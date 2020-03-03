@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing.small,
     paddingLeft: spacing.medium,
-    backgroundColor: 'pink',
   },
   imageContainer: {
     height: responsiveSize(80),
