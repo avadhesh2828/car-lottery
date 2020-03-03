@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import UserActions from '../../actions';
 // import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -21,7 +22,6 @@ import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
-import PropTypes from 'prop-types';
 
 
 const styles = StyleSheet.create({
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   },
   listView: {
     marginHorizontal: spacing.extraSmall,
+    marginBottom: 150,
   },
   seperator: {
     flex: 2,
@@ -143,7 +144,49 @@ class Lobby extends Component {
 
   runApis() {
     this.props.lobbyFilterRequest();
-    this.props.getLobbyHotLotteriesRequest();
+    // this.props.getLobbyHotLotteriesRequest({
+    //   items_perpage: 10,
+    //   current_page: 1,
+    //   sort_field: '',
+    //   sort_order: '',
+    //   keyword: '',
+    //   minEntryFee: this.props.dashboard.minEntryFee,
+    //   maxEntryFee: this.props.dashboard.minEntryFee,
+    //   only_hot_lotteries: false,
+    // });
+  }
+
+  refreshlist() {
+    this.props.getLobbyHotLotteriesRequest({
+      items_perpage: 10,
+      current_page: 1,
+      sort_field: '',
+      sort_order: '',
+      keyword: this.state.searchValue,
+      minEntryFee: this.props.dashboard.minEntryFee,
+      maxEntryFee: this.props.dashboard.maxEntryFee,
+      only_hot_lotteries: false,
+    });
+  }
+
+  handleLoadMoreLottery = () => {
+    // console.log('cureentpage',)
+    console.log('...calling');
+    // alert('aaya');
+    if (this.props.dashboard.currentLobbyPage <= this.props.dashboard.lobbyListTotalPages && !this.props.dashboard.isLoadingLobbyLottery) {
+      this.props.getLobbyHotLotteriesRequest({
+        items_perpage: 10,
+        current_page: this.props.dashboard.currentLobbyPage + 1,
+        sort_field: '',
+        sort_order: '',
+        keyword: this.state.searchValue,
+        minEntryFee: this.props.dashboard.minEntryFee,
+        maxEntryFee: this.props.dashboard.maxEntryFee,
+        only_hot_lotteries: false,
+      });
+    //   // this.current_page += 1;
+    }
+    // current_page
   }
 
   Show_hot_Lottery = () => {
@@ -205,15 +248,17 @@ class Lobby extends Component {
           { lobbyHotLotteries.length !== 0 ? (
             <FlatList
               key="v"
+              extraData={this.props}
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={() => <View style={styles.seperator} />}
-              data={formateData(lobbyHotLotteries, 2)}
+              data={formateData([...lobbyHotLotteries], 2)}
               numColumns={2}
-            // onEndReached={() => props.handleLoadMore()}
-              onEndThreshold={0.1}
+              // onEndReached={this.handleLoadMoreLottery}
+              onEndThreshold={0.5}
               refreshControl={(
                 <RefreshControl
                   refreshing={false}
+                  onRefresh={() => this.refreshlist()}
                 />
             )}
               renderItem={(item) => {

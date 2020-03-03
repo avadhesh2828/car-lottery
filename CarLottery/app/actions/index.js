@@ -21,6 +21,7 @@ import {
   getLobbyHotLotteriesRequest,
   getLobbyHotLotteriesSuccess,
   getLobbyHotLotteriesFailure,
+  updateLobbyCurrentPage,
 } from './dashboardActions';
 
 const actions = {
@@ -38,6 +39,7 @@ const actions = {
   getLobbyHotLotteriesRequest,
   getLobbyHotLotteriesSuccess,
   getLobbyHotLotteriesFailure,
+  updateLobbyCurrentPage,
 };
 
 export default bindActionCreators(actions, store.dispatch);
