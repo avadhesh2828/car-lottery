@@ -14,6 +14,7 @@ import { images } from '../../../assets/images';
 // import { responsiveFontSize } from '../../../utils/utils_functions';
 import { responsiveSize } from '../../../utils/utils';
 import { Localization } from '../../../utils/localization';
+import isIOS from '../../../utils/plateformSpecific';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -51,12 +52,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   entryfeeImage: {
-    backgroundColor: 'pink',
     position: 'absolute',
     right: 0,
-    top: 0,
-    height: 50,
-    width: '20%',
+    top: 1,
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
+    width: '30%',
     resizeMode: 'contain',
   },
   detailContainer: {
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.small,
   },
   ticketContainer: {
+    width: '50%',
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -90,6 +91,8 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   buttonContainer: {
+    marginLeft: spacing.semiMedium,
+    marginRight: spacing.semiMedium,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -116,12 +119,12 @@ const styles = StyleSheet.create({
   },
   entryFeeTextStyle: {
     position: 'absolute',
-    right: 0,
-    top: 10,
-    marginRight: spacing.semiMedium,
+    right: 1,
+    top: spacing.medium,
+    marginRight: spacing.small,
     color: UIColors.appBackGroundColor,
-    fontFamily: fontName.sourceSansProRegular,
-    fontSize: fontSizes.medium,
+    fontFamily: fontName.sourceSansProBold,
+    fontSize: fontSizes.extraExtraSmall,
   },
 });
 
@@ -135,16 +138,15 @@ const LotteryCell = (props) => {
           source={images.passwordIcon}
           style={styles.lotteryImage}
         />
-        <Image
-          source={images.enteryfeeIcon}
-          style={styles.entryfeeImage}
-        />
-        <Text style={styles.entryFeeTextStyle}>
-          ₦
-          {item.entry_fee}
-        </Text>
       </View>
-
+      <Image
+        source={images.enteryfeeIcon}
+        style={styles.entryfeeImage}
+      />
+      <Text style={styles.entryFeeTextStyle}>
+        ₦
+        {item.entry_fee}
+      </Text>
       <View style={styles.detailContainer}>
         <Text style={styles.lotteryTitle}> Won Audi R8</Text>
         <View style={styles.subContainer}>
@@ -172,7 +174,6 @@ const LotteryCell = (props) => {
                 height: spacing.semiMedium,
                 backgroundColor: 'green',
               }}
-              sliderLength={120}
             />
             <Text style={styles.lotteryFillPercent}>
               {Math.trunc(item.fill_percent)}
