@@ -5,7 +5,7 @@ const getHeaders = (header, userHeaders) => {
     'Content-Type': 'application/json',
   };
   return header ? {
-    Authorization: header,
+    session_key: header,
     ...headers,
   } : headers;
 };

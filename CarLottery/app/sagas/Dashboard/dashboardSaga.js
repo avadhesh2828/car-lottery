@@ -14,6 +14,13 @@ import {
   getLobbyHotLotteriesSuccess,
   getLobbyHotLotteriesFailure,
   getLobbyHotLotteriesRequest,
+  MYTICKETS_FILTER_REQUEST,
+  myTicketsFilterSuccess,
+  myTicketsFilterFailure,
+  GET_MY_LOTTERIES_REQUEST,
+  getMyLotteriesSuccess,
+  getMyLotteriesFailure,
+  getMyLotteriesRequest,
 } from '../../actions/dashboardActions';
 
 import {
@@ -25,6 +32,8 @@ import {
   commonHotLotteriesUrl,
   lobbyFilterUrl,
   lobbyListUrl,
+  myTicketsFilterUrl,
+  myLotteriesUrl,
 } from '../../api/urls';
 
 import {
@@ -140,6 +149,79 @@ function* lobbyFilter(action) {
     yield put(lobbyFilterFailure());
   }
 }
+// MY Lotteries
+function* getMyLotteries(action) {
+  try {
+    yield put(showLoader());
+    const url = myLotteriesUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getMyLotteriesSuccess({
+        response: dataResponse,
+        current_page: action.data.current_page,
+        items_perpage: action.data.items_perpage,
+      }));
+    } else {
+      yield put(getMyLotteriesFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getMyLotteriesFailure());
+  }
+}
+
+// My Tickets Page
+function* myTicketsFilter(action) {
+  try {
+    yield put(showLoader());
+    const url = myTicketsFilterUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(myTicketsFilterSuccess(dataResponse));
+      yield put(getMyLotteriesRequest({
+        items_perpage: 10,
+        current_page: 1,
+        sort_field: 'C.status',
+        sort_order: 'ASC',
+        status: 'all',
+        keyword: '',
+        minEntryFee: dataResponse.Data.min_entry_fee,
+        maxEntryFee: dataResponse.Data.max_entry_fee,
+        only_hot_lotteries: false,
+      }));
+    } else {
+      yield put(myTicketsFilterFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    console.log('errror', error);
+    showExceptionErrorMessage();
+    yield put(myTicketsFilterFailure());
+  }
+}
 
 
 export default function* sportsSaga() {
@@ -147,5 +229,7 @@ export default function* sportsSaga() {
     takeLatest(GET_HOT_LOTTERIES_REQUEST, getHotLotteries),
     takeLatest(LOBBY_FILTER_REQUEST, lobbyFilter),
     takeLatest(GET_LOBBY_HOT_LOTTERIES_REQUEST, getLobbyHotLotteries),
+    takeLatest(MYTICKETS_FILTER_REQUEST, myTicketsFilter),
+    takeLatest(GET_MY_LOTTERIES_REQUEST, getMyLotteries),
   ]);
 }
