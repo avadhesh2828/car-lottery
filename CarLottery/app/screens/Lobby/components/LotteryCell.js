@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: responsiveSize(150),
     borderColor: 'transparent',
-    backgroundColor: 'yellow',
   },
   lotteryFillPercent: {
     marginLeft: spacing.small,
@@ -48,8 +47,7 @@ const styles = StyleSheet.create({
   lotteryImage: {
     height: responsiveSize(150),
     width: '100%',
-    resizeMode: 'contain',
-    backgroundColor: 'red',
+    resizeMode: 'stretch',
   },
   entryfeeImage: {
     position: 'absolute',
@@ -136,7 +134,7 @@ const LotteryCell = (props) => {
     <View style={styles.mainContainer}>
       <View style={styles.imageContainer}>
         <Image
-          source={images.passwordIcon}
+          source={{ uri: contestImgUrl(item.jackpot_prize_image) }}
           style={styles.lotteryImage}
         />
       </View>
@@ -149,7 +147,7 @@ const LotteryCell = (props) => {
         {item.entry_fee}
       </Text>
       <View style={styles.detailContainer}>
-        <Text style={styles.lotteryTitle}> Won Audi R8</Text>
+        <Text style={styles.lotteryTitle}>{item.contest_name}</Text>
         <View style={styles.subContainer}>
           <View style={styles.ticketContainer}>
             <View style={item.fill_percent > 0 ? {
@@ -159,7 +157,7 @@ const LotteryCell = (props) => {
               borderRadius: spacing.extraExtraSmall,
               height: itemSizes.iconExtraSmall,
               width: `${Math.trunc(item.fill_percent)}%`,
-              backgroundColor: 'green',
+              backgroundColor: UIColors.navigationBar,
             }
               : {
               }}

@@ -75,8 +75,8 @@ function dashboardReducer(state = initialState, action) {
     case LOBBY_FILTER_SUCCESS:
       return {
         ...state,
-        minEntryFee: action.data.Data.min_entry_fee,
-        maxEntryFee: action.data.Data.max_entry_fee,
+        minEntryFee: parseInt(action.data.Data.min_entry_fee),
+        maxEntryFee: parseInt(action.data.Data.max_entry_fee),
       };
     case LOBBY_FILTER_FAILURE:
       return {

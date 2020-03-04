@@ -150,8 +150,8 @@ class Lobby extends Component {
     this.state = {
       searchValue: '',
       Showlottery: images.uncheckedIconRadio,
-      is_Radio_check: 'false',
-      multiSliderValue: [200, 1000],
+      is_Radio_check: false,
+      multiSliderValue: [0, 100],
     };
   }
 
@@ -162,16 +162,6 @@ class Lobby extends Component {
 
   runApis() {
     this.props.lobbyFilterRequest();
-    // this.props.getLobbyHotLotteriesRequest({
-    //   items_perpage: 10,
-    //   current_page: 1,
-    //   sort_field: '',
-    //   sort_order: '',
-    //   keyword: '',
-    //   minEntryFee: this.props.dashboard.minEntryFee,
-    //   maxEntryFee: this.props.dashboard.minEntryFee,
-    //   only_hot_lotteries: false,
-    // });
   }
 
   refreshlist() {
@@ -181,9 +171,9 @@ class Lobby extends Component {
       sort_field: '',
       sort_order: '',
       keyword: this.state.searchValue,
-      minEntryFee: this.props.dashboard.minEntryFee,
-      maxEntryFee: this.props.dashboard.maxEntryFee,
-      only_hot_lotteries: false,
+      minEntryFee: this.state.multiSliderValue[0],
+      maxEntryFee: this.state.multiSliderValue[1],
+      only_hot_lotteries: this.state.is_Radio_check,
     });
   }
 
@@ -209,6 +199,16 @@ class Lobby extends Component {
 
   Show_hot_Lottery = () => {
     const { Showlottery, is_Radio_check } = this.state;
+    this.props.getLobbyHotLotteriesRequest({
+      items_perpage: 10,
+      current_page: 1,
+      sort_field: '',
+      sort_order: '',
+      keyword: this.state.searchValue,
+      minEntryFee: this.state.multiSliderValue[0],
+      maxEntryFee: this.state.multiSliderValue[1],
+      only_hot_lotteries: !this.state.is_Radio_check,
+    });
     if (is_Radio_check === false) {
       this.setState({
         Showlottery: images.checkedIconRadio,
@@ -226,18 +226,24 @@ class Lobby extends Component {
     this.setState({ searchValue: text });
   }
 
-  multiSliderValuesChange(e) {
-    this.setState({ multiSliderValue: e });
-    console.log(this.state.multiSliderValue);
+  searchText() {
+    this.refreshlist();
   }
 
+  multiSliderValuesChange(e) {
+    this.setState({ multiSliderValue: e });
+  }
+
+  multiSliderValuesChangeFinish() {
+    this.refreshlist();
+  }
 
   render() {
     const { dashboard } = this.props;
     const { multiSliderValue } = this.state;
     const { lobbyHotLotteries } = dashboard;
     return (
-      <SafeAreaView style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
         <NavigationHeader />
         <View style={styles.subContainer}>
           <View style={{ flexDirection: 'column' }}>
@@ -271,9 +277,10 @@ class Lobby extends Component {
                 }}
                 values={[multiSliderValue[0], multiSliderValue[1]]}
                 onValuesChange={(e) => this.multiSliderValuesChange(e)}
+                onValuesChangeFinish={() => this.multiSliderValuesChangeFinish()}
                 sliderLength={Dimensions.get('window').width - 80}
-                min={0}
-                max={1200}
+                min={this.props.dashboard.minEntryFee}
+                max={this.props.dashboard.maxEntryFee}
                 step={1}
                 allowOverlap
                 snapped
@@ -293,7 +300,7 @@ class Lobby extends Component {
                 clearButtonMode={'always'}
                 value={this.state.searchValue}
               />
-              <TouchableOpacity style={styles.searchButton}>
+              <TouchableOpacity style={styles.searchButton} onPress={()=> this.searchText()}>
                 <Image style={styles.searchIconStyle} source={images.searchIcon} />
               </TouchableOpacity>
             </View>
@@ -349,7 +356,7 @@ class Lobby extends Component {
           )
             : (<BackgroundMessage title="No data available" />)}
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }
