@@ -33,9 +33,14 @@ export const Localization = {
   },
   homeScreen: {
     Play: 'Play',
+    View: 'View',
     TicketBrought: 'Ticket\nBrought',
   },
-  myTicketDetailScreen: {},
+  myTicketScreen: {
+    Live: 'Live',
+    Complete: 'Complete',
+    All: 'All',
+  },
   userProfileScreen: {
     firstName: 'First Name',
     lastName: 'Last Name',

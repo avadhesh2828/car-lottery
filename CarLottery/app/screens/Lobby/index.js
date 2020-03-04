@@ -149,7 +149,6 @@ class Lobby extends Component {
     super(props);
     this.state = {
       searchValue: '',
-      Showlottery: images.uncheckedIconRadio,
       is_Radio_check: false,
       multiSliderValue: [0, 100],
     };

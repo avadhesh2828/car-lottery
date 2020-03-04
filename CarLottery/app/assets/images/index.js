@@ -21,6 +21,8 @@ const checkedIconRadio = require('./Switchercopy.png');
 const uncheckedIconRadio = require('./Switcher.png');
 const livestatusIcon = require('./Livecopy2x.png');
 const enteryfeeIcon = require('./Tagcopy2.png');
+const statusUnselectRadioIcon = require('./RadiobuttonBG.png');
+const statusSelectRadioIcon = require('./SelectedDot.png');
 
 export const images = {
   logo,
@@ -46,4 +48,6 @@ export const images = {
   uncheckedIconRadio,
   livestatusIcon,
   enteryfeeIcon,
+  statusUnselectRadioIcon,
+  statusSelectRadioIcon,
 };

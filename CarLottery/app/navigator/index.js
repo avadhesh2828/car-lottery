@@ -5,6 +5,7 @@ import Splash from '../screens/Splash';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Home from '../screens/Home';
+import MyTicket from '../screens/MyTicket';
 import MyTicketDetail from '../screens/MyTicketDetail';
 import UserProfile from '../screens/UserProfile';
 import TabNavigator from './TabNavigator';
@@ -171,6 +172,15 @@ const MainNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
+    MyTicket: {
+      screen: MyTicket,
+      key: screenNames.MY_TICKET_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+
     UserProfile: {
       screen: UserProfile,
       key: screenNames.USER_PROFILE,

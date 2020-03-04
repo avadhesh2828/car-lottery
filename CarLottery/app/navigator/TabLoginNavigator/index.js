@@ -96,8 +96,8 @@ export default createBottomTabNavigator(
         tabBarLabel: 'MyTicket ',
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.help} />
-            : <Image style={styles.tabIcon} source={images.help} />
+            ? <Image style={styles.tabIcon} source={images.myTicket} />
+            : <Image style={styles.tabIcon} source={images.myTicket} />
         ),
       },
     },
@@ -106,11 +106,11 @@ export default createBottomTabNavigator(
       key: 'MyFinance',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Home',
+        tabBarLabel: 'MyFinance',
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.register} />
-            : <Image style={styles.tabIcon} source={images.register} />
+            ? <Image style={styles.tabIcon} source={images.help} />
+            : <Image style={styles.tabIcon} source={images.help} />
         ),
       },
     },
