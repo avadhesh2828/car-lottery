@@ -139,6 +139,12 @@ class UserProfile extends Component {
     };
   }
 
+  componentDidMount() {
+    // this.props.getCountryRequest();
+    // this.props.getStateRequest('231');
+  }
+
+
   onChangeEmailText(email) {
     this.setState({ email });
   }
@@ -206,7 +212,7 @@ class UserProfile extends Component {
           break;
         case InputKey.zipCode:
           break;
-          // this.mobileNumberInput.focus();
+        // this.mobileNumberInput.focus();
         // case InputKey.mobileNumber:
         //   this.passwordInput.focus();
         //   break;
@@ -375,7 +381,7 @@ class UserProfile extends Component {
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
             <Text style={styles.personalText}>Personal Info</Text>
-            <View style={[styles.textInputContainer, { }]}>
+            <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
@@ -392,7 +398,7 @@ class UserProfile extends Component {
                 autoCapitalize="none"
               />
             </View>
-            <View style={[styles.textInputContainer, { }]}>
+            <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
@@ -409,7 +415,7 @@ class UserProfile extends Component {
                 autoCapitalize="none"
               />
             </View>
-            <View style={[styles.textInputContainer, { }]}>
+            <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
@@ -426,7 +432,7 @@ class UserProfile extends Component {
                 autoCapitalize="none"
               />
             </View>
-            <View style={[styles.textInputContainer, { }]}>
+            <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
@@ -456,7 +462,8 @@ class UserProfile extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={[styles.textInputContainer, { }]}>
+            
+            <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
@@ -473,7 +480,7 @@ class UserProfile extends Component {
                 autoCapitalize="none"
               />
             </View>
-            <View style={[styles.textInputContainer, { }]}>
+            <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
@@ -490,7 +497,7 @@ class UserProfile extends Component {
                 autoCapitalize="none"
               />
             </View>
-            <View style={[styles.textInputContainer, { }]}>
+            <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
@@ -517,7 +524,7 @@ class UserProfile extends Component {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-        { isShowDatePicker && (isIOS
+        {isShowDatePicker && (isIOS
           ? (
             <Modal
               visible={isShowDatePicker}

@@ -24,3 +24,6 @@ export const delWagerLimitUrl = `${getBaseUrl()}/api/safer_gambling/delete_wager
 export const selfTimeoutUrl = `${getBaseUrl()}/api/safer_gambling/self_timeout`;
 // Image Urls
 export const contestImgUrl = (imgName) => `${getBaseUrl()}/uploads/contests/${imgName}`;
+
+export const getCountriesUrl = `${getBaseUrl()}/api/auth/get_country`;
+export const getStatesbyCountryUrl = `${getBaseUrl()}/api/auth/get_state_by_country`;
