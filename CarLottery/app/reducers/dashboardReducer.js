@@ -102,8 +102,8 @@ function dashboardReducer(state = initialState, action) {
     case MYTICKETS_FILTER_SUCCESS:
       return {
         ...state,
-        myTicketMinEntryFee: action.data.Data.min_entry_fee,
-        myTicketMaxEntryFee: action.data.Data.max_entry_fee,
+        myTicketMinEntryFee: parseInt(action.data.Data.min_entry_fee),
+        myTicketMaxEntryFee: parseInt(action.data.Data.max_entry_fee),
       };
     case MYTICKETS_FILTER_FAILURE:
       return {

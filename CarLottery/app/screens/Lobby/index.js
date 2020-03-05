@@ -159,6 +159,14 @@ class Lobby extends Component {
     // this.props.lobbyFilterRequest();
   }
 
+
+  // componentDidUpdate(prevProps) {
+  //   if ((this.state.multiSliderValue[0] !== this.props.dashboard.minEntryFee)
+  //   || (this.state.multiSliderValue[0] !== this.props.dashboard.maxEntryFee)) {
+  //     this.setState({ multiSliderValue: [this.props.dashboard.myTicketMinEntryFee, this.props.dashboard.myTicketMaxEntryFee] });
+  //   }
+  // }
+
   runApis() {
     this.props.lobbyFilterRequest();
   }

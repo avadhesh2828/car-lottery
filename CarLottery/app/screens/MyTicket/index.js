@@ -121,30 +121,23 @@ class MyTicket extends Component {
     super(props);
     this.state = {
       searchValue: '',
-      multiSliderValue: [0, 100],
+      multiSliderValue: [0, 0],
       // Showlottery: images.uncheckedIconRadio,
-      is_Live_Radio_check: false,
-      is_All_Radio_check: false,
-      is_Complete_Radio_check: false,
+      radioStatusValue: 'all',
     };
   }
 
-  // Show_hot_Lottery = () => {
-  //   const { Showlottery, is_Radio_check } = this.state;
-  //   if (is_Radio_check === false) {
-  //     this.setState({
-  //       Showlottery: images.checkedIconRadio,
-  //       is_Radio_check: true,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       Showlottery: images.uncheckedIconRadio,
-  //       is_Radio_check: false,
-  //     });
-  //   }
-  // };
   componentDidMount() {
     this.props.myTicketsFilterRequest({ status: 'all' });
+  }
+
+  componentDidUpdate(prevProps) {
+    // if ((prevProps.dashboard.myTicketMinEntryFee !== this.props.dashboard.myTicketMinEntryFee)
+    // || (prevProps.dashboard.myTicketMaxEntryFee !== this.props.dashboard.myTicketMinEntryFee)) {
+    //   console.log('123==', prevProps.dashboard.myTicketMinEntryFee, '=', this.props.dashboard.myTicketMinEntryFee);
+    //   console.log('1234==', prevProps.dashboard.myTicketMaxEntryFee, '=', this.props.dashboard.myTicketMaxEntryFee);
+    //   this.setState({ multiSliderValue: [this.props.dashboard.myTicketMinEntryFee, this.props.dashboard.myTicketMaxEntryFee] });
+    // }
   }
 
   onChangeText(text) {
@@ -152,19 +145,48 @@ class MyTicket extends Component {
   }
 
   onPressAllRadiobtn() {
-    this.setState({ is_All_Radio_check: !this.state.is_All_Radio_check });
+    if (this.state.radioStatusValue !== 'all') {
+      this.setState({
+        radioStatusValue: 'all',
+      });
+      this.onStatusChange('all');
+    }
   }
 
   onPressLiveRadiobtn() {
-    this.setState({ is_Live_Radio_check: !this.state.is_Live_Radio_check });
+    if (this.state.radioStatusValue !== 'live') {
+      this.setState({
+        radioStatusValue: 'live',
+      });
+      this.onStatusChange('live');
+    }
   }
 
   onPressCompleteRadiobtn() {
-    this.setState({ is_Complete_Radio_check: !this.state.is_Complete_Radio_check });
+    if (this.state.radioStatusValue !== 'completed') {
+      this.setState({
+        radioStatusValue: 'completed',
+      });
+      this.onStatusChange('completed');
+    }
+  }
+
+  onStatusChange(statusValue) {
+    this.props.getMyLotteriesRequest({
+      items_perpage: 10,
+      current_page: 1,
+      sort_field: 'C.status',
+      sort_order: 'ASC',
+      status: statusValue,
+      keyword: this.state.searchValue,
+      minEntryFee: this.state.multiSliderValue[0],
+      maxEntryFee: this.state.multiSliderValue[1],
+      only_hot_lotteries: true,
+    });
   }
 
   searchText() {
-    // this.refreshlist();
+    this.refreshMyLotteries();
   }
 
   multiSliderValuesChange(e) {
@@ -172,12 +194,26 @@ class MyTicket extends Component {
   }
 
   multiSliderValuesChangeFinish() {
-    // this.refreshlist();
+    this.refreshMyLotteries();
+  }
+
+  refreshMyLotteries() {
+    this.props.getMyLotteriesRequest({
+      items_perpage: 10,
+      current_page: 1,
+      sort_field: 'C.status',
+      sort_order: 'ASC',
+      status: this.state.radioStatusValue,
+      keyword: this.state.searchValue,
+      minEntryFee: this.state.multiSliderValue[0],
+      maxEntryFee: this.state.multiSliderValue[1],
+      only_hot_lotteries: true,
+    });
   }
 
   render() {
     const {
-      is_All_Radio_check, is_Complete_Radio_check, is_Live_Radio_check, multiSliderValue,
+      multiSliderValue, radioStatusValue,
     } = this.state;
     const { dashboard } = this.props;
     const { myLotteries } = dashboard;
@@ -221,8 +257,8 @@ class MyTicket extends Component {
               onValuesChange={(e) => this.multiSliderValuesChange(e)}
               onValuesChangeFinish={() => this.multiSliderValuesChangeFinish()}
               sliderLength={Dimensions.get('window').width - 80}
-              min={0}
-              max={1}
+              min={this.props.dashboard.myTicketMinEntryFee}
+              max={this.props.dashboard.myTicketMaxEntryFee}
               step={1}
               allowOverlap
               snapped
@@ -238,7 +274,7 @@ class MyTicket extends Component {
               >
                 <Text style={styles.radiobtnTxt}>{Localization.myTicketScreen.All}</Text>
                 <TouchableOpacity onPress={() => this.onPressAllRadiobtn()}>
-                  <Image style={styles.radiobtnIcon} source={is_All_Radio_check ? images.statusSelectRadioIcon : images.statusUnselectRadioIcon} />
+                  <Image style={styles.radiobtnIcon} source={radioStatusValue === 'all' ? images.statusSelectRadioIcon : images.statusUnselectRadioIcon} />
                 </TouchableOpacity>
               </View>
               <View style={{
@@ -247,7 +283,7 @@ class MyTicket extends Component {
               >
                 <Text style={styles.radiobtnTxt}>{Localization.myTicketScreen.Live}</Text>
                 <TouchableOpacity onPress={() => this.onPressLiveRadiobtn()}>
-                  <Image style={styles.radiobtnIcon} source={is_Live_Radio_check ? images.statusSelectRadioIcon : images.statusUnselectRadioIcon} />
+                  <Image style={styles.radiobtnIcon} source={radioStatusValue === 'live' ? images.statusSelectRadioIcon : images.statusUnselectRadioIcon} />
                 </TouchableOpacity>
               </View>
               <View style={{
@@ -256,7 +292,7 @@ class MyTicket extends Component {
               >
                 <Text style={styles.radiobtnTxt}>{Localization.myTicketScreen.Complete}</Text>
                 <TouchableOpacity onPress={() => this.onPressCompleteRadiobtn()}>
-                  <Image style={styles.radiobtnIcon} source={is_Complete_Radio_check ? images.statusSelectRadioIcon : images.statusUnselectRadioIcon} />
+                  <Image style={styles.radiobtnIcon} source={radioStatusValue === 'completed' ? images.statusSelectRadioIcon : images.statusUnselectRadioIcon} />
                 </TouchableOpacity>
               </View>
             </View>

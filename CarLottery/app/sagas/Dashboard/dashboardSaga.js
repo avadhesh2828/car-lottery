@@ -209,7 +209,7 @@ function* myTicketsFilter(action) {
         keyword: '',
         minEntryFee: dataResponse.Data.min_entry_fee,
         maxEntryFee: dataResponse.Data.max_entry_fee,
-        only_hot_lotteries: false,
+        only_hot_lotteries: true,
       }));
     } else {
       yield put(myTicketsFilterFailure(parsedResponse));
