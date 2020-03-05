@@ -232,6 +232,23 @@ class MyTicket extends Component {
     });
   }
 
+  handleLoadMoreLottery = () => {
+    // console.log('...calling1');
+    if (this.props.dashboard.currentMyTicketsPage <= this.props.dashboard.myTicketsTotalPages && !this.props.dashboard.isLoadingMyTickets) {
+      this.props.getMyLotteriesRequest({
+        items_perpage: 10,
+        current_page: this.props.dashboard.currentMyTicketsPage + 1,
+        sort_field: 'C.status',
+        sort_order: 'ASC',
+        keyword: this.state.searchValue,
+        minEntryFee: this.state.multiSliderValue[0],
+        maxEntryFee: this.state.multiSliderValue[1],
+        only_hot_lotteries: true,
+        status: this.state.radioStatusValue,
+      });
+    }
+  }
+
   render() {
     const {
       multiSliderValue, radioStatusValue, isVisible,
@@ -343,11 +360,12 @@ class MyTicket extends Component {
               ItemSeparatorComponent={() => <View style={styles.seperator} />}
               data={formateData(myLotteries, 2)}
               numColumns={2}
-            // onEndReached={() => props.handleLoadMore()}
+              // onEndReached={() => this.handleLoadMoreLottery()}
               onEndThreshold={0.1}
               refreshControl={(
                 <RefreshControl
                   refreshing={false}
+                  onRefresh={() => this.refreshMyLotteries()}
                 />
             )}
               renderItem={(item) => {

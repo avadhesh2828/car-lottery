@@ -195,8 +195,8 @@ class Lobby extends Component {
         sort_field: '',
         sort_order: '',
         keyword: this.state.searchValue,
-        minEntryFee: this.props.dashboard.minEntryFee,
-        maxEntryFee: this.props.dashboard.maxEntryFee,
+        minEntryFee: this.state.multiSliderValue[0],
+        maxEntryFee: this.state.multiSliderValue[1],
         only_hot_lotteries: false,
       });
     //   // this.current_page += 1;
