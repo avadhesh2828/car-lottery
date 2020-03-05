@@ -20,13 +20,23 @@ import {
 } from '../../utils/variables';
 import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
+import PropTypes from 'prop-types';
 import LotteryCell from './components/LotteryCell';
+import { contestImgUrl } from '../../api/urls';
 import { Localization } from '../../utils/localization';
+import _ from 'lodash';
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: UIColors.grayBackgroundColor,
+  },
+  blankContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: (Dimensions.get('window').width - 10) / 2,
+    margin: spacing.extraSmall,
   },
   listView: {
     marginHorizontal: spacing.extraSmall,
@@ -133,7 +143,7 @@ const hotLotteries = [
 
 
 // eslint-disable-next-line react/prefer-stateless-function
-class myticket extends Component {
+class MyTicket extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -178,7 +188,7 @@ class myticket extends Component {
   }
  
   searchText() {
-    this.refreshlist();
+    // this.refreshlist();
   }
 
   multiSliderValuesChange(e) {
@@ -186,13 +196,15 @@ class myticket extends Component {
   }
 
   multiSliderValuesChangeFinish() {
-    this.refreshlist();
+    // this.refreshlist();
   }
 
   render() {
     const {
       is_All_Radio_check, is_Complete_Radio_check, is_Live_Radio_check, multiSliderValue,
     } = this.state;
+    const { dashboard } = this.props;
+    const { myLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
@@ -285,12 +297,12 @@ class myticket extends Component {
           </View>
         </View>
         <View style={styles.listView}>
-          { hotLotteries.length !== 0 ? (
+          { myLotteries.length !== 0 ? (
             <FlatList
               key="v"
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={() => <View style={styles.seperator} />}
-              data={formateData(hotLotteries, 6)}
+              data={formateData(myLotteries, 2)}
               numColumns={2}
             // onEndReached={() => props.handleLoadMore()}
               onEndThreshold={0.1}
@@ -299,11 +311,17 @@ class myticket extends Component {
                   refreshing={false}
                 />
             )}
-              renderItem={(item) => (
-                <LotteryCell
-                  item={item.item}
-                />
-              )}
+              renderItem={(item) => {
+                if (_.isEmpty(item.item)) {
+                  return <View style={styles.blankContainer} />;
+                }
+                return (
+                  <LotteryCell
+                    item={item.item}
+                    contestImgUrl={contestImgUrl}
+                  />
+                );
+              }}
             />
           )
             : (<BackgroundMessage title="No data available" />)}
@@ -313,11 +331,24 @@ class myticket extends Component {
   }
 }
 
-const mapStateToProps = () => ({
+MyTicket.propTypes = {
+  // getLobbyHotLotteriesRequest: PropTypes.func,
+  dashboard: PropTypes.object,
+  // lobbyFilterRequest: PropTypes.func,
+};
+
+MyTicket.defaultProps = {
+  // getLobbyHotLotteriesRequest: () => {},
+  // lobbyFilterRequest: () => {},
+  dashboard: {},
+};
+
+const mapStateToProps = (state) => ({
+  dashboard: state.dashboardReducer,
 });
 
 const mapDispatchToProps = () => UserActions;
 
-const myticketScreen = connect(mapStateToProps, mapDispatchToProps)(myticket);
+const myticketScreen = connect(mapStateToProps, mapDispatchToProps)(MyTicket);
 
 export default myticketScreen;
