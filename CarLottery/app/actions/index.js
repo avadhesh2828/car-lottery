@@ -7,6 +7,9 @@ import {
   getSportsFailure,
   loginRequest,
   registerRequest,
+  logoutRequest,
+  logoutSuccess,
+  logoutFailure,
 } from './authenticationActions';
 
 import {
@@ -53,6 +56,9 @@ const actions = {
   getMyLotteriesRequest,
   getMyLotteriesSuccess,
   getMyLotteriesFailure,
+  logoutRequest,
+  logoutSuccess,
+  logoutFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);

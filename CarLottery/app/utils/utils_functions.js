@@ -39,10 +39,10 @@ export const resetRoute = (props) => {
 
 export const logout = () => {
   const utils = new Utils();
-  utils.getItemWithKey(constant.APP_ACCESS_TOKEN, (response) => {
-    if (response && response.access_token) {
-      utils.deleteItem(constant.APP_ACCESS_TOKEN);
-      UserData.BearerToken = '';
+  utils.getItemWithKey(constant.SESSION_KEY, (response) => {
+    if (response) {
+      utils.deleteItem(constant.SESSION_KEY);
+      UserData.SessionKey = '';
       Navigation.sharedInstance().resetRouteName('Splash');
     } else {
       showPopupAlertWithTitle(ERROR, no_internet);

@@ -46,7 +46,6 @@ class Home extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
     this.props.getHotLotteriesRequest();
-    this.props.myTicketsFilterRequest({ status: 'all' });
   }
 
   render() {

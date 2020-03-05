@@ -10,6 +10,8 @@ import {
 import { connect } from 'react-redux';
 
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import UserActions from '../../actions';
 import CustomLabel from './CustomLabel';
 // import Navigation from '../../utils/navigation';
@@ -20,11 +22,9 @@ import {
 } from '../../utils/variables';
 import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
-import PropTypes from 'prop-types';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
 import { Localization } from '../../utils/localization';
-import _ from 'lodash';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -114,33 +114,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const hotLotteries = [
-  {
-    contest_unique_id: 't9XKeRJju',
-    contest_name: 'Play & Win New S presso',
-    start_date_time: '2020-01-21 05:00:00+00',
-    status: '1',
-    modified_date: '2020-02-14 10:54:27+00',
-    entry_fee: '9',
-    jackpot_prize: 'Car Galaxy',
-    jackpot_prize_image: '5e2ac0b99626a761642136',
-    consolation_prizes: '{"2": "lenovo computer"}',
-    fill_percent: '56.0000000000000000',
-  },
-  {
-    contest_unique_id: 't9XKeRKju',
-    contest_name: 'Play & Win New Audi',
-    start_date_time: '2020-01-21 05:00:00+00',
-    status: '1',
-    modified_date: '2020-02-15 10:54:27+00',
-    entry_fee: '12',
-    jackpot_prize: 'Won Audi',
-    jackpot_prize_image: '5e2ac0b99626a761642136',
-    consolation_prizes: '{"2": "lenovo computer"}',
-    fill_percent: '60.0000000000000000',
-  },
-];
-
 
 // eslint-disable-next-line react/prefer-stateless-function
 class MyTicket extends Component {
@@ -170,6 +143,9 @@ class MyTicket extends Component {
   //     });
   //   }
   // };
+  componentDidMount() {
+    this.props.myTicketsFilterRequest({ status: 'all' });
+  }
 
   onChangeText(text) {
     this.setState({ searchValue: text });
@@ -186,7 +162,7 @@ class MyTicket extends Component {
   onPressCompleteRadiobtn() {
     this.setState({ is_Complete_Radio_check: !this.state.is_Complete_Radio_check });
   }
- 
+
   searchText() {
     // this.refreshlist();
   }
@@ -207,7 +183,11 @@ class MyTicket extends Component {
     const { myLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
-        <NavigationHeader />
+        <NavigationHeader
+          showRightImageIcon
+          rightImageIcon={images.user}
+          onPressRightIcon={() => this.props.logoutRequest()}
+        />
         <View style={styles.subContainer}>
           <View style={{ flexDirection: 'row' }}>
             <View style={{ flex: 6 }}>
@@ -332,13 +312,13 @@ class MyTicket extends Component {
 }
 
 MyTicket.propTypes = {
-  // getLobbyHotLotteriesRequest: PropTypes.func,
+  myTicketsFilterRequest: PropTypes.func,
   dashboard: PropTypes.object,
   // lobbyFilterRequest: PropTypes.func,
 };
 
 MyTicket.defaultProps = {
-  // getLobbyHotLotteriesRequest: () => {},
+  myTicketsFilterRequest: () => {},
   // lobbyFilterRequest: () => {},
   dashboard: {},
 };
