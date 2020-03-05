@@ -10,3 +10,6 @@ export const lobbyFilterUrl = `${getBaseUrl()}/api/common/lobby_filter`;
 
 // Image Urls
 export const contestImgUrl = (imgName) => `${getBaseUrl()}/uploads/contests/${imgName}`;
+
+export const getCountriesUrl = `${getBaseUrl()}/api/auth/get_country`;
+export const getStatesbyCountryUrl = `${getBaseUrl()}/api/auth/get_state_by_country`;

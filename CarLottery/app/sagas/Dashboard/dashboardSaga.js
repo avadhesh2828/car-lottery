@@ -124,7 +124,7 @@ function* getLobbyHotLotteries(action) {
   }
 }
 
-export default function* sportsSaga() {
+export default function* getCountriesSagasportsSaga() {
   yield all([
     takeLatest(GET_HOT_LOTTERIES_REQUEST, getHotLotteries),
     takeLatest(LOBBY_FILTER_REQUEST, lobbyFilter),
