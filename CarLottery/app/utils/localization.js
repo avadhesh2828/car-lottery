@@ -52,4 +52,7 @@ export const Localization = {
     address: 'Address',
     zipCode: 'Zip Code',
   },
+  NavigationHeader: {
+    Logout: 'Logout',
+  },
 };

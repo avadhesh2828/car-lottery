@@ -5,7 +5,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, TextInput, Dimensions,
+  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, TextInput, Dimensions, Modal,
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -112,6 +112,22 @@ const styles = StyleSheet.create({
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.small,
   },
+  modalcontainer: {
+    position: 'absolute',
+    top: itemSizes.navLogoImageHeight,
+    marginTop: itemSizes.navLogoImageHeight,
+    right: 4,
+    height: itemSizes.defaultHeight,
+    width: '30%',
+    backgroundColor: UIColors.purpleButtonColor,
+  },
+  NavHeaderTxt: {
+    marginTop: spacing.semiMedium,
+    alignSelf: 'center',
+    color: UIColors.appBackGroundColor,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.small,
+  },
 });
 
 
@@ -121,7 +137,8 @@ class MyTicket extends Component {
     super(props);
     this.state = {
       searchValue: '',
-      multiSliderValue: [0, 0],
+      multiSliderValue: [0, 100],
+      isVisible: false,
       // Showlottery: images.uncheckedIconRadio,
       radioStatusValue: 'all',
     };
@@ -142,6 +159,10 @@ class MyTicket extends Component {
 
   onChangeText(text) {
     this.setState({ searchValue: text });
+  }
+
+  onChangeView() {
+    this.setState({ isVisible: !this.state.isVisible });
   }
 
   onPressAllRadiobtn() {
@@ -213,16 +234,18 @@ class MyTicket extends Component {
 
   render() {
     const {
-      multiSliderValue, radioStatusValue,
+      multiSliderValue, radioStatusValue, isVisible,
     } = this.state;
     const { dashboard } = this.props;
     const { myLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
+          showBackButton
           showRightImageIcon
-          rightImageIcon={images.user}
-          onPressRightIcon={() => this.props.logoutRequest()}
+          showRightBellImageIcon
+          rightImageIcon
+          onPressRightIcon={() => { this.onChangeView(); }}
         />
         <View style={styles.subContainer}>
           <View style={{ flexDirection: 'row' }}>
@@ -342,6 +365,17 @@ class MyTicket extends Component {
           )
             : (<BackgroundMessage title="No data available" />)}
         </View>
+        {
+        isVisible
+          ? (
+            <View style={styles.modalcontainer}>
+              <TouchableOpacity onPress={() => this.props.logoutRequest()}>
+                <Text style={styles.NavHeaderTxt}>{Localization.NavigationHeader.Logout}</Text>
+              </TouchableOpacity>
+            </View>
+          )
+          : null
+        }
       </SafeAreaView>
     );
   }
@@ -350,13 +384,17 @@ class MyTicket extends Component {
 MyTicket.propTypes = {
   myTicketsFilterRequest: PropTypes.func,
   dashboard: PropTypes.object,
+  logoutRequest: PropTypes.func,
   // lobbyFilterRequest: PropTypes.func,
+  getMyLotteriesRequest: PropTypes.func,
 };
 
 MyTicket.defaultProps = {
+  getMyLotteriesRequest: () => {},
   myTicketsFilterRequest: () => {},
   // lobbyFilterRequest: () => {},
   dashboard: {},
+  logoutRequest: () => {},
 };
 
 const mapStateToProps = (state) => ({

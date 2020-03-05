@@ -12,6 +12,7 @@ import {
   Text,
   SafeAreaView,
   Image,
+  Modal,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { images } from '../assets/images';
@@ -30,14 +31,27 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   backbutton: {
     width: itemSizes.defaultWidth,
     height: itemSizes.defaultHeight,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  userbutton: {
+    marginLeft: spacing.semiMedium,
+    marginRight: spacing.semiMedium,
+    flexDirection: 'row-reverse',
+    width: itemSizes.iconMedium,
+    height: itemSizes.iconMedium,
+  },
+  userIcon: {
     justifyContent: 'center',
     alignItems: 'center',
+    width: itemSizes.iconMedium,
+    height: itemSizes.iconMedium,
   },
   backIcon: {
     width: itemSizes.backIconWidth,
@@ -56,13 +70,13 @@ const styles = StyleSheet.create({
   logo: {
     width: itemSizes.navLogoImageWidth,
     height: itemSizes.navLogoImageHeight,
-  }
+  },
 });
 
 class NavigationHeader extends Component {
   onPressBack = () => { Navigation.sharedInstance().popScreen(); }
 
-  onPressLogout() { /*TODO*/ }
+  onPressLogout() { /* TODO */ }
 
   render() {
     const {
@@ -72,11 +86,12 @@ class NavigationHeader extends Component {
       backgroundColor,
       showRightImageIcon,
       rightImageIcon,
+      showRightBellImageIcon,
       onPressRightIcon,
     } = this.props;
 
     return (
-      <View style={[styles.container, { backgroundColor: backgroundColor, height: NavBarHeight }]}>
+      <View style={[styles.container, { backgroundColor, height: NavBarHeight }]}>
         <SafeAreaView style={styles.subContainer}>
           {
             showBackButton && (
@@ -88,10 +103,19 @@ class NavigationHeader extends Component {
           {title != null && <Text style={styles.title}>{title}</Text>}
           {logo != null && <Image source={logo} style={styles.logo} />}
           {
+            showRightBellImageIcon
+              && (
+                <TouchableOpacity style={styles.userbutton} onPress={onPressRightIcon}>
+                  <Image source={images.bellIcon} style={styles.userIcon} />
+                </TouchableOpacity>
+              )
+          }
+
+          {
             showRightImageIcon
               && (
-                <TouchableOpacity style={styles.backbutton} onPress={onPressRightIcon}>
-                  <Image source={rightImageIcon} style={styles.backbutton} />
+                <TouchableOpacity style={styles.userbutton} onPress={onPressRightIcon}>
+                  <Image source={images.user} style={styles.userIcon} />
                 </TouchableOpacity>
               )
           }
