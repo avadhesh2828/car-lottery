@@ -162,8 +162,8 @@ const styles = StyleSheet.create({
 
 
 const LotteryCell = (props) => {
-  const fill_percent = Math.floor(parseInt(item.total_user_joined) / parseInt(item.contest_size) * 100);
   const { item, contestImgUrl, onPressPrizeModel } = props;
+  const fill_percent = Math.floor(parseInt(item.total_user_joined) / parseInt(item.contest_size) * 100);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.imageContainer}>
