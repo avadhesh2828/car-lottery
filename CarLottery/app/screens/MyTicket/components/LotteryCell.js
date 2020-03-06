@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
@@ -114,6 +115,14 @@ const styles = StyleSheet.create({
     width: '30%',
     resizeMode: 'contain',
   },
+  contestStatus: {
+    position: 'absolute',
+    left: 0,
+    top: 1,
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
+    width: '30%',
+    resizeMode: 'contain',
+  },
   entryFeeTextStyle: {
     position: 'absolute',
     right: 1,
@@ -123,6 +132,18 @@ const styles = StyleSheet.create({
     fontFamily: fontName.sourceSansProBold,
     fontSize: fontSizes.extraExtraSmall,
   },
+  mainFillConatiner: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: UIColors.grayBackgroundColor,
+    height: itemSizes.defaultHeight,
+  },
+  FilltextConatiner: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: UIColors.navigationBar,
+  },
   contestFillContainer: {
     borderRadius: spacing.extraExtraSmall,
     backgroundColor: UIColors.grayBackgroundColor,
@@ -131,7 +152,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   lotteryFillPercent: {
-    marginLeft: spacing.small,
+    flexDirection: 'row-reverse',
+    paddingLeft: spacing.small,
     fontSize: fontSizes.extraSmall,
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProRegular,
@@ -141,6 +163,7 @@ const styles = StyleSheet.create({
 
 const LotteryCell = (props) => {
   const { item, contestImgUrl } = props;
+  const fill_percent = Math.floor(parseInt(item.total_user_joined) / parseInt(item.contest_size) * 100);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.imageContainer}>
@@ -149,45 +172,62 @@ const LotteryCell = (props) => {
           style={styles.lotteryImage}
         />
       </View>
+
+      <Image style={styles.contestStatus} source={item.status === '1' ? images.livestatusIcon : images.Completed} />
       <Image
         source={images.enteryfeeIcon}
         style={styles.entryfeeImage}
       />
       <Text style={styles.entryFeeTextStyle}>
         ₦
-        {10}
+        {item.entry_fee}
       </Text>
       <View style={styles.detailContainer}>
         <Text style={styles.lotteryTitle}>{item.contest_name}</Text>
         <View style={styles.subContainer}>
-          <View style={styles.contestFillContainer}>
-            <View style={30 > 0 ? {
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              borderRadius: spacing.extraExtraSmall,
-              // height: itemSizes.iconExtraSmall,
-              width: `${Math.trunc(30)}%`,
-              backgroundColor: 'green',
+          {
+            item.status === '1'
+              ? (
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <View style={styles.contestFillContainer}>
+                    <View style={fill_percent > 0 ? {
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      borderRadius: spacing.extraExtraSmall,
+                      // height: itemSizes.iconExtraSmall,
+                      width: `${Math.trunc(fill_percent)}%`,
+                      backgroundColor: 'green',
+                    }
+                      : {
+                      }}
+                    />
+                  </View>
+                  <Text style={styles.lotteryFillPercent}>
+                    {Math.trunc(fill_percent)}
+                    %
+                  </Text>
+                </View>
+              )
+              : item.is_winner === null ? <View style={styles.mainFillConatiner}><Text style={[styles.FilltextConatiner, { color: 'red' }]}>{Localization.myTicketScreen.Loss}</Text></View>
+                : <View style={styles.mainFillConatiner}><Text style={styles.FilltextConatiner}>{Localization.myTicketScreen.Win}</Text></View>
             }
-              : {
-              }}
-            />
-          </View>
-          <Text style={styles.lotteryFillPercent}>
-            {Math.trunc(30)}
-            %
-          </Text>
         </View>
         <View style={styles.ticketContainer}>
           <Text style={styles.ticketTxt}>{Localization.homeScreen.TicketBrought}</Text>
-          <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>3</Text>
+          <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>{item.total_ticket_bought}</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buyBtn}>
-            <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
-          </TouchableOpacity>
+          {
+          item.status === '1'
+            ? (
+              <TouchableOpacity style={styles.buyBtn}>
+                <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
+              </TouchableOpacity>
+            )
+            : null
+        }
           <TouchableOpacity style={styles.viewBtn}>
             <Text style={styles.txtStyle}>{Localization.homeScreen.View}</Text>
           </TouchableOpacity>

@@ -24,6 +24,7 @@ const enteryfeeIcon = require('./Tagcopy2.png');
 const statusUnselectRadioIcon = require('./RadiobuttonBG.png');
 const statusSelectRadioIcon = require('./SelectedDot.png');
 const bellIcon = require('./bell.png');
+const Completed = require('./Completed.png');
 
 export const images = {
   logo,
@@ -52,4 +53,5 @@ export const images = {
   statusUnselectRadioIcon,
   statusSelectRadioIcon,
   bellIcon,
+  Completed,
 };

@@ -40,6 +40,8 @@ export const Localization = {
     Live: 'Live',
     Complete: 'Complete',
     All: 'All',
+    Win: 'CONGRATULATIONS! YOU WON',
+    Loss: 'Better Luck Next Time',
   },
   userProfileScreen: {
     firstName: 'First Name',
