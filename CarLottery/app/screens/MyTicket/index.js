@@ -212,7 +212,6 @@ class MyTicket extends Component {
 
   componentDidMount() {
     this.props.myTicketsFilterRequest({ status: 'all' });
-    this.getconsolationFlatList();
   }
 
   componentDidUpdate(prevProps) {
