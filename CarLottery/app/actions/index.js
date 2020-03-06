@@ -32,6 +32,12 @@ import {
   getMyLotteriesRequest,
   getMyLotteriesSuccess,
   getMyLotteriesFailure,
+  getLotterieWinnersRequest,
+  getLotterieWinnersSuccess,
+  getLotterieWinnersFailure,
+  getUserWinnerTicketsRequest,
+  getUserWinnerTicketsSuccess,
+  getUserWinnerTicketsFailure,
 } from './dashboardActions';
 
 const actions = {
@@ -59,6 +65,12 @@ const actions = {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
+  getLotterieWinnersRequest,
+  getLotterieWinnersSuccess,
+  getLotterieWinnersFailure,
+  getUserWinnerTicketsRequest,
+  getUserWinnerTicketsSuccess,
+  getUserWinnerTicketsFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);

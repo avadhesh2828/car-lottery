@@ -15,6 +15,10 @@ import {
   GET_MY_LOTTERIES_REQUEST,
   GET_MY_LOTTERIES_SUCCESS,
   GET_MY_LOTTERIES_FAILURE,
+  GET_LOTTERIE_WINNERS_SUCCESS,
+  GET_LOTTERIE_WINNERS_FAILURE,
+  GET_USER_WINNER_TICKETS_SUCCESS,
+  GET_USER_WINNER_TICKETS_FAILURE,
 } from '../actions/dashboardActions';
 
 const initialState = {
@@ -131,6 +135,24 @@ function dashboardReducer(state = initialState, action) {
         ...state,
         myLotteries: [],
         isLoadingMyTickets: false,
+      };
+    case GET_LOTTERIE_WINNERS_SUCCESS:
+      return {
+        ...state,
+        selectedLotterieWinnerslist: action.data.Data.lotterie_winners,
+      };
+    case GET_LOTTERIE_WINNERS_FAILURE:
+      return {
+        ...state,
+      };
+    case GET_USER_WINNER_TICKETS_SUCCESS:
+      return {
+        ...state,
+        userWinnerTickets: action.data.Data.user_winner_tickets,
+      };
+    case GET_USER_WINNER_TICKETS_FAILURE:
+      return {
+        ...state,
       };
     default:
       return state;

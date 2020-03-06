@@ -130,6 +130,51 @@ const styles = StyleSheet.create({
   },
 });
 
+// const myLotteryItem = {
+//   contest_unique_id: '0fPN3y7ms',
+//   contest_name: 'Contest2',
+//   start_date_time: '2020-01-22 05:00:00+00',
+//   status: '3',
+//   modified_date: '2020-01-24 10:43:21+00',
+//   entry_fee: '5',
+//   jackpot_prize: 'Audi Car',
+//   jackpot_prize_image: '5e2ac6febf3ae1346959955',
+//   consolation_prizes: { 2: '1000', 3: '500' },
+//   total_user_joined: '20',
+//   contest_size: '20',
+//   is_winner: '3',
+//   created_date: '2020-01-24 10:43:21+00',
+//   total_ticket_bought: '10',
+// };
+
+// const contestWinners = [
+//   {
+//     winner_ticket_number: '15 79 78 33 76 14 07 52',
+//     winner_status: '1',
+//   },
+//   {
+//     winner_ticket_number: '15 79 78 33 76 14 07 52',
+//     winner_status: '2',
+//   },
+//   {
+//     winner_ticket_number: '15 79 78 35 04 14 85 83',
+//     winner_status: '3',
+//   },
+// ];
+
+// const userWinnerTicket = [
+//   {
+//     winner_type: '1',
+//     winner_ticket_number: '15 79 78 33 76 14 07 52',
+
+//   },
+//   {
+//     winner_type: '2',
+//     winner_ticket_number: '15 79 78 33 76 15 07 52',
+
+//   },
+// ];
+
 
 // eslint-disable-next-line react/prefer-stateless-function
 class MyTicket extends Component {
@@ -144,8 +189,30 @@ class MyTicket extends Component {
     };
   }
 
+  // getconsolationFlatList() {
+  //   const consolationList = [];
+  //   if (myLotteryItem.status === '3') {
+  //     for (let i = 0; i <= contestWinners.length - 2; i++) {
+  //       consolationList[i] = {
+  //         consolation_prize: myLotteryItem.consolation_prizes[i + 2],
+  //         winner_ticket_number: contestWinners[i + 1].winner_ticket_number,
+  //         winner_status: contestWinners[i + 1].winner_status,
+  //         is_my_ticket: !!_.find(userWinnerTicket, { winner_ticket_number: contestWinners[i + 1].winner_ticket_number }),
+  //       };
+  //     }
+  //   } else {
+  //     for (let i = 0; i < (contestWinners.length - 1); i + 1) {
+  //       consolationList[i] = {
+  //         consolation_prize: myLotteryItem.consolation_prizes[i + 2],
+  //       };
+  //     }
+  //   }
+  //   return consolationList;
+  // }
+
   componentDidMount() {
     this.props.myTicketsFilterRequest({ status: 'all' });
+    this.getconsolationFlatList();
   }
 
   componentDidUpdate(prevProps) {
@@ -246,6 +313,13 @@ class MyTicket extends Component {
         only_hot_lotteries: true,
         status: this.state.radioStatusValue,
       });
+    }
+  }
+
+  onPressPrizeModel(contest) {
+    if (contest.status === '3') {
+      this.props.getLotterieWinnersRequest({ contest_unique_id: contest.contest_unique_id });
+      this.props.getUserWinnerTicketsRequest({ contest_unique_id: contest.contest_unique_id });
     }
   }
 
@@ -376,6 +450,7 @@ class MyTicket extends Component {
                   <LotteryCell
                     item={item.item}
                     contestImgUrl={contestImgUrl}
+                    onPressPrizeModel={(contest) => this.onPressPrizeModel(contest)}
                   />
                 );
               }}
