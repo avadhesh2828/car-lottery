@@ -5,7 +5,7 @@ import { UserData } from '../utils/global';
 const apiCall = (url, method, body, headers) => api(
   url,
   method,
-  getHeaders(UserData.BearerToken, headers),
+  getHeaders(UserData.SessionKey, headers),
   body,
 );
 

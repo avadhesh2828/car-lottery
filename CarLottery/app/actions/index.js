@@ -31,6 +31,10 @@ import {
   getStateRequest,
   getStateSuccess,
   getStateFailure,
+
+  getProfileRequest,
+  getProfileFailure,
+  getProfileSuccess,
 } from './profileActions';
 
 const actions = {
@@ -54,6 +58,9 @@ const actions = {
   getStateRequest,
   getStateSuccess,
   getStateFailure,
+  getProfileRequest,
+  getProfileFailure,
+  getProfileSuccess,
 };
 
 export default bindActionCreators(actions, store.dispatch);
