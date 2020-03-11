@@ -14,6 +14,10 @@ export const myTicketsFilterUrl = `${getBaseUrl()}/api/contest/my_lotteries_filt
 export const myLotteriesUrl = `${getBaseUrl()}/api/contest/my_lotteries`;
 export const lotteriesWinnerUrl = `${getBaseUrl()}/api/common/lotterie_winners`;
 export const userWinnerTicketsUrl = `${getBaseUrl()}/api/contest/user_Winner_tickets`;
-
+// Safer Gambling
+export const getDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/get_deposit_limit`;
+export const setDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/set_deposit_limit`;
+export const getWagerLimitUrl = `${getBaseUrl()}/api/safer_gambling/get_wager_limit`;
+export const setWagerLimitUrl = `${getBaseUrl()}/api/safer_gambling/set_wager_limit`;
 // Image Urls
 export const contestImgUrl = (imgName) => `${getBaseUrl()}/uploads/contests/${imgName}`;

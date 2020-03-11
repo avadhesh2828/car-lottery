@@ -6,6 +6,7 @@ export const screenNames = {
   MY_TICKETS_SCREEN: 'MyTickets',
   MY_TICKET_DETAIL_SCREEN: 'MyTicketDetail',
   USER_PROFILE: 'UserProfile',
+  SAFER_GAMBLING: 'SaferGambling',
   TAB_NAVIGATOR: 'TabNavigator',
   LOBBY_SCREEN: 'Lobby',
   TAB_LOGIN_NAVIGATOR: 'TabLoginNavigator',

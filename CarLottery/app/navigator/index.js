@@ -8,6 +8,7 @@ import Home from '../screens/Home';
 import MyTicket from '../screens/MyTicket';
 import MyTicketDetail from '../screens/MyTicketDetail';
 import UserProfile from '../screens/UserProfile';
+import SaferGambling from '../screens/SaferGambling';
 import TabNavigator from './TabNavigator';
 import Lobby from '../screens/Lobby';
 import TabLoginNavigator from './TabLoginNavigator';
@@ -180,10 +181,17 @@ const MainNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
-
     UserProfile: {
       screen: UserProfile,
       key: screenNames.USER_PROFILE,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    SaferGambling: {
+      screen: SaferGambling,
+      key: screenNames.SAFER_GAMBLING,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,
