@@ -53,6 +53,8 @@ export const Localization = {
     city: 'City',
     address: 'Address',
     zipCode: 'Zip Code',
+    selectCountry: 'Select Country',
+    selectState: 'Select State',
   },
   NavigationHeader: {
     Logout: 'Logout',

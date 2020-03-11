@@ -15,10 +15,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Dropdown } from 'react-native-material-dropdown';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
 import NavigationHeader from '../../components/NavigationHeader';
+import Loader from '../../components/Loader';
 import {
   spacing, UIColors, fontSizes, fontName, itemSizes,
 } from '../../utils/variables';
@@ -115,7 +117,14 @@ const styles = StyleSheet.create({
     padding: spacing.small,
     borderColor: 'gray',
     borderLeftWidth: spacing.border,
-  }
+  },
+  dropdownStyle: {
+    width: '85%',
+    // borderLeftWidth: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingLeft: spacing.extraSmall,
+  },
 });
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -123,24 +132,25 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
-      mobileNumber: '',
-      email: '',
+      firstName: this.props.profileResponse.first_name,
+      lastName: this.props.profileResponse.last_name,
+      mobileNumber: this.props.profileResponse.phone_number,
+      email: this.props.profileResponse.email,
       dob: new Date(),
       isShowDatePicker: false,
       gender: '',
-      country: '',
-      state: '',
-      city: '',
-      address: '',
-      zipCode: '',
+      country: this.props.profileResponse.country_name,
+      state: this.props.profileResponse.state_name,
+      city: this.props.profileResponse.city,
+      address: this.props.profileResponse.address,
+      zipCode: this.props.profileResponse.pincode,
       // isShowPassword: false,
     };
   }
 
   componentDidMount() {
-    // this.props.getCountryRequest();
+    this.props.getCountryRequest();
+    this.props.getProfileRequest();
     // this.props.getStateRequest('231');
   }
 
@@ -369,11 +379,25 @@ class UserProfile extends Component {
     return null;
   }
 
+  selectedCountryItem(item, index, data) {
+    let countryData = {};
+    data.forEach((element) => {
+      if (item === element.value) {
+        countryData = element;
+      }
+    });
+
+    this.props.getStateRequest(countryData.data.master_country_id);
+  }
+
+  selectedStateItem(item, index, data) {
+  }
+
   render() {
     const {
       email, firstName, lastName, mobileNumber, dob, gender, country,
       state, city, address, zipCode, isShowDatePicker,
-    } = this.state;
+    } = this.state || this.props.profileResponse;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
@@ -391,7 +415,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.firstName}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.emailAddress}
-                value={firstName}
+                value={this.props.profileResponse.first_name}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeFirstNameText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -408,7 +432,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.lastName}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.emailAddress}
-                value={lastName}
+                value={this.props.profileResponse.last_name}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeLastNameText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -425,7 +449,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.email}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 keyboardType={KeyboardType.emailAddress}
-                value={email}
+                value={this.props.profileResponse.email}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeEmailText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -442,7 +466,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.mobileNumber}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 keyboardType={KeyboardType.phonePad}
-                value={mobileNumber}
+                value={this.props.profileResponse.phone_number}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeMobileNumberText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -462,7 +486,38 @@ class UserProfile extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-            
+
+            {
+              this.props.countryResponse.length > 0 && (
+                <View style={[styles.textInputContainer, {}]}>
+                  <Image style={styles.emailIcon} source={images.email} />
+                  <Dropdown
+                    fontSize={15}
+                    containerStyle={[styles.dropdownStyle, {}]}
+                    label={Localization.userProfileScreen.selectCountry}
+                    data={this.props.countryResponse}
+                    onChangeText={(item, index, data) => this.selectedCountryItem(item, index, data)}
+                    inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
+                  />
+                </View>
+              )
+            }
+            {
+              this.props.stateResponse.length > 0 && (
+                <View style={[styles.textInputContainer, {}]}>
+                  <Image style={styles.emailIcon} source={images.email} />
+                  <Dropdown
+                    fontSize={15}
+                    containerStyle={styles.dropdownStyle}
+                    label={Localization.userProfileScreen.selectState}
+                    data={this.props.stateResponse}
+                    onChangeText={(item, index, data) => this.selectedStateItem(item, index, data)}
+                    inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
+                  />
+                </View>
+              )
+            }
+
             <View style={[styles.textInputContainer, {}]}>
               <Image style={styles.emailIcon} source={images.email} />
               <CustomTextInput
@@ -473,7 +528,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.city}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.phonePad}
-                value={city}
+                value={this.props.profileResponse.city}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeCityText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -540,12 +595,22 @@ class UserProfile extends Component {
               {this.showDOBPicker()}
             </View>
           ))}
+        {this.props.isLoading
+          && <Loader isAnimating={this.props.isLoading} />}
       </SafeAreaView>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  countryResponse: state.getCountriesReducer.countryResponse,
+  countryResponseisLoading: state.getCountriesReducer.isLoading,
+  stateResponse: state.getStatesReducer.statesResponse,
+  stateResponseisLoading: state.getStatesReducer.isLoading,
+  profileResponse: state.getProfileDataReducer.profileResponse,
+  profileResponseisLoading: state.getProfileDataReducer.isLoading,
+
+  isLoading: state.getStatesReducer.isLoading || state.getCountriesReducer.isLoading || state.getProfileDataReducer.isLoading,
 });
 
 const mapDispatchToProps = () => UserActions;

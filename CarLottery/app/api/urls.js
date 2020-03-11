@@ -27,3 +27,4 @@ export const contestImgUrl = (imgName) => `${getBaseUrl()}/uploads/contests/${im
 
 export const getCountriesUrl = `${getBaseUrl()}/api/auth/get_country`;
 export const getStatesbyCountryUrl = `${getBaseUrl()}/api/auth/get_state_by_country`;
+export const getProfileDataUrl = `${getBaseUrl()}/api/my_profile/my_profile`;

@@ -52,3 +52,29 @@ export const getStateSuccess = (data) => ({
 export const getStateFailure = () => ({
   type: GET_STATE_FAILURE,
 });
+
+/**
+ * API to get the user profile data
+ */
+
+export const GET_PROFILE_REQUEST = 'GET_PROFILE_REQUEST';
+export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS';
+export const GET_PROFILE_FAILURE = 'GET_PROFILE_FAILURE';
+
+export const getProfileRequest = () => {
+  const body = {
+  };
+  return {
+    type: GET_PROFILE_REQUEST,
+    body: JSON.stringify(body),
+  };
+};
+
+export const getProfileSuccess = (data) => ({
+  type: GET_PROFILE_SUCCESS,
+  data,
+});
+
+export const getProfileFailure = () => ({
+  type: GET_PROFILE_FAILURE,
+});
