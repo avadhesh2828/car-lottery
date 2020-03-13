@@ -8,7 +8,8 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import { UIColors, fontName, fontSizes, spacing } from '../utils/variables';
+import { UIColors, fontName, fontSizes, spacing, itemSizes } from '../utils/variables';
+import { isIOS } from '../utils/plateformSpecific';
 
 const { width } = Dimensions.get('window');
 const space = 80;
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
     fontFamily: fontName.SourceSansProSemiBold,
   },
   textInput: {
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     // width: width - space,
     fontSize: fontSizes.small,
     marginLeft: spacing.semiMedium,

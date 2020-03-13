@@ -25,17 +25,19 @@ const initialState = {
   hotLotteries: [],
   lobbyHotLotteries: [],
   myLotteries: [],
-  maxEntryFee: 100000000,
+  maxEntryFee: 10000,
   minEntryFee: 0,
   lobbyListTotalPages: 1,
   isLoadingHotLottery: false,
   isLoadingLobbyLottery: false,
   currentLobbyPage: 1,
   myTicketMinEntryFee: 0,
-  myTicketMaxEntryFee: 100000,
+  myTicketMaxEntryFee: 10000,
   isLoadingMyTickets: false,
   currentMyTicketsPage: 1,
   myTicketsTotalPages: 1,
+  userWinnerTickets: [],
+  selectedLotterieWinnerslist: [],
 };
 
 function dashboardReducer(state = initialState, action) {

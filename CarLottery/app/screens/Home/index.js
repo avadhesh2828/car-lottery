@@ -18,6 +18,7 @@ import { formateData } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
+import { screenNames } from '../../utils/constant';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -51,6 +52,9 @@ class Home extends Component {
   buyLottery(item) {
     this.props.joinLotteryRequest(item.contest_unique_id);
   }
+  onPressPrizeModel(item) {
+    Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_PRIZE_MODEL_SCREEN, { item });
+  }
 
   render() {
     const { dashboard } = this.props;
@@ -82,6 +86,7 @@ class Home extends Component {
                     item={item.item}
                     contestImgUrl={contestImgUrl}
                     buyLottery={(item) => this.buyLottery(item)}
+                    onPressPrizeModel={() => this.onPressPrizeModel(item)}
                   />
                 );
               }}
