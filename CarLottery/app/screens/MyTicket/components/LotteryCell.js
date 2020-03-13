@@ -1,4 +1,6 @@
 /* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
@@ -14,6 +16,7 @@ import { images } from '../../../assets/images';
 import { responsiveSize } from '../../../utils/utils';
 import { Localization } from '../../../utils/localization';
 import isIOS from '../../../utils/plateformSpecific';
+import MyTicketPrizeModel from '../../MyTicketPrizeModel';
 
 const styles = StyleSheet.create({
   mainContainer: {

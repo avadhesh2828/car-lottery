@@ -56,6 +56,11 @@ export const Localization = {
     selectCountry: 'Select Country',
     selectState: 'Select State',
   },
+  myPrizeModelScreen: {
+    live: '( Live )',
+    complete: '( Completed )',
+    youwon: 'You Won',
+  },
   NavigationHeader: {
     Logout: 'Logout',
   },

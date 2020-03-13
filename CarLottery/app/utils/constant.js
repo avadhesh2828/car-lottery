@@ -5,6 +5,7 @@ export const screenNames = {
   HOME_SCREEN: 'Home',
   MY_TICKETS_SCREEN: 'MyTickets',
   MY_TICKET_DETAIL_SCREEN: 'MyTicketDetail',
+  MY_TICKET_PRIZE_MODEL_SCREEN: 'MyTicketPrizeModel',
   USER_PROFILE: 'UserProfile',
   SAFER_GAMBLING: 'SaferGambling',
   TAB_NAVIGATOR: 'TabNavigator',
