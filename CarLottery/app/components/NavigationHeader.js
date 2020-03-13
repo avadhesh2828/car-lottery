@@ -31,18 +31,26 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
   },
   backbutton: {
+    flex: 3,
+    marginLeft: spacing.semiMedium,
+    marginTop: spacing.semiMedium,
     width: itemSizes.defaultWidth,
     height: itemSizes.defaultHeight,
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   userbutton: {
+    flex: 0.5,
     marginLeft: spacing.semiMedium,
-    marginRight: spacing.semiMedium,
+    marginTop: spacing.semiMedium,
+    flexDirection: 'row-reverse',
+    width: itemSizes.iconMedium,
+    height: itemSizes.iconMedium,
+  },
+  bellbutton: {
+    flex: 1,
+    marginLeft: spacing.semiMedium,
+    marginTop: spacing.semiMedium,
     flexDirection: 'row-reverse',
     width: itemSizes.iconMedium,
     height: itemSizes.iconMedium,
@@ -54,8 +62,8 @@ const styles = StyleSheet.create({
     height: itemSizes.iconMedium,
   },
   backIcon: {
-    width: itemSizes.backIconWidth,
-    height: itemSizes.backIconWidth,
+    width: itemSizes.iconMedium,
+    height: itemSizes.iconMedium,
   },
   title: {
     flex: 1,
@@ -96,7 +104,7 @@ class NavigationHeader extends Component {
           {
             showBackButton && (
               <TouchableOpacity style={styles.backbutton} onPress={this.onPressBack}>
-                {/* <Image source={images.back} style={styles.backIcon} /> */}
+                <Image source={images.backIcon} style={styles.userIcon} />
               </TouchableOpacity>
             )
           }
@@ -105,7 +113,7 @@ class NavigationHeader extends Component {
           {
             showRightBellImageIcon
               && (
-                <TouchableOpacity style={styles.userbutton} onPress={onPressRightIcon}>
+                <TouchableOpacity style={styles.bellbutton} onPress={onPressRightIcon}>
                   <Image source={images.bellIcon} style={styles.userIcon} />
                 </TouchableOpacity>
               )
