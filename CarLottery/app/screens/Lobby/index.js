@@ -14,7 +14,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import UserActions from '../../actions';
-// import Navigation from '../../utils/navigation';
+import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
 import NavigationHeader from '../../components/NavigationHeader';
 import {
@@ -25,6 +25,8 @@ import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
 import CustomLabel from './CustomLabel';
+import { screenNames } from '../../utils/constant';
+import { isIOS } from '../../utils/plateformSpecific';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.mediumLarge,
   },
   SearchContainer: {
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     marginLeft: spacing.extraLarge,
     flex: 1,
     flexDirection: 'row',
@@ -67,14 +70,14 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     backgroundColor: UIColors.purpleButtonColor,
-    height: responsiveSize(32),
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     width: responsiveSize(32),
     justifyContent: 'center',
     alignItems: 'center',
   },
   textInputStyle: {
     flex: 1,
-    height: responsiveSize(32),
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     color: UIColors.textTitle,
     borderColor: 'gray',
     borderWidth: 1,
@@ -114,33 +117,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-// const hotLotteries = [
-//   {
-//     contest_unique_id: 't9XKeRJju',
-//     contest_name: 'Play & Win New S presso',
-//     start_date_time: '2020-01-21 05:00:00+00',
-//     status: '1',
-//     modified_date: '2020-02-14 10:54:27+00',
-//     entry_fee: '9',
-//     jackpot_prize: 'Car Galaxy',
-//     jackpot_prize_image: '5e2ac0b99626a761642136',
-//     consolation_prizes: '{"2": "lenovo computer"}',
-//     fill_percent: '56.0000000000000000',
-//   },
-//   {
-//     contest_unique_id: 't9XKeRKju',
-//     contest_name: 'Play & Win New Audi',
-//     start_date_time: '2020-01-21 05:00:00+00',
-//     status: '1',
-//     modified_date: '2020-02-15 10:54:27+00',
-//     entry_fee: '12',
-//     jackpot_prize: 'Won Audi',
-//     jackpot_prize_image: '5e2ac0b99626a761642136',
-//     consolation_prizes: '{"2": "lenovo computer"}',
-//     fill_percent: '60.0000000000000000',
-//   },
-// ];
 
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -245,6 +221,10 @@ class Lobby extends Component {
     this.refreshlist();
   }
 
+  onPressPrizeModel(item) {
+    Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_PRIZE_MODEL_SCREEN, { item });
+  }
+
   render() {
     const { dashboard } = this.props;
     const { multiSliderValue } = this.state;
@@ -321,7 +301,7 @@ class Lobby extends Component {
             </View>
             <View style={{ alignItems: 'center', marginTop: spacing.small, flexDirection: 'row' }}>
               <TouchableOpacity onPress={this.Show_hot_Lottery}>
-                <Image style={styles.radiobtnIcon} source={this.state.Showlottery} />
+                <Image style={styles.radiobtnIcon} source={!this.state.is_Radio_check ? images.uncheckedIconRadio : images.checkedIconRadio} />
               </TouchableOpacity>
             </View>
           </View>
@@ -351,6 +331,7 @@ class Lobby extends Component {
                   <LotteryCell
                     item={item.item}
                     contestImgUrl={contestImgUrl}
+                    onPressPrizeModel={() => this.onPressPrizeModel(item)}
                   />
                 );
               }}
