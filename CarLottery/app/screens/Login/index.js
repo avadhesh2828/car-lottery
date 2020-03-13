@@ -3,8 +3,9 @@ import {
   StyleSheet, View, Text, Image, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import UserActions from '../../actions';
 import PropTypes from 'prop-types';
+import base64 from 'react-native-base64';
+import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 // import { screenNames, appIntervals } from '../../utils/constant';
 import { images } from '../../assets/images';
@@ -18,7 +19,7 @@ import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import ToggleIcon from '../../components/ToggleIcon';
 import { showPopupAlert } from '../../utils/showAlert';
 import { isNetworkConnected } from '../../utils/utils';
-import base64 from 'react-native-base64';
+import { isIOS } from '../../utils/plateformSpecific';
 
 const inputWidth = '90%';
 
@@ -40,13 +41,13 @@ const styles = StyleSheet.create({
   textInputContainer: {
     flexDirection: 'row',
     marginHorizontal: spacing.large,
-    height: itemSizes.defaultIosTextInputHeight,
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     borderColor: 'gray',
     borderWidth: 1,
     alignItems: 'center',
   },
   textInput: {
-    height: itemSizes.defaultIosTextInputHeight,
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     fontSize: fontSizes.small,
     color: UIColors.textTitle,
     borderLeftWidth: 1,
@@ -178,18 +179,18 @@ class Login extends Component {
     } else {
       // isNetworkConnected((isConnected) => {
       //   if (isConnected) {
-          const data = {
-            // email: 'smenariya@gammastack.com',
-            email,
-            password: base64.encode(password),
-            device_id: 1,
-            device_type: 1,
-            remember_me: false,
-            user_type: '0',
-            other_session_key: '',
-          };
-          loginRequest(data);
-        // }
+      const data = {
+        // email: 'smenariya@gammastack.com',
+        email,
+        password: base64.encode(password),
+        device_id: 1,
+        device_type: 1,
+        remember_me: false,
+        user_type: '0',
+        other_session_key: '',
+      };
+      loginRequest(data);
+      // }
       // });
     }
   }

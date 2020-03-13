@@ -25,6 +25,7 @@ const statusUnselectRadioIcon = require('./RadiobuttonBG.png');
 const statusSelectRadioIcon = require('./SelectedDot.png');
 const bellIcon = require('./bell.png');
 const Completed = require('./Completed.png');
+const backIcon = require('./Back.png');
 
 export const images = {
   logo,
@@ -54,4 +55,5 @@ export const images = {
   statusSelectRadioIcon,
   bellIcon,
   Completed,
+  backIcon,
 };

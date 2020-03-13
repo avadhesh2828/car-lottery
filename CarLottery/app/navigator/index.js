@@ -12,6 +12,7 @@ import SaferGambling from '../screens/SaferGambling';
 import TabNavigator from './TabNavigator';
 import Lobby from '../screens/Lobby';
 import TabLoginNavigator from './TabLoginNavigator';
+import MyTicketPrizeModel from '../screens/MyTicketPrizeModel';
 
 // const BeforeLoginTabNavigator = createStackNavigator(
 //   {
@@ -181,6 +182,15 @@ const MainNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
+    MyTicketPrizeModel: {
+      screen: MyTicketPrizeModel,
+      key: screenNames.MY_TICKET_PRIZE_MODEL_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: true,
+      },
+    },
+
     UserProfile: {
       screen: UserProfile,
       key: screenNames.USER_PROFILE,
