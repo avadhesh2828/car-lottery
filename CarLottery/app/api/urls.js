@@ -19,5 +19,7 @@ export const getDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/get_deposi
 export const setDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/set_deposit_limit`;
 export const getWagerLimitUrl = `${getBaseUrl()}/api/safer_gambling/get_wager_limit`;
 export const setWagerLimitUrl = `${getBaseUrl()}/api/safer_gambling/set_wager_limit`;
+export const delDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/delete_deposit_limit`;
+export const delWagerLimitUrl = `${getBaseUrl()}/api/safer_gambling/delete_wager_limit`;
 // Image Urls
 export const contestImgUrl = (imgName) => `${getBaseUrl()}/uploads/contests/${imgName}`;

@@ -7,17 +7,32 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import UserActions from '../../actions';
 import NavigationHeader from '../../components/NavigationHeader';
+import TabBar from '../../components/TabBar';
 import {
   spacing, UIColors, itemSizes, fontName, fontSizes,
 } from '../../utils/variables';
 import { Localization } from '../../utils/localization';
+import DepositLimitContainer from './components/DepositLimitContainer';
 
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: UIColors.navigationBar,
+    flex: 1,
   },
   subContainer: {
     backgroundColor: UIColors.appBackGroundColor,
+    flex: 1,
+  },
+  tabbarHeader: {
+    height: itemSizes.searchHeader,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: spacing.semiMedium,
+    marginBottom: spacing.semiMedium,
+    // backgroundColor: UIColors.purpleButtonColor,
+  },
+  tabContainer: {
+    flex: 1,
   },
 });
 
@@ -25,18 +40,19 @@ class SaferGambling extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      tabIndex: 0,
     };
   }
 
   componentDidMount() {
-    this.getDepositLimits();
+    // this.getDepositLimits();
     this.getWagerLimits();
   }
 
-  getDepositLimits() {
-    this.props.getDepositLimitMonthsRequest({ unit: 'MONTHS', duration: 1, amount: '', modified_date: '' });
-    this.props.getDepositLimitWeeksRequest({ unit: 'WEEKS', duration: 1, amount: '', modified_date: '' });
-    this.props.getDepositLimitDaysRequest({ unit: 'DAYS', duration: 1, amount: '', modified_date: '' });
+  onTabPress(tab, index) {
+    this.setState({
+      tabIndex: index,
+    });
   }
 
   getWagerLimits() {
@@ -59,6 +75,23 @@ class SaferGambling extends Component {
           // onPressRightIcon={() => { this.onChangeView(); }}
         />
         <View style={styles.subContainer}>
+          <View style={styles.tabbarHeader}>
+            <TabBar
+              tabsList={[
+                'Deposit limit',
+                'Wager Limit',
+                'Timeout',
+                'Self-Exclusion',
+              ]}
+              onTabSelect={(tab, index) => this.onTabPress(tab, index)}
+            />
+          </View>
+          <View style={styles.tabContainer}>
+            {this.state.tabIndex === 0
+            && <DepositLimitContainer />}
+            {this.state.tabIndex === 1
+            && <DepositLimitContainer />}
+          </View>
         </View>
       </SafeAreaView>
     );

@@ -78,6 +78,7 @@ export const itemSizes = {
   iconMedium: responsiveSize(20),
   iconLarge: responsiveSize(22),
   iconExtraLarge: responsiveSize(24),
+  searchHeader: responsiveSize(50),
 };
 
 export const fontName = {

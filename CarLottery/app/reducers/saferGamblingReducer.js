@@ -36,6 +36,8 @@ import {
   SET_WAGER_LIMIT_DAYS_REQUEST,
   SET_WAGER_LIMIT_DAYS_SUCCESS,
   SET_WAGER_LIMIT_DAYS_FAILURE,
+  DELETE_DEPOSIT_LIMIT_SUCCESS,
+  DELETE_WAGER_LIMIT_SUCCESS,
 } from '../actions/saferGamblingActions';
 
 const initialState = {
@@ -142,6 +144,24 @@ function saferGamblingReducer(state = initialState, action) {
     case SET_WAGER_LIMIT_DAYS_FAILURE:
       return {
         ...state,
+      };
+    case DELETE_DEPOSIT_LIMIT_SUCCESS:
+      // eslint-disable-next-line no-case-declarations
+      const delDepRes = action.data.Data;
+      return {
+        ...state,
+        monthDepositLimitInfo: delDepRes.MONTHS ? [] : state.monthDepositLimitInfo,
+        weekDepositLimitInfo: delDepRes.WEEKS ? [] : state.weekDepositLimitInfo,
+        dayDepositLimitInfo: delDepRes.DAYS ? [] : state.dayDepositLimitInfo,
+      };
+    case DELETE_WAGER_LIMIT_SUCCESS:
+      // eslint-disable-next-line no-case-declarations
+      const delWagerRes = action.data.Data;
+      return {
+        ...state,
+        monthWagerLimitInfo: delWagerRes.MONTHS ? [] : state.monthWagerLimitInfo,
+        weekWagerLimitInfo: delWagerRes.WEEKS ? [] : state.weekWagerLimitInfo,
+        dayWagerLimitInfo: delWagerRes.DAYS ? [] : state.dayWagerLimitInfo,
       };
     default:
       return state;

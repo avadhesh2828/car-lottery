@@ -77,6 +77,12 @@ import {
   setWagerLimitDaysRequest,
   setWagerLimitDaysSuccess,
   setWagerLimitDaysFailure,
+  deleteDepositLimitRequest,
+  deleteDepositLimitFailure,
+  deleteDepositLimitSuccess,
+  deleteWagerLimitFailure,
+  deleteWagerLimitRequest,
+  deleteWagerLimitSuccess,
 } from './saferGamblingActions';
 
 const actions = {
@@ -147,6 +153,12 @@ const actions = {
   setWagerLimitDaysRequest,
   setWagerLimitDaysSuccess,
   setWagerLimitDaysFailure,
+  deleteDepositLimitRequest,
+  deleteDepositLimitFailure,
+  deleteDepositLimitSuccess,
+  deleteWagerLimitFailure,
+  deleteWagerLimitRequest,
+  deleteWagerLimitSuccess,
 };
 
 export default bindActionCreators(actions, store.dispatch);

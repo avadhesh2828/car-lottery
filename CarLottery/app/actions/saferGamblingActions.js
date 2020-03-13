@@ -46,7 +46,44 @@ export const SET_WAGER_LIMIT_DAYS_REQUEST = 'SET_WAGER_LIMIT_DAYS_REQUEST';
 export const SET_WAGER_LIMIT_DAYS_FAILURE = 'SET_WAGER_LIMIT_DAYS_FAILURE';
 export const SET_WAGER_LIMIT_DAYS_SUCCESS = 'SET_WAGER_LIMIT_DAYS_SUCCESS';
 
+export const DELETE_DEPOSIT_LIMIT_REQUEST = 'DELETE_DEPOSIT_LIMIT_REQUEST';
+export const DELETE_DEPOSIT_LIMIT_FAILURE = 'DELETE_DEPOSIT_LIMIT_FAILURE';
+export const DELETE_DEPOSIT_LIMIT_SUCCESS = 'DELETE_DEPOSIT_LIMIT_SUCCESS';
+
+export const DELETE_WAGER_LIMIT_REQUEST = 'DELETE_WAGER_LIMIT_REQUEST';
+export const DELETE_WAGER_LIMIT_FAILURE = 'DELETE_WAGER_LIMIT_FAILURE';
+export const DELETE_WAGER_LIMIT_SUCCESS = 'DELETE_WAGER_LIMIT_SUCCESS';
+
 // Deposit limit
+export const deleteDepositLimitRequest = (data) => ({
+  type: DELETE_DEPOSIT_LIMIT_REQUEST,
+  data,
+});
+
+export const deleteDepositLimitSuccess = (data) => ({
+  type: DELETE_DEPOSIT_LIMIT_SUCCESS,
+  data,
+});
+
+export const deleteDepositLimitFailure = () => ({
+  type: DELETE_DEPOSIT_LIMIT_FAILURE,
+});
+
+export const deleteWagerLimitRequest = (data) => ({
+  type: DELETE_WAGER_LIMIT_REQUEST,
+  data,
+});
+
+export const deleteWagerLimitSuccess = (data) => ({
+  type: DELETE_WAGER_LIMIT_SUCCESS,
+  data,
+});
+
+export const deleteWagerLimitFailure = (data) => ({
+  type: DELETE_WAGER_LIMIT_FAILURE,
+  data,
+});
+
 export const getDepositLimitMonthsRequest = (data) => ({
   type: GET_DEPOSIT_LIMIT_MONTHS_REQUEST,
   data,
