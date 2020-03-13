@@ -83,6 +83,9 @@ import {
   deleteWagerLimitFailure,
   deleteWagerLimitRequest,
   deleteWagerLimitSuccess,
+  selfTimeoutRequest,
+  selfTimeoutFailure,
+  selfTimeoutSuccess,
 } from './saferGamblingActions';
 
 const actions = {
@@ -159,6 +162,9 @@ const actions = {
   deleteWagerLimitFailure,
   deleteWagerLimitRequest,
   deleteWagerLimitSuccess,
+  selfTimeoutRequest,
+  selfTimeoutFailure,
+  selfTimeoutSuccess,
 };
 
 export default bindActionCreators(actions, store.dispatch);

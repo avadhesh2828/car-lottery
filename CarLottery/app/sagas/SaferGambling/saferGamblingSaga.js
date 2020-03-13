@@ -32,6 +32,8 @@ import {
   deleteDepositLimitFailure,
   deleteWagerLimitSuccess,
   deleteWagerLimitFailure,
+  selfTimeoutSuccess,
+  selfTimeoutFailure,
   GET_DEPOSIT_LIMIT_MONTHS_REQUEST,
   GET_DEPOSIT_LIMIT_WEEKS_REQUEST,
   GET_DEPOSIT_LIMIT_DAYS_REQUEST,
@@ -46,7 +48,7 @@ import {
   GET_WAGER_LIMIT_MONTHS_REQUEST,
   DELETE_DEPOSIT_LIMIT_REQUEST,
   DELETE_WAGER_LIMIT_REQUEST,
-  deleteDepositLimitRequest,
+  SELF_TIMEOUT_REQUEST,
   getDepositLimitMonthsRequest,
   getDepositLimitWeeksRequest,
   getDepositLimitDaysRequest,
@@ -67,6 +69,7 @@ import {
   setWagerLimitUrl,
   delDepositLimitUrl,
   delWagerLimitUrl,
+  selfTimeoutUrl,
 } from '../../api/urls';
 
 import {
@@ -507,6 +510,35 @@ function* deleteWagerLimit(action) {
   }
 }
 
+function* selfTimeout(action) {
+  try {
+    yield put(showLoader());
+    const url = selfTimeoutUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(selfTimeoutSuccess(dataResponse));
+      showPopupAlert('You are timeout successfuly');
+    } else {
+      yield put(selfTimeoutFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(selfTimeoutFailure());
+  }
+}
+
 export default function* saferGamblingSaga() {
   yield all([
     takeLatest(GET_DEPOSIT_LIMIT_MONTHS_REQUEST, getDepositLimitMonths),
@@ -523,5 +555,6 @@ export default function* saferGamblingSaga() {
     takeLatest(SET_WAGER_LIMIT_DAYS_REQUEST, setWagerLimitDays),
     takeLatest(DELETE_DEPOSIT_LIMIT_REQUEST, deleteDepositLimit),
     takeLatest(DELETE_WAGER_LIMIT_REQUEST, deleteWagerLimit),
+    takeLatest(SELF_TIMEOUT_REQUEST, selfTimeout),
   ]);
 }

@@ -54,6 +54,26 @@ export const DELETE_WAGER_LIMIT_REQUEST = 'DELETE_WAGER_LIMIT_REQUEST';
 export const DELETE_WAGER_LIMIT_FAILURE = 'DELETE_WAGER_LIMIT_FAILURE';
 export const DELETE_WAGER_LIMIT_SUCCESS = 'DELETE_WAGER_LIMIT_SUCCESS';
 
+export const SELF_TIMEOUT_REQUEST = 'SELF_TIMEOUT_REQUEST';
+export const SELF_TIMEOUT_FAILURE = 'SELF_TIMEOUT_FAILURE';
+export const SELF_TIMEOUT_SUCCESS = 'SELF_TIMEOUT_SUCCESS';
+
+
+// Timeout
+export const selfTimeoutRequest = (data) => ({
+  type: SELF_TIMEOUT_REQUEST,
+  data,
+});
+
+export const selfTimeoutSuccess = (data) => ({
+  type: SELF_TIMEOUT_SUCCESS,
+  data,
+});
+
+export const selfTimeoutFailure = () => ({
+  type: SELF_TIMEOUT_FAILURE,
+});
+
 // Deposit limit
 export const deleteDepositLimitRequest = (data) => ({
   type: DELETE_DEPOSIT_LIMIT_REQUEST,

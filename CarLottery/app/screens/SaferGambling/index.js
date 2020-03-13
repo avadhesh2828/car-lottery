@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, Text,
+  StyleSheet, SafeAreaView, View, Text, Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { TabView, SceneMap } from 'react-native-tab-view';
 import _ from 'lodash';
 import UserActions from '../../actions';
 import NavigationHeader from '../../components/NavigationHeader';
-import TabBar from '../../components/TabBar';
 import {
   spacing, UIColors, itemSizes, fontName, fontSizes,
 } from '../../utils/variables';
 import { Localization } from '../../utils/localization';
 import DepositLimitContainer from './components/DepositLimitContainer';
+import WagerLimitContainer from './components/WagerLimitContainer';
+import TimeoutContainer from './components/TimeoutContainer';
+import SelfExclusionContainer from './components/SelfExclusionContainer';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -34,32 +37,55 @@ const styles = StyleSheet.create({
   tabContainer: {
     flex: 1,
   },
+  scene: {
+    flex: 1,
+  },
+  label: {
+    fontSize: 6,
+    backgroundColor: 'orange',
+    color: 'blue',
+  },
 });
+
+const FirstRoute = () => (
+  <DepositLimitContainer />
+);
+
+const SecondRoute = () => (
+  <WagerLimitContainer />
+);
+
+const ThirdRoute = () => (
+  <TimeoutContainer />
+);
+
+const FourthRoute = () => (
+  <SelfExclusionContainer />
+);
+
 
 class SaferGambling extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabIndex: 0,
+      // tabIndex: 0,
+      index: 0,
+      routes: [
+        { key: 'first', title: 'Deposit Limit' },
+        { key: 'second', title: 'Wager Limit' },
+        { key: 'third', title: 'Timeout' },
+        { key: 'fourth', title: 'Self-exclusion' },
+      ],
     };
   }
 
   componentDidMount() {
-    // this.getDepositLimits();
-    this.getWagerLimits();
   }
 
-  onTabPress(tab, index) {
-    this.setState({
-      tabIndex: index,
-    });
-  }
 
-  getWagerLimits() {
-    this.props.getWagerLimitMonthsRequest({ unit: 'MONTHS', duration: 1, amount: '', modified_date: '' });
-    this.props.getWagerLimitWeeksRequest({ unit: 'WEEKS', duration: 1, amount: '', modified_date: '' });
-    this.props.getWagerLimitDaysRequest({ unit: 'DAYS', duration: 1, amount: '', modified_date: '' });
-  }
+  _renderLabel = ({ route }) => (
+    <Text style={styles.label}>{route.title}</Text>
+  );
 
   render() {
     // const {} = this.state;
@@ -75,23 +101,19 @@ class SaferGambling extends Component {
           // onPressRightIcon={() => { this.onChangeView(); }}
         />
         <View style={styles.subContainer}>
-          <View style={styles.tabbarHeader}>
-            <TabBar
-              tabsList={[
-                'Deposit limit',
-                'Wager Limit',
-                'Timeout',
-                'Self-Exclusion',
-              ]}
-              onTabSelect={(tab, index) => this.onTabPress(tab, index)}
-            />
-          </View>
-          <View style={styles.tabContainer}>
-            {this.state.tabIndex === 0
-            && <DepositLimitContainer />}
-            {this.state.tabIndex === 1
-            && <DepositLimitContainer />}
-          </View>
+          <TabView
+            renderLabel={() => this._renderLabel()}
+            navigationState={this.state}
+            scrollEnabled
+            renderScene={SceneMap({
+              first: FirstRoute,
+              second: SecondRoute,
+              third: ThirdRoute,
+              fourth: FourthRoute,
+            })}
+            onIndexChange={(index) => this.setState({ index })}
+            initialLayout={{ width: Dimensions.get('window').width }}
+          />
         </View>
       </SafeAreaView>
     );
