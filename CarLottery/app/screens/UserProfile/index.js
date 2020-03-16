@@ -396,6 +396,23 @@ class UserProfile extends Component {
   selectedStateItem(item, index, data) {
   }
 
+  updateProfile() {
+    let { firstName, lastName, mobileNumber, email, dob, country, state, city, address, zipCode } = this.state;
+    const profileObject = {
+      fname: firstName,
+      lname: lastName,
+      email,
+      contact: mobileNumber,
+      address,
+      city,
+      countryId: country,
+      stateId: state,
+      dob,
+    };
+
+    this.props.updateProfileRequest(profileObject);
+  }
+
   render() {
     const {
       email, firstName, lastName, mobileNumber, dob, gender, country,
@@ -576,7 +593,7 @@ class UserProfile extends Component {
             </View>
           </View>
           <View style={styles.buttonView}>
-            <TouchableOpacity style={styles.updateButton}>
+            <TouchableOpacity style={styles.updateButton} onPress={() => this.updateProfile()}>
               <Text style={styles.updateTxt}>Update</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButton}>

@@ -78,3 +78,39 @@ export const getProfileSuccess = (data) => ({
 export const getProfileFailure = () => ({
   type: GET_PROFILE_FAILURE,
 });
+
+/**
+ * API to update the user profile data
+ */
+
+export const UPDATE_PROFILE_REQUEST = 'UPDATE_PROFILE_REQUEST';
+export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS';
+export const UPDATE_PROFILE_FAILURE = 'UPDATE_PROFILE_FAILURE';
+
+export const updateProfileRequest = (profileDetails) => {
+  const body = {
+    first_name: profileDetails.fname,
+    last_name: profileDetails.lname,
+    email: profileDetails.email,
+    phone_number: profileDetails.contact,
+    address: profileDetails.address,
+    city: profileDetails.city,
+    master_country: profileDetails.countryId,
+    master_state_id: profileDetails.stateId,
+    dob: profileDetails.dob,
+  };
+
+  return {
+    type: UPDATE_PROFILE_REQUEST,
+    body: JSON.stringify(body),
+  };
+};
+
+export const updateProfileSuccess = (data) => ({
+  type: UPDATE_PROFILE_SUCCESS,
+  data,
+});
+
+export const updateProfileFailure = () => ({
+  type: UPDATE_PROFILE_FAILURE,
+});

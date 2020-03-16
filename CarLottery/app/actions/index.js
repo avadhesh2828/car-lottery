@@ -105,6 +105,9 @@ import {
   getProfileFailure,
   getProfileSuccess,
 
+  updateProfileRequest,
+  updateProfileSuccess,
+  updateProfileFailure,
 } from './profileActions';
 
 const actions = {
@@ -196,6 +199,9 @@ const actions = {
   joinLotteryRequest,
   joinLotterySuccess,
   joinLotteryFailure,
+  updateProfileRequest,
+  updateProfileSuccess,
+  updateProfileFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);
