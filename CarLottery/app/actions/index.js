@@ -25,6 +25,10 @@ import {
   getProfileFailure,
   getProfileSuccess,
 
+  updateProfileRequest,
+  updateProfileSuccess,
+  updateProfileFailure,
+
 } from './profileActions';
 
 import {
@@ -106,23 +110,6 @@ import {
   selfTimeoutSuccess,
 } from './saferGamblingActions';
 
-import {
-  getCountryRequest,
-  getCountrySuccess,
-  getCountryFailure,
-
-  getStateRequest,
-  getStateSuccess,
-  getStateFailure,
-
-  getProfileRequest,
-  getProfileFailure,
-  getProfileSuccess,
-
-  updateProfileRequest,
-  updateProfileSuccess,
-  updateProfileFailure,
-} from './profileActions';
 
 const actions = {
   getSportsRequest,
