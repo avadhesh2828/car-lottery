@@ -106,6 +106,24 @@ import {
   selfTimeoutSuccess,
 } from './saferGamblingActions';
 
+import {
+  getCountryRequest,
+  getCountrySuccess,
+  getCountryFailure,
+
+  getStateRequest,
+  getStateSuccess,
+  getStateFailure,
+
+  getProfileRequest,
+  getProfileFailure,
+  getProfileSuccess,
+
+  updateProfileRequest,
+  updateProfileSuccess,
+  updateProfileFailure,
+} from './profileActions';
+
 const actions = {
   getSportsRequest,
   getSportsSuccess,
@@ -195,6 +213,21 @@ const actions = {
   selfTimeoutRequest,
   selfTimeoutFailure,
   selfTimeoutSuccess,
+  getCountryRequest,
+  getCountrySuccess,
+  getCountryFailure,
+  getStateRequest,
+  getStateSuccess,
+  getStateFailure,
+  getProfileRequest,
+  getProfileFailure,
+  getProfileSuccess,
+  joinLotteryRequest,
+  joinLotterySuccess,
+  joinLotteryFailure,
+  updateProfileRequest,
+  updateProfileSuccess,
+  updateProfileFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);
