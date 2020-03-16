@@ -15,7 +15,7 @@ const initialState = {
     state: '',
     city: '',
     address: '',
-    zipCode: '',
+    pincode: '',
   },
 };
 

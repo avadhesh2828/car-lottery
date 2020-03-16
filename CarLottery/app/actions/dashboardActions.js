@@ -28,6 +28,9 @@ export const GET_LOTTERIE_WINNERS_REQUEST = 'GET_LOTTERIE_WINNERS_REQUEST';
 export const GET_LOTTERIE_WINNERS_SUCCESS = 'GET_LOTTERIE_WINNERS_SUCCESS';
 export const GET_LOTTERIE_WINNERS_FAILURE = 'GET_LOTTERIE_WINNERS_FAILURE';
 
+export const JOIN_LOTTERY_REQUEST = 'JOIN_LOTTERY_REQUEST';
+export const JOIN_LOTTERY_SUCCESS = 'JOIN_LOTTERY_SUCCESS';
+export const JOIN_LOTTERY_FAILURE = 'JOIN_LOTTERY_FAILURE';
 
 // GET SPORTS LIST
 export const getHotLotteriesRequest = () => ({
@@ -129,4 +132,22 @@ export const getLotterieWinnersSuccess = (data) => ({
 
 export const getLotterieWinnersFailure = () => ({
   type: GET_LOTTERIE_WINNERS_FAILURE,
+});
+export const joinLotteryRequest = (contestId) => {
+  const body = {
+    contest_unique_id: contestId,
+  };
+  return {
+    type: JOIN_LOTTERY_REQUEST,
+    body: JSON.stringify(body),
+  };
+};
+
+export const joinLotterySuccess = (data) => ({
+  type: JOIN_LOTTERY_SUCCESS,
+  data,
+});
+
+export const joinLotteryFailure = () => ({
+  type: JOIN_LOTTERY_FAILURE,
 });

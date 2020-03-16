@@ -48,6 +48,10 @@ class Home extends Component {
     this.props.getHotLotteriesRequest();
   }
 
+  buyLottery(item) {
+    this.props.joinLotteryRequest(item.contest_unique_id);
+  }
+
   render() {
     const { dashboard } = this.props;
     const { hotLotteries } = dashboard;
@@ -55,20 +59,20 @@ class Home extends Component {
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
         <View style={styles.listView}>
-          { hotLotteries.length !== 0 ? (
+          {hotLotteries.length !== 0 ? (
             <FlatList
               key="v"
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={() => <View style={styles.seperator} />}
               data={formateData(hotLotteries, 2)}
               numColumns={2}
-            // onEndReached={() => props.handleLoadMore()}
+              // onEndReached={() => props.handleLoadMore()}
               onEndThreshold={0.1}
               refreshControl={(
                 <RefreshControl
                   refreshing={false}
                 />
-            )}
+              )}
               renderItem={(item) => {
                 if (_.isEmpty(item.item)) {
                   return <View style={styles.blankContainer} />;
@@ -77,6 +81,7 @@ class Home extends Component {
                   <LotteryCell
                     item={item.item}
                     contestImgUrl={contestImgUrl}
+                    buyLottery={(item) => this.buyLottery(item)}
                   />
                 );
               }}
@@ -95,7 +100,7 @@ Home.propTypes = {
 };
 
 Home.defaultProps = {
-  getHotLotteriesRequest: () => {},
+  getHotLotteriesRequest: () => { },
   dashboard: {},
 };
 
