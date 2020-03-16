@@ -9,6 +9,9 @@ import {
   getSportsFailure,
   LOGIN_REQUEST,
   REGISTER_REQUEST,
+  logoutSuccess,
+  logoutFailure,
+  LOGOUT_REQUEST,
 } from '../../actions/authenticationActions';
 
 import {
@@ -20,6 +23,7 @@ import {
   getSportsUrl,
   loginUrl,
   signupUrl,
+  logoutUrl,
 } from '../../api/urls';
 
 import {
@@ -35,7 +39,8 @@ import { UserData } from '../../utils/global';
 import Navigation from '../../utils/navigation';
 import { Storage } from '../../storage/storage';
 import constant, { screenNames } from '../../utils/constant';
-import { showPopupAlert } from '../../utils/showAlert';
+import { showPopupAlert, showPopupAlertWithTitle } from '../../utils/showAlert';
+import { logout } from '../../utils/utils_functions';
 
 
 // Login Apis
@@ -54,9 +59,8 @@ function* loginRequestSuccess(parsedResponse) {
   const { user } = parsedResponse;
   // yield put(setProfileImage(user.profile_pic, user.username));
   yield call(setUserDetailsInPersitantStorage, parsedResponse);
-  UserData.user = user;
-  UserData.SessionKey = parsedResponse.session_key;
-  UserData.ProfileData = parsedResponse.profile_data;
+  UserData.SessionKey = parsedResponse.Data.session_key;
+  UserData.ProfileData = parsedResponse.Data.profile_data;
   Navigation.sharedInstance().resetRouteName('TabLoginNavigator');
   // TODO: Will remove with dashboard refactor code.
   // yield put(userLoginSucces(parsedResponse));
@@ -101,11 +105,12 @@ function* loginRequest(action) {
       JSON.stringify(action.data),
     );
     const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parseRes1', parsedResponse);
     // console.log('parseResponse', parsedResponse);
     if (isSuccessAPI(response) && parsedResponse) {
       // TODO put response in user
       // UserData.user = parsedResponse;
-      UserData.BearerToken = parsedResponse.access_token;
+      UserData.SessionKey = parsedResponse.Data.session_key;
       yield call(loginRequestSuccess, parsedResponse);
     } else {
       // yield put(userLoginFailure(parsedResponse));
@@ -117,6 +122,36 @@ function* loginRequest(action) {
     // yield put(userLoginFailure());
     showExceptionErrorMessage();
     // yield put(userLoginStatus(false));
+  }
+}
+
+export const userLogoutSucess = () => {
+  logout();
+};
+
+// User logout request
+function* logoutRequest() {
+  yield put(showLoader());
+  try {
+    const response = yield call(
+      apiCall,
+      logoutUrl,
+      METHOD_TYPE.POST,
+    );
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    if (isSuccessAPI(response) && parsedResponse) {
+      yield call(userLogoutSucess);
+      yield put(logoutSuccess());
+    } else {
+      showErrorMessage(response, parsedResponse);
+      yield put(logoutFailure());
+    }
+    yield put(hideLoader());
+  } catch (error) {
+    console.log('error', error);
+    showExceptionErrorMessage();
+    yield put(logoutFailure());
+    yield put(hideLoader());
   }
 }
 
@@ -185,6 +220,7 @@ export default function* sportsSaga() {
   yield all([
     takeLatest(GET_SPORTS_REQUEST, getSportsList),
     takeLatest(LOGIN_REQUEST, loginRequest),
+    takeLatest(LOGOUT_REQUEST, logoutRequest),
     takeLatest(REGISTER_REQUEST, signupRequest),
   ]);
 }

@@ -1,19 +1,19 @@
 import { createStackNavigator } from 'react-navigation-stack';
 
-import MyTicketDetails from '../../../screens/MyTicketDetail';
+import MyTicket from '../../../screens/MyTicket';
 
-const MyTicketDetailsTabNavigator = createStackNavigator(
+const MyTicketTabNavigator = createStackNavigator(
   {
-    MyTicketDetails: {
-      screen: MyTicketDetails,
-      key: 'MyTicketDetails',
+    MyTicket: {
+      screen: MyTicket,
+      key: 'MyTicket',
       navigationOptions: {
         header: null,
       },
     },
   },
   {
-    initialRouteName: 'MyTicketDetails',
+    initialRouteName: 'MyTicket',
   },
 );
-export default MyTicketDetailsTabNavigator;
+export default MyTicketTabNavigator;

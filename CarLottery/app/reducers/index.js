@@ -6,6 +6,7 @@ import dashboardReducer from './dashboardReducer';
 import getCountriesReducer from './getCountriesReducer';
 import getStatesReducer from './getStatesReducer';
 import getProfileDataReducer from './getProfileReducer';
+import saferGamblingReducer from './saferGamblingReducer';
 
 const appReducer = combineReducers({
   loaderReducers,
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   getCountriesReducer,
   getStatesReducer,
   getProfileDataReducer,
+  saferGamblingReducer,
 });
 
 const rootReducer = (state, action) => {

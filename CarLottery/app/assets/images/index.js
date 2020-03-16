@@ -8,7 +8,7 @@ const inviteFriendIcon = require('./invitation.png');
 const printIcon = require('./printer-512.png');
 const downloadIcon = require('./download-512.png');
 const searchIcon = require('./search.png');
-const user = require('./man2.png');
+const user = require('./male.png');
 const lobby = require('./lobby.png');
 const myTicket = require('./bill.png');
 const help = require('./question.png');
@@ -19,6 +19,12 @@ const unCheckedIcon = require('./unchecked.png');
 const checkedIcon = require('./tick.png');
 const checkedIconRadio = require('./Switchercopy.png');
 const uncheckedIconRadio = require('./Switcher.png');
+const livestatusIcon = require('./Livecopy2x.png');
+const enteryfeeIcon = require('./Tagcopy2.png');
+const statusUnselectRadioIcon = require('./RadiobuttonBG.png');
+const statusSelectRadioIcon = require('./SelectedDot.png');
+const bellIcon = require('./bell.png');
+const Completed = require('./Completed.png');
 
 export const images = {
   logo,
@@ -42,4 +48,10 @@ export const images = {
   checkedIcon,
   checkedIconRadio,
   uncheckedIconRadio,
+  livestatusIcon,
+  enteryfeeIcon,
+  statusUnselectRadioIcon,
+  statusSelectRadioIcon,
+  bellIcon,
+  Completed,
 };

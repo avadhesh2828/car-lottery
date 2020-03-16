@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 
-import MyFinance from '../../../screens/Home';
+import MyFinance from '../../../screens/SaferGambling';
+
 
 const MyFinanceTabNavigator = createStackNavigator(
   {

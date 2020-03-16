@@ -1,0 +1,560 @@
+import {
+  call, takeLatest, put, all,
+} from 'redux-saga/effects';
+import { apiCall } from '../../api/apiInterface';
+
+import {
+  getDepositLimitMonthsSuccess,
+  getDepositLimitMonthsFailure,
+  getDepositLimitWeeksFailure,
+  getDepositLimitWeeksSuccess,
+  getDepositLimitDaysFailure,
+  getDepositLimitDaysSuccess,
+  setDepositLimitMonthsSuccess,
+  setDepositLimitMonthsFailure,
+  setDepositLimitWeeksFailure,
+  setDepositLimitWeeksSuccess,
+  setDepositLimitDaysFailure,
+  setDepositLimitDaysSuccess,
+  getWagerLimitMonthsSuccess,
+  getWagerLimitMonthsFailure,
+  getWagerLimitWeeksFailure,
+  getWagerLimitWeeksSuccess,
+  getWagerLimitDaysFailure,
+  getWagerLimitDaysSuccess,
+  setWagerLimitMonthsSuccess,
+  setWagerLimitMonthsFailure,
+  setWagerLimitDaysSuccess,
+  setWagerLimitDaysFailure,
+  setWagerLimitWeeksFailure,
+  setWagerLimitWeeksSuccess,
+  deleteDepositLimitSuccess,
+  deleteDepositLimitFailure,
+  deleteWagerLimitSuccess,
+  deleteWagerLimitFailure,
+  selfTimeoutSuccess,
+  selfTimeoutFailure,
+  GET_DEPOSIT_LIMIT_MONTHS_REQUEST,
+  GET_DEPOSIT_LIMIT_WEEKS_REQUEST,
+  GET_DEPOSIT_LIMIT_DAYS_REQUEST,
+  SET_DEPOSIT_LIMIT_MONTHS_REQUEST,
+  SET_DEPOSIT_LIMIT_WEEKS_REQUEST,
+  SET_DEPOSIT_LIMIT_DAYS_REQUEST,
+  GET_WAGER_LIMIT_WEEKS_REQUEST,
+  GET_WAGER_LIMIT_DAYS_REQUEST,
+  SET_WAGER_LIMIT_MONTHS_REQUEST,
+  SET_WAGER_LIMIT_WEEKS_REQUEST,
+  SET_WAGER_LIMIT_DAYS_REQUEST,
+  GET_WAGER_LIMIT_MONTHS_REQUEST,
+  DELETE_DEPOSIT_LIMIT_REQUEST,
+  DELETE_WAGER_LIMIT_REQUEST,
+  SELF_TIMEOUT_REQUEST,
+  getDepositLimitMonthsRequest,
+  getDepositLimitWeeksRequest,
+  getDepositLimitDaysRequest,
+  getWagerLimitMonthsRequest,
+  getWagerLimitWeeksRequest,
+  getWagerLimitDaysRequest,
+} from '../../actions/saferGamblingActions';
+
+import {
+  showLoader,
+  hideLoader,
+} from '../../actions/loaderActions';
+
+import {
+  getDepositLimitUrl,
+  setDepositLimitUrl,
+  getWagerLimitUrl,
+  setWagerLimitUrl,
+  delDepositLimitUrl,
+  delWagerLimitUrl,
+  selfTimeoutUrl,
+} from '../../api/urls';
+
+import {
+  METHOD_TYPE,
+  isSuccessAPI,
+  parsedAPIResponse,
+  showErrorMessage,
+  showExceptionErrorMessage,
+  showSuccessMessage,
+} from '../APIHandler';
+
+import { UserData } from '../../utils/global';
+import Navigation from '../../utils/navigation';
+import { Storage } from '../../storage/storage';
+import constant, { screenNames } from '../../utils/constant';
+import { showPopupAlert } from '../../utils/showAlert';
+
+
+function* getDepositLimitMonths(action) {
+  try {
+    yield put(showLoader());
+    const url = getDepositLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getDepositLimitMonthsSuccess(dataResponse));
+    } else {
+      yield put(getDepositLimitMonthsFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getDepositLimitMonthsFailure());
+  }
+}
+
+function* getDepositLimitWeeks(action) {
+  try {
+    yield put(showLoader());
+    const url = getDepositLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getDepositLimitWeeksSuccess(dataResponse));
+    } else {
+      yield put(getDepositLimitWeeksFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getDepositLimitWeeksFailure());
+  }
+}
+
+function* getDepositLimitDays(action) {
+  try {
+    yield put(showLoader());
+    const url = getDepositLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getDepositLimitDaysSuccess(dataResponse));
+    } else {
+      yield put(getDepositLimitDaysFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getDepositLimitDaysFailure());
+  }
+}
+
+// =========
+function* setDepositLimitMonths(action) {
+  try {
+    yield put(showLoader());
+    const url = setDepositLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(setDepositLimitMonthsSuccess(dataResponse));
+      showPopupAlert('Deposit limit is set successfuly');
+      yield put(getDepositLimitMonthsRequest({
+        user_id: UserData.ProfileData.user_id, unit: 'MONTHS', duration: 1, amount: '', modified_date: '',
+      }));
+    } else {
+      yield put(setDepositLimitMonthsFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(setDepositLimitMonthsFailure());
+  }
+}
+
+function* setDepositLimitWeeks(action) {
+  try {
+    yield put(showLoader());
+    const url = setDepositLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(setDepositLimitWeeksSuccess(dataResponse));
+      showPopupAlert('Deposit limit is set successfuly');
+      yield put(getDepositLimitWeeksRequest({
+        user_id: UserData.ProfileData.user_id, unit: 'WEEKS', duration: 1, amount: '', modified_date: '',
+      }));
+    } else {
+      yield put(setDepositLimitWeeksFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(setDepositLimitWeeksFailure());
+  }
+}
+
+function* setDepositLimitDays(action) {
+  try {
+    yield put(showLoader());
+    const url = setDepositLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(setDepositLimitDaysSuccess(dataResponse));
+      showPopupAlert('Deposit limit is set successfuly');
+      yield put(getDepositLimitDaysRequest({
+        user_id: UserData.ProfileData.user_id, unit: 'DAYS', duration: 1, amount: '', modified_date: '',
+      }));
+    } else {
+      yield put(setDepositLimitDaysFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(setDepositLimitDaysFailure());
+  }
+}
+
+// =================
+
+function* getWagerLimitMonths(action) {
+  try {
+    yield put(showLoader());
+    const url = getWagerLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getWagerLimitMonthsSuccess(dataResponse));
+    } else {
+      yield put(getWagerLimitMonthsFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getWagerLimitMonthsFailure());
+  }
+}
+
+function* getWagerLimitWeeks(action) {
+  try {
+    yield put(showLoader());
+    const url = getWagerLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getWagerLimitWeeksSuccess(dataResponse));
+    } else {
+      yield put(getWagerLimitWeeksFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getWagerLimitWeeksFailure());
+  }
+}
+
+function* getWagerLimitDays(action) {
+  try {
+    yield put(showLoader());
+    const url = getWagerLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getWagerLimitDaysSuccess(dataResponse));
+    } else {
+      yield put(getWagerLimitDaysFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getWagerLimitDaysFailure());
+  }
+}
+
+// ====setting wager limit
+function* setWagerLimitMonths(action) {
+  try {
+    yield put(showLoader());
+    const url = setWagerLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(setWagerLimitMonthsSuccess(dataResponse));
+      showPopupAlert('Wager limit is set successfuly');
+      yield put(getWagerLimitMonthsRequest({
+        user_id: UserData.ProfileData.user_id, unit: 'MONTHS', duration: 1, amount: '', modified_date: '',
+      }));
+    } else {
+      yield put(setWagerLimitMonthsFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(setWagerLimitMonthsFailure());
+  }
+}
+
+function* setWagerLimitWeeks(action) {
+  try {
+    yield put(showLoader());
+    const url = setWagerLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(setWagerLimitWeeksSuccess(dataResponse));
+      showPopupAlert('Wager limit is set successfuly');
+      yield put(getWagerLimitWeeksRequest({
+        user_id: UserData.ProfileData.user_id, unit: 'WEEKS', duration: 1, amount: '', modified_date: '',
+      }));
+    } else {
+      yield put(setWagerLimitWeeksFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(setWagerLimitWeeksFailure());
+  }
+}
+
+function* setWagerLimitDays(action) {
+  try {
+    yield put(showLoader());
+    const url = setWagerLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(setWagerLimitDaysSuccess(dataResponse));
+      showPopupAlert('Wager limit is set successfuly');
+      yield put(getWagerLimitDaysRequest({
+        user_id: UserData.ProfileData.user_id, unit: 'DAYS', duration: 1, amount: '', modified_date: '',
+      }));
+    } else {
+      yield put(setWagerLimitDaysFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(setWagerLimitDaysFailure());
+  }
+}
+
+function* deleteDepositLimit(action) {
+  try {
+    yield put(showLoader());
+    const url = delDepositLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(deleteDepositLimitSuccess(dataResponse));
+      showPopupAlert('Deposit limits which are set before 24 hours is reset successfuly');
+    } else {
+      yield put(deleteDepositLimitFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(deleteDepositLimitFailure());
+  }
+}
+
+function* deleteWagerLimit(action) {
+  try {
+    yield put(showLoader());
+    const url = delWagerLimitUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(deleteWagerLimitSuccess(dataResponse));
+      showPopupAlert('Wager limits which are set before 24 hours is reset successfuly');
+    } else {
+      yield put(deleteWagerLimitFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(deleteWagerLimitFailure());
+  }
+}
+
+function* selfTimeout(action) {
+  try {
+    yield put(showLoader());
+    const url = selfTimeoutUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(selfTimeoutSuccess(dataResponse));
+      showPopupAlert('You are timeout successfuly');
+    } else {
+      yield put(selfTimeoutFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(selfTimeoutFailure());
+  }
+}
+
+export default function* saferGamblingSaga() {
+  yield all([
+    takeLatest(GET_DEPOSIT_LIMIT_MONTHS_REQUEST, getDepositLimitMonths),
+    takeLatest(GET_DEPOSIT_LIMIT_WEEKS_REQUEST, getDepositLimitWeeks),
+    takeLatest(GET_DEPOSIT_LIMIT_DAYS_REQUEST, getDepositLimitDays),
+    takeLatest(SET_DEPOSIT_LIMIT_MONTHS_REQUEST, setDepositLimitMonths),
+    takeLatest(SET_DEPOSIT_LIMIT_WEEKS_REQUEST, setDepositLimitWeeks),
+    takeLatest(SET_DEPOSIT_LIMIT_DAYS_REQUEST, setDepositLimitDays),
+    takeLatest(GET_WAGER_LIMIT_MONTHS_REQUEST, getWagerLimitMonths),
+    takeLatest(GET_WAGER_LIMIT_WEEKS_REQUEST, getWagerLimitWeeks),
+    takeLatest(GET_WAGER_LIMIT_DAYS_REQUEST, getWagerLimitDays),
+    takeLatest(SET_WAGER_LIMIT_MONTHS_REQUEST, setWagerLimitMonths),
+    takeLatest(SET_WAGER_LIMIT_WEEKS_REQUEST, setWagerLimitWeeks),
+    takeLatest(SET_WAGER_LIMIT_DAYS_REQUEST, setWagerLimitDays),
+    takeLatest(DELETE_DEPOSIT_LIMIT_REQUEST, deleteDepositLimit),
+    takeLatest(DELETE_WAGER_LIMIT_REQUEST, deleteWagerLimit),
+    takeLatest(SELF_TIMEOUT_REQUEST, selfTimeout),
+  ]);
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-sequences */
 /* eslint-disable react/sort-comp */
 /* eslint-disable no-unused-vars */
@@ -10,6 +11,8 @@ import {
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
+import PropTypes from 'prop-types';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import UserActions from '../../actions';
 // import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -21,8 +24,7 @@ import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
-import PropTypes from 'prop-types';
-
+import CustomLabel from './CustomLabel';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -31,6 +33,7 @@ const styles = StyleSheet.create({
   },
   listView: {
     marginHorizontal: spacing.extraSmall,
+    marginBottom: 150,
   },
   seperator: {
     flex: 2,
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
     margin: spacing.extraSmall,
   },
   subContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     marginTop: spacing.mediumLarge,
     marginBottom: spacing.mediumLarge,
   },
@@ -85,15 +88,30 @@ const styles = StyleSheet.create({
 
   },
   radiobtnIcon: {
-    width: itemSizes.iconLarge,
-    height: itemSizes.iconLarge,
-    marginHorizontal: spacing.medium,
+    width: itemSizes.iconSmall,
+    height: itemSizes.iconSmall,
+    marginHorizontal: spacing.small,
     resizeMode: 'cover',
   },
   radiobtnTxt: {
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.tiny,
+  },
+  sliderTxt1: {
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.small,
+  },
+  sliderTxt2: {
+    flex: 1,
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+    fontSize: fontSizes.small,
+  },
+  sliderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -131,8 +149,8 @@ class Lobby extends Component {
     super(props);
     this.state = {
       searchValue: '',
-      Showlottery: images.uncheckedIconRadio,
-      is_Radio_check: 'false',
+      is_Radio_check: false,
+      multiSliderValue: [0, 100],
     };
   }
 
@@ -141,13 +159,63 @@ class Lobby extends Component {
     // this.props.lobbyFilterRequest();
   }
 
+
+  // componentDidUpdate(prevProps) {
+  //   if ((this.state.multiSliderValue[0] !== this.props.dashboard.minEntryFee)
+  //   || (this.state.multiSliderValue[0] !== this.props.dashboard.maxEntryFee)) {
+  //     this.setState({ multiSliderValue: [this.props.dashboard.myTicketMinEntryFee, this.props.dashboard.myTicketMaxEntryFee] });
+  //   }
+  // }
+
   runApis() {
     this.props.lobbyFilterRequest();
-    this.props.getLobbyHotLotteriesRequest();
+  }
+
+  refreshlist() {
+    this.props.getLobbyHotLotteriesRequest({
+      items_perpage: 10,
+      current_page: 1,
+      sort_field: '',
+      sort_order: '',
+      keyword: this.state.searchValue,
+      minEntryFee: this.state.multiSliderValue[0],
+      maxEntryFee: this.state.multiSliderValue[1],
+      only_hot_lotteries: this.state.is_Radio_check,
+    });
+  }
+
+  handleLoadMoreLottery = () => {
+    // console.log('cureentpage',)
+    console.log('...calling');
+    // alert('aaya');
+    if (this.props.dashboard.currentLobbyPage <= this.props.dashboard.lobbyListTotalPages && !this.props.dashboard.isLoadingLobbyLottery) {
+      this.props.getLobbyHotLotteriesRequest({
+        items_perpage: 10,
+        current_page: this.props.dashboard.currentLobbyPage + 1,
+        sort_field: '',
+        sort_order: '',
+        keyword: this.state.searchValue,
+        minEntryFee: this.state.multiSliderValue[0],
+        maxEntryFee: this.state.multiSliderValue[1],
+        only_hot_lotteries: false,
+      });
+    //   // this.current_page += 1;
+    }
+    // current_page
   }
 
   Show_hot_Lottery = () => {
     const { Showlottery, is_Radio_check } = this.state;
+    this.props.getLobbyHotLotteriesRequest({
+      items_perpage: 10,
+      current_page: 1,
+      sort_field: '',
+      sort_order: '',
+      keyword: this.state.searchValue,
+      minEntryFee: this.state.multiSliderValue[0],
+      maxEntryFee: this.state.multiSliderValue[1],
+      only_hot_lotteries: !this.state.is_Radio_check,
+    });
     if (is_Radio_check === false) {
       this.setState({
         Showlottery: images.checkedIconRadio,
@@ -165,55 +233,114 @@ class Lobby extends Component {
     this.setState({ searchValue: text });
   }
 
+  searchText() {
+    this.refreshlist();
+  }
+
+  multiSliderValuesChange(e) {
+    this.setState({ multiSliderValue: e });
+  }
+
+  multiSliderValuesChangeFinish() {
+    this.refreshlist();
+  }
 
   render() {
     const { dashboard } = this.props;
+    const { multiSliderValue } = this.state;
     const { lobbyHotLotteries } = dashboard;
     return (
-      <SafeAreaView style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
         <NavigationHeader />
         <View style={styles.subContainer}>
-          <View style={styles.SearchContainer}>
-            <TextInput
-              underlineColorAndroid={'transparent'}
-              style={styles.textInputStyle}
-              placeholder={'Search by Lottery name'}
-              placeholderTextColor={UIColors.grayText}
-              onChangeText={(text)=> this.onChangeText(text)}
-              clearButtonMode={'always'}
-              value={this.state.searchValue}
-            />
-            <TouchableOpacity style={styles.searchButton}>
-              <Image style={styles.searchIconStyle} source={images.searchIcon} />
-            </TouchableOpacity>
+          <View style={{ flexDirection: 'column' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={styles.sliderTxt1}>{multiSliderValue[0]}</Text>
+              </View>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={styles.sliderTxt2}>{multiSliderValue[1]}</Text>
+              </View>
+            </View>
+            <View style={styles.sliderContainer}>
+              <MultiSlider
+                selectedStyle={{
+                  height: spacing.semiMedium,
+                  backgroundColor: 'green',
+                }}
+                unselectedStyle={{
+                  borderRadius: 12,
+                  height: spacing.semiMedium,
+                  backgroundColor: 'gray',
+                }}
+                markerStyle={{
+                  height: spacing.extraLarge,
+                  width: spacing.extraLarge,
+                  backgroundColor: UIColors.purpleButtonColor,
+                }}
+                touchDimensions={{
+                  height: spacing.extraLarge,
+                  width: spacing.extraLarge,
+                }}
+                values={[multiSliderValue[0], multiSliderValue[1]]}
+                onValuesChange={(e) => this.multiSliderValuesChange(e)}
+                onValuesChangeFinish={() => this.multiSliderValuesChangeFinish()}
+                sliderLength={Dimensions.get('window').width - 80}
+                min={this.props.dashboard.minEntryFee}
+                max={this.props.dashboard.maxEntryFee}
+                step={1}
+                allowOverlap
+                snapped
+                enabledTwo
+                customLabel={CustomLabel}
+              />
+            </View>
           </View>
-          <View style={{ padding: spacing.semiMedium }}>
-            <Text style={styles.radiobtnTxt}>
-              {'Show only\nhot lottery'}
-            </Text>
-            {/* <Text style={styles.radiobtnTxt}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={styles.SearchContainer}>
+              <TextInput
+                underlineColorAndroid={'transparent'}
+                style={styles.textInputStyle}
+                placeholder={'Search by Lottery name'}
+                placeholderTextColor={UIColors.grayText}
+                onChangeText={(text)=> this.onChangeText(text)}
+                clearButtonMode={'always'}
+                value={this.state.searchValue}
+              />
+              <TouchableOpacity style={styles.searchButton} onPress={()=> this.searchText()}>
+                <Image style={styles.searchIconStyle} source={images.searchIcon} />
+              </TouchableOpacity>
+            </View>
+            <View style={{ alignItems: 'center', marginLeft: spacing.small, flexDirection: 'row' }}>
+              <Text style={styles.radiobtnTxt}>
+                {'Show only\nhot lottery'}
+              </Text>
+              {/* <Text style={styles.radiobtnTxt}>
               hot lottery
             </Text> */}
-          </View>
-          <View style={{ margin: spacing.semiMedium }}>
-            <TouchableOpacity onPress={this.Show_hot_Lottery}>
-              <Image style={styles.radiobtnIcon} source={this.state.Showlottery} />
-            </TouchableOpacity>
+            </View>
+            <View style={{ alignItems: 'center', marginTop: spacing.small, flexDirection: 'row' }}>
+              <TouchableOpacity onPress={this.Show_hot_Lottery}>
+                <Image style={styles.radiobtnIcon} source={this.state.Showlottery} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={styles.listView}>
           { lobbyHotLotteries.length !== 0 ? (
             <FlatList
               key="v"
+              extraData={this.props}
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={() => <View style={styles.seperator} />}
-              data={formateData(lobbyHotLotteries, 2)}
+              data={formateData([...lobbyHotLotteries], 2)}
               numColumns={2}
-            // onEndReached={() => props.handleLoadMore()}
-              onEndThreshold={0.1}
+              // onEndReached={this.handleLoadMoreLottery}
+              onEndThreshold={0.5}
               refreshControl={(
                 <RefreshControl
                   refreshing={false}
+                  onRefresh={() => this.refreshlist()}
                 />
             )}
               renderItem={(item) => {
@@ -236,7 +363,7 @@ class Lobby extends Component {
           )
             : (<BackgroundMessage title="No data available" />)}
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }

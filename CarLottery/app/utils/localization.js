@@ -32,11 +32,17 @@ export const Localization = {
     termsAndPolicy: 'I agree with terms conditions and privacy policy',
   },
   homeScreen: {
-    Buy: 'Buy',
+    Play: 'Play',
     View: 'View',
     TicketBrought: 'Ticket\nBrought',
   },
-  myTicketDetailScreen: {},
+  myTicketScreen: {
+    Live: 'Live',
+    Complete: 'Complete',
+    All: 'All',
+    Win: 'CONGRATULATIONS! YOU WON',
+    Loss: 'Better Luck Next Time',
+  },
   userProfileScreen: {
     firstName: 'First Name',
     lastName: 'Last Name',
@@ -49,5 +55,11 @@ export const Localization = {
     zipCode: 'Zip Code',
     selectCountry: 'Select Country',
     selectState: 'Select State',
+  },
+  NavigationHeader: {
+    Logout: 'Logout',
+  },
+  SaferGamblingScreen: {
+    dummyText: 'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book.',
   },
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
   StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, Dimensions,

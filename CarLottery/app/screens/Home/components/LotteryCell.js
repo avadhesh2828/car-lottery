@@ -1,7 +1,14 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Text, Dimensions } from 'react-native';
+import {
+  View, TouchableOpacity, Image, StyleSheet, Text, Dimensions,
+} from 'react-native';
 import PropTypes from 'prop-types';
-import { spacing, itemSizes, UIColors, fontName, fontSizes } from '../../../utils/variables';
+import {
+  spacing, itemSizes, UIColors, fontName, fontSizes,
+} from '../../../utils/variables';
+import isIOS from '../../../utils/plateformSpecific';
 import { images } from '../../../assets/images';
 import { responsiveFontSize } from '../../../utils/utils_functions';
 import { responsiveSize } from '../../../utils/utils';
@@ -47,6 +54,13 @@ const styles = StyleSheet.create({
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProRegular,
   },
+  lotteryFillPercent: {
+    alignItems: 'flex-end',
+    marginLeft: spacing.small,
+    fontSize: fontSizes.extraSmall,
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+  },
   subContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -54,6 +68,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.small,
   },
   ticketContainer: {
+    borderRadius: spacing.extraExtraSmall,
+    backgroundColor: UIColors.grayBackgroundColor,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -65,23 +81,18 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   buttonContainer: {
+    marginLeft: spacing.semiMedium,
+    marginRight: spacing.semiMedium,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  buyBtn: {
-    backgroundColor: UIColors.navigationBar,
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'center',
-    marginHorizontal: spacing.extraSmall,
-  },
-  viewBtn: {
+  playBtn: {
     backgroundColor: UIColors.purpleButtonColor,
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    marginHorizontal: spacing.extraSmall,
+    marginHorizontal: spacing.small,
   },
   openDetailBtn: {
     flex: 0.5,
@@ -96,6 +107,23 @@ const styles = StyleSheet.create({
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.extraSmall,
   },
+  entryFeeTextStyle: {
+    position: 'absolute',
+    right: 1,
+    top: spacing.medium,
+    marginRight: spacing.semiMedium,
+    color: UIColors.appBackGroundColor,
+    fontFamily: fontName.sourceSansProBold,
+    fontSize: fontSizes.extraExtraSmall,
+  },
+  entryfeeImage: {
+    position: 'absolute',
+    right: 0,
+    top: 1,
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
+    width: '25%',
+    resizeMode: 'contain',
+  },
 });
 
 
@@ -109,7 +137,14 @@ const LotteryCell = (props) => {
           style={styles.lotteryImage}
         />
       </View>
-
+      <Image
+        source={images.enteryfeeIcon}
+        style={styles.entryfeeImage}
+      />
+      <Text style={styles.entryFeeTextStyle}>
+        ₦
+        {item.entry_fee}
+      </Text>
       <View style={styles.detailContainer}>
         <Text style={styles.lotteryTitle}>{item.contest_name}</Text>
         <View style={styles.subContainer}>
@@ -117,13 +152,34 @@ const LotteryCell = (props) => {
             <Text style={styles.ticketTxt}>{Localization.homeScreen.TicketBrought}</Text>
             <Text style={[styles.ticketTxt, { fontSize: fontSizes.medium, marginLeft: 5 }]}>3</Text>
           </View> */}
+          <View style={styles.ticketContainer}>
+            <View style={item.fill_percent > 0 ? {
+              position: 'absolute',
+              top: 2,
+              left: 0,
+              borderRadius: spacing.extraExtraSmall,
+              height: itemSizes.iconExtraSmall,
+              width: `${Math.trunc(item.fill_percent)}%`,
+              backgroundColor: 'green',
+            }
+              : {
+              }}
+            />
+          </View>
+          <Text style={styles.lotteryFillPercent}>
+            {Math.trunc(item.fill_percent)}
+            %
+          </Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buyBtn} onPress={() => props.buyLottery(item)}>
+          <TouchableOpacity style={styles.buyBtn}>
             <Text style={styles.txtStyle}>{Localization.homeScreen.Buy}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.viewBtn}>
             <Text style={styles.txtStyle}>{Localization.homeScreen.View}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.playBtn} onPress={() => props.buyLottery(item)}>
+            <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.openDetailBtn}>
             <Text style={styles.txtStyle}>...</Text>

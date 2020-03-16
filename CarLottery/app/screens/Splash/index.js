@@ -26,6 +26,11 @@ class Splash extends Component {
   }
 
   navigateToCurrentScreen() {
+    Storage.getItemWithKey(constant.PROFILE_DATA, (response) => {
+      if (response) {
+        UserData.ProfileData = response;
+      } 
+    });
     Storage.getItemWithKey(constant.SESSION_KEY, (response) => {
       let screen = 'TabNavigator';
       if (response) {

@@ -17,6 +17,21 @@ import {
   JOIN_LOTTERY_REQUEST,
   joinLotterySuccess,
   joinLotteryFailure,
+  getLobbyHotLotteriesRequest,
+  MYTICKETS_FILTER_REQUEST,
+  myTicketsFilterSuccess,
+  myTicketsFilterFailure,
+  GET_MY_LOTTERIES_REQUEST,
+  getMyLotteriesSuccess,
+  getMyLotteriesFailure,
+  getMyLotteriesRequest,
+  GET_LOTTERIE_WINNERS_REQUEST,
+  getLotterieWinnersSuccess,
+  getLotterieWinnersFailure,
+  GET_USER_WINNER_TICKETS_REQUEST,
+  getUserWinnerTicketsSuccess,
+  getUserWinnerTicketsFailure,
+
 } from '../../actions/dashboardActions';
 
 import {
@@ -28,6 +43,11 @@ import {
   commonHotLotteriesUrl,
   lobbyFilterUrl,
   joinContestUrl,
+  lobbyListUrl,
+  myTicketsFilterUrl,
+  myLotteriesUrl,
+  lotteriesWinnerUrl,
+  userWinnerTicketsUrl,
 } from '../../api/urls';
 
 import {
@@ -73,6 +93,38 @@ function* getHotLotteries(action) {
   }
 }
 
+function* getLobbyHotLotteries(action) {
+  try {
+    yield put(showLoader());
+    const url = lobbyListUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getLobbyHotLotteriesSuccess({
+        response: dataResponse,
+        current_page: action.data.current_page,
+        items_perpage: action.data.items_perpage,
+      }));
+    } else {
+      yield put(getLobbyHotLotteriesFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getLobbyHotLotteriesFailure());
+  }
+}
+
 // Lobby Page
 function* lobbyFilter(action) {
   try {
@@ -90,21 +142,32 @@ function* lobbyFilter(action) {
       let dataResponse = {};
       dataResponse = parsedResponse;
       yield put(lobbyFilterSuccess(dataResponse));
+      yield put(getLobbyHotLotteriesRequest({
+        items_perpage: 10,
+        current_page: 1,
+        sort_field: '',
+        sort_order: '',
+        keyword: '',
+        minEntryFee: dataResponse.Data.min_entry_fee,
+        maxEntryFee: dataResponse.Data.max_entry_fee,
+        only_hot_lotteries: false,
+      }));
     } else {
       yield put(lobbyFilterFailure(parsedResponse));
       showErrorMessage(response, parsedResponse);
     }
   } catch (error) {
     yield put(hideLoader());
+    console.log('errror', error);
     showExceptionErrorMessage();
     yield put(lobbyFilterFailure());
   }
 }
-
-function* getLobbyHotLotteries(action) {
+// MY Lotteries
+function* getMyLotteries(action) {
   try {
     yield put(showLoader());
-    const url = commonHotLotteriesUrl;
+    const url = myLotteriesUrl;
     const response = yield call(
       apiCall,
       url,
@@ -117,15 +180,116 @@ function* getLobbyHotLotteries(action) {
     if (isSuccessAPI(response) && parsedResponse) {
       let dataResponse = {};
       dataResponse = parsedResponse;
-      yield put(getLobbyHotLotteriesSuccess(dataResponse));
+      yield put(getMyLotteriesSuccess({
+        response: dataResponse,
+        current_page: action.data.current_page,
+        items_perpage: action.data.items_perpage,
+      }));
     } else {
-      yield put(getLobbyHotLotteriesFailure(parsedResponse));
+      yield put(getMyLotteriesFailure(parsedResponse));
       showErrorMessage(response, parsedResponse);
     }
   } catch (error) {
     yield put(hideLoader());
     showExceptionErrorMessage();
-    yield put(getLobbyHotLotteriesFailure());
+    yield put(getMyLotteriesFailure());
+  }
+}
+
+// My Tickets Page
+function* myTicketsFilter(action) {
+  try {
+    yield put(showLoader());
+    const url = myTicketsFilterUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(myTicketsFilterSuccess(dataResponse));
+      yield put(getMyLotteriesRequest({
+        items_perpage: 10,
+        current_page: 1,
+        sort_field: 'C.status',
+        sort_order: 'ASC',
+        status: 'all',
+        keyword: '',
+        minEntryFee: dataResponse.Data.min_entry_fee,
+        maxEntryFee: dataResponse.Data.max_entry_fee,
+        only_hot_lotteries: true,
+      }));
+    } else {
+      yield put(myTicketsFilterFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    console.log('errror', error);
+    showExceptionErrorMessage();
+    yield put(myTicketsFilterFailure());
+  }
+}
+
+function* getLotterieWinners(action) {
+  try {
+    yield put(showLoader());
+    const url = lotteriesWinnerUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getLotterieWinnersSuccess(dataResponse));
+    } else {
+      yield put(getLotterieWinnersFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getLotterieWinnersFailure());
+  }
+}
+
+function* getUserWinnerTickets(action) {
+  try {
+    yield put(showLoader());
+    const url = userWinnerTicketsUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(getUserWinnerTicketsSuccess(dataResponse));
+    } else {
+      yield put(getUserWinnerTicketsFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(getUserWinnerTicketsFailure());
   }
 }
 
@@ -158,11 +322,16 @@ function* joinLotteries(action) {
   }
 }
 
-export default function* getCountriesSagasportsSaga() {
+
+export default function* dashboardSaga() {
   yield all([
     takeLatest(GET_HOT_LOTTERIES_REQUEST, getHotLotteries),
     takeLatest(LOBBY_FILTER_REQUEST, lobbyFilter),
     takeLatest(GET_LOBBY_HOT_LOTTERIES_REQUEST, getLobbyHotLotteries),
     takeLatest(JOIN_LOTTERY_REQUEST, joinLotteries),
+    takeLatest(MYTICKETS_FILTER_REQUEST, myTicketsFilter),
+    takeLatest(GET_MY_LOTTERIES_REQUEST, getMyLotteries),
+    takeLatest(GET_LOTTERIE_WINNERS_REQUEST, getLotterieWinners),
+    takeLatest(GET_USER_WINNER_TICKETS_REQUEST, getUserWinnerTickets),
   ]);
 }
