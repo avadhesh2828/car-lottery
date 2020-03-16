@@ -49,6 +49,9 @@ import {
   DELETE_DEPOSIT_LIMIT_REQUEST,
   DELETE_WAGER_LIMIT_REQUEST,
   SELF_TIMEOUT_REQUEST,
+  SUSPEND_USER_REQUEST,
+  suspendUserSuccess,
+  suspendUserFailure,
   getDepositLimitMonthsRequest,
   getDepositLimitWeeksRequest,
   getDepositLimitDaysRequest,
@@ -70,6 +73,7 @@ import {
   delDepositLimitUrl,
   delWagerLimitUrl,
   selfTimeoutUrl,
+  suspendUserUrl,
 } from '../../api/urls';
 
 import {
@@ -86,6 +90,8 @@ import Navigation from '../../utils/navigation';
 import { Storage } from '../../storage/storage';
 import constant, { screenNames } from '../../utils/constant';
 import { showPopupAlert } from '../../utils/showAlert';
+import { logoutRequest } from '../../actions/authenticationActions';
+import { logout } from '../../utils/utils_functions';
 
 
 function* getDepositLimitMonths(action) {
@@ -528,6 +534,7 @@ function* selfTimeout(action) {
       dataResponse = parsedResponse;
       yield put(selfTimeoutSuccess(dataResponse));
       showPopupAlert('You are timeout successfuly');
+      yield put(logoutRequest());
     } else {
       yield put(selfTimeoutFailure(parsedResponse));
       showErrorMessage(response, parsedResponse);
@@ -536,6 +543,36 @@ function* selfTimeout(action) {
     yield put(hideLoader());
     showExceptionErrorMessage();
     yield put(selfTimeoutFailure());
+  }
+}
+
+function* suspendUser(action) {
+  try {
+    yield put(showLoader());
+    const url = suspendUserUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(suspendUserSuccess(dataResponse));
+      showPopupAlert(dataResponse.Message);
+      logout();
+    } else {
+      yield put(suspendUserFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(suspendUserFailure());
   }
 }
 
@@ -556,5 +593,6 @@ export default function* saferGamblingSaga() {
     takeLatest(DELETE_DEPOSIT_LIMIT_REQUEST, deleteDepositLimit),
     takeLatest(DELETE_WAGER_LIMIT_REQUEST, deleteWagerLimit),
     takeLatest(SELF_TIMEOUT_REQUEST, selfTimeout),
+    takeLatest(SUSPEND_USER_REQUEST, suspendUser),
   ]);
 }

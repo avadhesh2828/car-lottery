@@ -10,10 +10,9 @@ import {
   spacing, itemSizes, UIColors, fontName, fontSizes,
 } from '../../../utils/variables';
 // import { responsiveFontSize } from '../../../utils/utils_functions';
-import { responsiveSize } from '../../../utils/utils';
 import { Localization } from '../../../utils/localization';
-import isIOS from '../../../utils/plateformSpecific';
 import UserActions from '../../../actions';
+import { showOptionAlert } from '../../../utils/showAlert';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TimeoutContainer extends Component {
+class SelfExclusionContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,19 +57,13 @@ class TimeoutContainer extends Component {
   }
 
   onPressSetBtn() {
-    // if (this.state.monthlyDepositLimit) {
-    //   this.props.setDepositLimitMonthsRequest({
-    //     user_id: UserData.ProfileData.user_id, preferred_type: '0', unit: 'MONTHS', duration: '1', amount: this.state.monthlyDepositLimit, modified_date: '',
-    //   });
-    // }
-  }
-
-  selectedMonthlyItem(item, index, data) {
-    data.forEach((element) => {
-      if (item === element.value) {
-        this.setState({ monthlyDepositLimit: element.item });
-      }
-    });
+    showOptionAlert(
+      Localization.alert,
+      'Are you sure you want to self-exclude yourself',
+      'yes',
+      'no',
+      (text) => text === 0 && this.props.suspendUserRequest({}),
+    );
   }
 
   render() {
@@ -88,11 +81,11 @@ class TimeoutContainer extends Component {
   }
 }
 
-TimeoutContainer.propTypes = {
+SelfExclusionContainer.propTypes = {
   saferGambling: PropTypes.object,
 };
 
-TimeoutContainer.defaultProps = {
+SelfExclusionContainer.defaultProps = {
   saferGambling: {},
 };
 
@@ -104,6 +97,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = () => UserActions;
 
 // eslint-disable-next-line max-len
-const TimeoutContainerScreen = connect(mapStateToProps, mapDispatchToProps)(TimeoutContainer);
+const SelfExclusionContainerScreen = connect(mapStateToProps, mapDispatchToProps)(SelfExclusionContainer);
 
-export default TimeoutContainerScreen;
+export default SelfExclusionContainerScreen;

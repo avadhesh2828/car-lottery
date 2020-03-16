@@ -58,6 +58,25 @@ export const SELF_TIMEOUT_REQUEST = 'SELF_TIMEOUT_REQUEST';
 export const SELF_TIMEOUT_FAILURE = 'SELF_TIMEOUT_FAILURE';
 export const SELF_TIMEOUT_SUCCESS = 'SELF_TIMEOUT_SUCCESS';
 
+export const SUSPEND_USER_REQUEST = 'SUSPEND_USER_REQUEST';
+export const SUSPEND_USER_FAILURE = 'SUSPEND_USER_FAILURE';
+export const SUSPEND_USER_SUCCESS = 'SUSPEND_USER_SUCCESS';
+
+// SUSPEND USER
+export const suspendUserRequest = (data) => ({
+  type: SUSPEND_USER_REQUEST,
+  data,
+});
+
+export const suspendUserSuccess = (data) => ({
+  type: SUSPEND_USER_SUCCESS,
+  data,
+});
+
+export const suspendUserFailure = () => ({
+  type: SUSPEND_USER_FAILURE,
+});
+
 
 // Timeout
 export const selfTimeoutRequest = (data) => ({

@@ -15,6 +15,7 @@ export const Localization = {
     header: 'No Internet Connection Available',
     message: 'Please check your internet connection.',
   },
+  alert: 'Alert',
   update: 'Update',
   cancel: 'Cancel',
   loginScreen: {

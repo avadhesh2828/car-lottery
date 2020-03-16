@@ -14,6 +14,7 @@ import {
 import { Localization } from '../../../utils/localization';
 import isIOS from '../../../utils/plateformSpecific';
 import UserActions from '../../../actions';
+import { showOptionAlert } from '../../../utils/showAlert';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -82,13 +83,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const monthlyDropdownLimits = [{ value: '₦250', item: '250' }, { value: '₦100', item: '100' }, { value: '₦50', item: '50' }, { value: '₦20', item: '20' }, { value: '₦10', item: '10' }];
+const monthlyDropdownLimits = [
+  { value: '30 days', duration: '30', unit: 'Days' },
+  { value: '7 days', duration: '7', unit: 'Days' },
+  { value: '1 days', duration: '1', unit: 'Days' },
+  { value: '6 hours', duration: '6', unit: 'Hours' },
+];
 
 class TimeoutContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      monthlyDepositLimit: props.saferGambling.monthDepositLimitInfo ? props.saferGambling.monthDepositLimitInfo.amount : '',
+      timeoutLimit: '',
     };
   }
 
@@ -108,17 +114,25 @@ class TimeoutContainer extends Component {
   // }
 
   onPressSetBtn() {
-    // if (this.state.monthlyDepositLimit) {
-    //   this.props.setDepositLimitMonthsRequest({
-    //     user_id: UserData.ProfileData.user_id, preferred_type: '0', unit: 'MONTHS', duration: '1', amount: this.state.monthlyDepositLimit, modified_date: '',
-    //   });
-    // }
+    if (this.state.timeoutLimit) {
+      showOptionAlert(
+        Localization.alert,
+        'Are you sure you want to time out',
+        'yes',
+        'no',
+        (text) => text === 0 && this.props.selfTimeoutRequest({
+          unit: this.state.timeoutLimit.unit, duration: this.state.timeoutLimit.duration,
+        }),
+      );
+    }
   }
 
-  selectedMonthlyItem(item, index, data) {
+  selectedTimeoutItem(item, index, data) {
     data.forEach((element) => {
       if (item === element.value) {
-        this.setState({ monthlyDepositLimit: element.item });
+        this.setState({
+          timeoutLimit: { duration: element.duration, unit: element.unit },
+        });
       }
     });
   }
@@ -128,17 +142,17 @@ class TimeoutContainer extends Component {
       <KeyboardAwareScrollView style={styles.mainContainer}>
         <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text>
         <View style={styles.limitContainer}>
-          <Text style={styles.textStyle}>Monthly Limit</Text>
+          <Text style={styles.textStyle}>Timeout Limit</Text>
           <View style={[styles.textInputContainer, {}]}>
             <Dropdown
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
               dropdownOffset={{ top: 0, left: 0 }}
               label={'Select here'}
-              value={this.state.monthlyDepositLimit ? `₦${this.state.monthlyDepositLimit}` : ''}
+              value={this.state.timeoutLimit ? `${this.state.timeoutLimit}` : ''}
               textColor={UIColors.blackTxt}
               data={monthlyDropdownLimits}
-              onChangeText={(item, index, data) => this.selectedMonthlyItem(item, index, data)}
+              onChangeText={(item, index, data) => this.selectedTimeoutItem(item, index, data)}
               inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
             />
           </View>

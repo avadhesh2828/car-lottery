@@ -24,3 +24,14 @@ export const showPopupAlertWithTitle = (title, message, action) => {
     ],
   );
 };
+
+export const showOptionAlert = (title, message, buttonOk, buttonCancel, action) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      { text: buttonCancel, onPress: () => action(AlertOptions.cancel) }, // 1: Cancel
+      { text: buttonOk, onPress: () => action(AlertOptions.ok) }, // 0: Ok
+    ],
+  );
+};
