@@ -21,6 +21,10 @@ import {
   getLobbyHotLotteriesRequest,
   getLobbyHotLotteriesSuccess,
   getLobbyHotLotteriesFailure,
+
+  joinLotteryRequest,
+  joinLotterySuccess,
+  joinLotteryFailure,
 } from './dashboardActions';
 
 import {
@@ -35,6 +39,7 @@ import {
   getProfileRequest,
   getProfileFailure,
   getProfileSuccess,
+
 } from './profileActions';
 
 const actions = {
@@ -61,6 +66,9 @@ const actions = {
   getProfileRequest,
   getProfileFailure,
   getProfileSuccess,
+  joinLotteryRequest,
+  joinLotterySuccess,
+  joinLotteryFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);

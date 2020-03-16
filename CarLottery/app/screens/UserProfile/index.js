@@ -354,11 +354,14 @@ class UserProfile extends Component {
     isOpenDOBPicker = true;
     if (isIOS) {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{}}>
+          <TouchableOpacity onPress={() => { this.setState({ isShowDatePicker: false }) }}>
+            <Text style={{ paddingVertical: 10, paddingHorizontal: 10, textAlign: 'right', color: 'blue' }}> DONE </Text>
+          </TouchableOpacity>
           <DatePickerIOS
             date={this.state.dob}
             mode="date"
-            onDateChange={this.setDOBDate}
+            onDateChange={(date) => this.setDOBDate(date)}
             maximumDate={new Date()}
           />
           <View style={[styles.cellView, { flexDirection: 'row' }]}>
@@ -366,9 +369,9 @@ class UserProfile extends Component {
               onPress={() => this.updateStateDOB()}
               style={styles.okCancelButton}
             >
-              <Text style={styles.okCancelButtonText}>
+              {/* <Text style={styles.okCancelButtonText}>
                 Ok
-              </Text>
+              </Text> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -493,8 +496,9 @@ class UserProfile extends Component {
                   <Image style={styles.emailIcon} source={images.email} />
                   <Dropdown
                     fontSize={15}
-                    containerStyle={[styles.dropdownStyle, {}]}
+                    containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
                     label={Localization.userProfileScreen.selectCountry}
+                    value={this.props.profileResponse.country_name !== null && this.props.profileResponse.country_name}
                     data={this.props.countryResponse}
                     onChangeText={(item, index, data) => this.selectedCountryItem(item, index, data)}
                     inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
@@ -508,9 +512,10 @@ class UserProfile extends Component {
                   <Image style={styles.emailIcon} source={images.email} />
                   <Dropdown
                     fontSize={15}
-                    containerStyle={styles.dropdownStyle}
+                    containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
                     label={Localization.userProfileScreen.selectState}
                     data={this.props.stateResponse}
+                    value={this.props.profileResponse.state_name !== null && this.props.profileResponse.state_name}
                     onChangeText={(item, index, data) => this.selectedStateItem(item, index, data)}
                     inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
                   />
@@ -545,7 +550,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.address}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.phonePad}
-                value={address}
+                value={this.props.profileResponse.address}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeAddressText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -562,7 +567,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.zipCode}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 keyboardType={KeyboardType.phonePad}
-                value={zipCode}
+                value={this.props.profileResponse.pincode}
                 returnKeyType={ReturnKeyType.done}
                 onChangeText={(value) => this.onChangeZipCodeText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -581,14 +586,15 @@ class UserProfile extends Component {
         </KeyboardAwareScrollView>
         {isShowDatePicker && (isIOS
           ? (
-            <Modal
-              visible={isShowDatePicker}
-              transparent
-            >
-              <View style={styles.pickerModal}>
-                {this.showDOBPicker()}
-              </View>
-            </Modal>
+            // <Modal
+            // style={{backgroundColor: 'red'}}
+            //   visible={isShowDatePicker}
+            //   transparent
+            // >
+            <View style={styles.pickerModal}>
+              {this.showDOBPicker()}
+            </View>
+            // </Modal>
           )
           : (
             <View style={styles.pickerModal}>

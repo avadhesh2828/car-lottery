@@ -13,6 +13,10 @@ import {
   GET_LOBBY_HOT_LOTTERIES_REQUEST,
   getLobbyHotLotteriesSuccess,
   getLobbyHotLotteriesFailure,
+
+  JOIN_LOTTERY_REQUEST,
+  joinLotterySuccess,
+  joinLotteryFailure,
 } from '../../actions/dashboardActions';
 
 import {
@@ -23,6 +27,7 @@ import {
 import {
   commonHotLotteriesUrl,
   lobbyFilterUrl,
+  joinContestUrl,
 } from '../../api/urls';
 
 import {
@@ -124,10 +129,40 @@ function* getLobbyHotLotteries(action) {
   }
 }
 
+function* joinLotteries(action) {
+  try {
+    yield put(showLoader());
+    const url = joinContestUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      action.body,
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      showErrorMessage(response, parsedResponse);
+      yield put(joinLotterySuccess(dataResponse));
+    } else {
+      yield put(joinLotteryFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(joinLotteryFailure());
+  }
+}
+
 export default function* getCountriesSagasportsSaga() {
   yield all([
     takeLatest(GET_HOT_LOTTERIES_REQUEST, getHotLotteries),
     takeLatest(LOBBY_FILTER_REQUEST, lobbyFilter),
     takeLatest(GET_LOBBY_HOT_LOTTERIES_REQUEST, getLobbyHotLotteries),
+    takeLatest(JOIN_LOTTERY_REQUEST, joinLotteries),
   ]);
 }
