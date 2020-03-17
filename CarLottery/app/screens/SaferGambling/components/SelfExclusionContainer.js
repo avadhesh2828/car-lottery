@@ -90,8 +90,7 @@ SelfExclusionContainer.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  // dashboard: state.dashboardReducer,
-  saferGambling: state.SaferGamblingReducer,
+  saferGambling: state.saferGamblingReducer,
 });
 
 const mapDispatchToProps = () => UserActions;

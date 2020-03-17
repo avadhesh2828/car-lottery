@@ -17,6 +17,7 @@ import { Localization } from '../../../utils/localization';
 import isIOS from '../../../utils/plateformSpecific';
 import UserActions from '../../../actions';
 import { UserData } from '../../../utils/global';
+import DateManager from '../../../utils/dateManager';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -114,7 +115,6 @@ class DepositLimitContainer extends Component {
   }
 
   componentDidMount() {
-    console.log('1234');
     this.props.getDepositLimitMonthsRequest({
       unit: 'MONTHS', duration: 1, amount: '', modified_date: '',
     });
@@ -127,12 +127,19 @@ class DepositLimitContainer extends Component {
   }
 
   static getDerivedStateFromProps(props, current_state) {
-    console.log('currentstate', current_state, 'props', props);
     if (props.saferGambling.monthDepositLimitInfo && current_state.monthlyDepositLimit !== props.saferGambling.monthDepositLimitInfo.amount) {
-      console.log('propsAm===', props.saferGambling.monthDepositLimitInfo.amount);
       return {
         monthlyDepositLimit: props.saferGambling.monthDepositLimitInfo.amount,
-        // computed_prop: heavy_computation(props.value)
+      };
+    }
+    if (props.saferGambling.weekDepositLimitInfo && current_state.weeklyDepositLimit !== props.saferGambling.weekDepositLimitInfo.amount) {
+      return {
+        weeklyDepositLimit: props.saferGambling.weekDepositLimitInfo.amount,
+      };
+    }
+    if (props.saferGambling.dayDepositLimitInfo && current_state.dailyDepositLimit !== props.saferGambling.dayDepositLimitInfo.amount) {
+      return {
+        dailyDepositLimit: props.saferGambling.dayDepositLimitInfo.amount,
       };
     }
     return null;
@@ -188,8 +195,17 @@ class DepositLimitContainer extends Component {
     });
   }
 
+  disableDropdown(depositLimitInfo) {
+    if (depositLimitInfo && depositLimitInfo.modified_date && DateManager.lessThan24Hours(depositLimitInfo.modified_date)) {
+      return true;
+    }
+    return false;
+  }
+
 
   render() {
+    const { saferGambling } = this.props;
+    const { monthDepositLimitInfo, weekDepositLimitInfo, dayDepositLimitInfo } = saferGambling;
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
         <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text>
@@ -198,6 +214,7 @@ class DepositLimitContainer extends Component {
           <View style={[styles.textInputContainer, {}]}>
             <Dropdown
               fontSize={15}
+              disabled={this.disableDropdown(monthDepositLimitInfo)}
               containerStyle={[styles.dropdownStyle, {}]}
               dropdownOffset={{ top: 0, left: 0 }}
               label={'Select monthly deposit limit'}
@@ -215,6 +232,7 @@ class DepositLimitContainer extends Component {
             <Dropdown
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
+              disabled={this.disableDropdown(weekDepositLimitInfo)}
               label={'Select weeky deposit limit'}
               dropdownOffset={{ top: 0, left: 0 }}
               textColor={UIColors.blackTxt}
@@ -231,6 +249,7 @@ class DepositLimitContainer extends Component {
             <Dropdown
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
+              disabled={this.disableDropdown(dayDepositLimitInfo)}
               dropdownOffset={{ top: 0, left: 0 }}
               label={'Select daily deposit limit'}
               textColor={UIColors.blackTxt}
@@ -265,7 +284,7 @@ DepositLimitContainer.defaultProps = {
 
 const mapStateToProps = (state) => ({
   // dashboard: state.dashboardReducer,
-  saferGambling: state.SaferGamblingReducer,
+  saferGambling: state.saferGamblingReducer,
 });
 
 const mapDispatchToProps = () => UserActions;

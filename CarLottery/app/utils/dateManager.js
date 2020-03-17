@@ -41,6 +41,7 @@ export default class DateManager {
     if (day.length < 2) day = `0${day}`;
     return [day, month, year].join('-');
   }
+
   static formatReverseDateWithDash(date) {
     let month = `${date.getMonth() + 1}`;
     let day = `${date.getDate()}`;
@@ -48,5 +49,15 @@ export default class DateManager {
     if (month.length < 2) month = `0${month}`;
     if (day.length < 2) day = `0${day}`;
     return [year, month, day].join('-');
+  }
+
+  static lessThan24Hours(modifiedDate) {
+    // const lastDate = modifiedDate.replace(' ', 'T') + 'Z';
+    const timeDiff = new Date().getTime() - new Date(modifiedDate).getTime();
+    const daysDiff = timeDiff / (1000 * 3600 * 24);
+    if (daysDiff <= 1) {
+      return true;
+    }
+    return false;
   }
 }

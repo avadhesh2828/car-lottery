@@ -17,6 +17,7 @@ import { Localization } from '../../../utils/localization';
 import isIOS from '../../../utils/plateformSpecific';
 import UserActions from '../../../actions';
 import { UserData } from '../../../utils/global';
+import DateManager from '../../../utils/dateManager';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -125,17 +126,24 @@ class WagerLimitContainer extends Component {
     });
   }
 
-  // static getDerivedStateFromProps(props, current_state) {
-  //   console.log('currentstate', current_state, 'props', props);
-  //   if (props.saferGambling.monthWagerLimitInfo && current_state.monthlyWagerLimit !== props.saferGambling.monthWagerLimitInfo.amount) {
-  //     console.log('propsAm===', props.saferGambling.monthWagerLimitInfo.amount);
-  //     return {
-  //       monthlyWagerLimit: props.saferGambling.monthWagerLimitInfo.amount,
-  //       // computed_prop: heavy_computation(props.value)
-  //     };
-  //   }
-  //   return null;
-  // }
+  static getDerivedStateFromProps(props, current_state) {
+    if (props.saferGambling.monthWagerLimitInfo && current_state.monthlyWagerLimit !== props.saferGambling.monthWagerLimitInfo.amount) {
+      return {
+        monthlyWagerLimit: props.saferGambling.monthWagerLimitInfo.amount,
+      };
+    }
+    if (props.saferGambling.weekWagerLimitInfo && current_state.weeklyWagerLimit !== props.saferGambling.weekWagerLimitInfo.amount) {
+      return {
+        weeklyWagerLimit: props.saferGambling.weekWagerLimitInfo.amount,
+      };
+    }
+    if (props.saferGambling.dayWagerLimitInfo && current_state.dailyWagerLimit !== props.saferGambling.dayWagerLimitInfo.amount) {
+      return {
+        dailyWagerLimit: props.saferGambling.dayWagerLimitInfo.amount,
+      };
+    }
+    return null;
+  }
 
   onPressSetBtn() {
     if (this.state.monthlyWagerLimit) {
@@ -187,8 +195,17 @@ class WagerLimitContainer extends Component {
     });
   }
 
+  disableDropdown(depositLimitInfo) {
+    if (depositLimitInfo && depositLimitInfo.modified_date && DateManager.lessThan24Hours(depositLimitInfo.modified_date)) {
+      return true;
+    }
+    return false;
+  }
+
 
   render() {
+    const { saferGambling } = this.props;
+    const { monthWagerLimitInfo, weekWagerLimitInfo, dayWagerLimitInfo } = saferGambling;
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
         <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text>
@@ -198,6 +215,7 @@ class WagerLimitContainer extends Component {
             <Dropdown
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
+              disabled={this.disableDropdown(monthWagerLimitInfo)}
               dropdownOffset={{ top: 0, left: 0 }}
               label={'Select monthly wager limit'}
               value={this.state.monthlyWagerLimit ? `₦${this.state.monthlyWagerLimit}` : ''}
@@ -214,6 +232,7 @@ class WagerLimitContainer extends Component {
             <Dropdown
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
+              disabled={this.disableDropdown(weekWagerLimitInfo)}
               label={'Select weeky wager limit'}
               dropdownOffset={{ top: 0, left: 0 }}
               textColor={UIColors.blackTxt}
@@ -230,6 +249,7 @@ class WagerLimitContainer extends Component {
             <Dropdown
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
+              disabled={this.disableDropdown(dayWagerLimitInfo)}
               dropdownOffset={{ top: 0, left: 0 }}
               label={'Select daily wager limit'}
               textColor={UIColors.blackTxt}
@@ -264,7 +284,7 @@ WagerLimitContainer.defaultProps = {
 
 const mapStateToProps = (state) => ({
   // dashboard: state.dashboardReducer,
-  saferGambling: state.SaferGamblingReducer,
+  saferGambling: state.saferGamblingReducer,
 });
 
 const mapDispatchToProps = () => UserActions;
