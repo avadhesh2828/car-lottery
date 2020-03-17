@@ -21,47 +21,59 @@ import {
   spacing, itemSizes, UIColors, fontSizes, fontWeights,
 } from '../utils/variables';
 import { isIOS, isIphoneX, NavBarHeight } from '../utils/plateformSpecific';
+import { responsiveSize } from '../utils/utils';
+import PopUpScreen from './PopupScreen';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: UIColors.navigationBar,
     paddingHorizontal: spacing.semiMedium,
-    paddingVertical: spacing.extraSmall,
     elevation: 5,
   },
   subContainer: {
     flexDirection: 'row',
-  },
-  backbutton: {
-    flex: 3,
-    marginLeft: spacing.semiMedium,
-    marginTop: spacing.semiMedium,
-    width: itemSizes.defaultWidth,
-    height: itemSizes.defaultHeight,
-  },
-  userbutton: {
-    flex: 0.5,
-    marginLeft: spacing.semiMedium,
-    marginTop: spacing.semiMedium,
-    flexDirection: 'row-reverse',
-    width: itemSizes.iconMedium,
-    height: itemSizes.iconMedium,
-  },
-  bellbutton: {
-    flex: 1,
-    marginLeft: spacing.semiMedium,
-    marginTop: spacing.semiMedium,
-    flexDirection: 'row-reverse',
-    width: itemSizes.iconMedium,
-    height: itemSizes.iconMedium,
-  },
-  userIcon: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  backbutton: {
+    position: 'absolute',
+    top: spacing.semiMedium,
+    left: 0,
+    marginLeft: spacing.small,
+    width: responsiveSize(40),
+    height: responsiveSize(30),
+  },
+  userbutton: {
+    position: 'absolute',
+    top: spacing.semiMedium,
+    right: 0,
+    marginLeft: spacing.semiMedium,
+    width: responsiveSize(40),
+    height: responsiveSize(30),
+  },
+  bellbutton: {
+    position: 'absolute',
+    top: spacing.semiMedium,
+    right: 0,
+    marginRight: responsiveSize(30),
+    width: responsiveSize(40),
+    height: responsiveSize(30),
+  },
+  userIcon: {
+    tintColor: UIColors.appBackGroundColor,
+    margin: spacing.semiMedium,
+    width: itemSizes.iconMedium,
+    height: itemSizes.iconSmall,
+  },
+  bellIcon: {
+    tintColor: UIColors.appBackGroundColor,
+    margin: spacing.semiMedium,
     width: itemSizes.iconMedium,
     height: itemSizes.iconMedium,
   },
   backIcon: {
+    tintColor: UIColors.appBackGroundColor,
+    margin: spacing.semiMedium,
     width: itemSizes.iconMedium,
     height: itemSizes.iconMedium,
   },
@@ -76,8 +88,8 @@ const styles = StyleSheet.create({
     width: itemSizes.defaultWidth,
   },
   logo: {
-    width: itemSizes.navLogoImageWidth,
-    height: itemSizes.navLogoImageHeight,
+    width: responsiveSize(80),
+    height: NavBarHeight,
   },
 });
 
@@ -86,13 +98,17 @@ class NavigationHeader extends Component {
 
   onPressLogout() { /* TODO */ }
 
+  onPressRightIcon = () => {
+  }
+
+
   render() {
     const {
       showBackButton,
       title,
       logo,
       backgroundColor,
-      showRightImageIcon,
+      showRightUserImageIcon,
       rightImageIcon,
       showRightBellImageIcon,
       onPressRightIcon,
@@ -104,26 +120,26 @@ class NavigationHeader extends Component {
           {
             showBackButton && (
               <TouchableOpacity style={styles.backbutton} onPress={this.onPressBack}>
-                <Image source={images.backIcon} style={styles.userIcon} />
+                <Image source={images.backIcon} style={styles.backIcon} />
               </TouchableOpacity>
             )
           }
           {title != null && <Text style={styles.title}>{title}</Text>}
-          {logo != null && <Image source={logo} style={styles.logo} />}
+          {logo && <Image source={images.carlogo} style={styles.logo} />}
           {
             showRightBellImageIcon
               && (
                 <TouchableOpacity style={styles.bellbutton} onPress={onPressRightIcon}>
-                  <Image source={images.bellIcon} style={styles.userIcon} />
+                  <Image source={images.bellIcon} style={styles.bellIcon} resizeMode={'contain'} />
                 </TouchableOpacity>
               )
           }
 
           {
-            showRightImageIcon
+            showRightUserImageIcon
               && (
                 <TouchableOpacity style={styles.userbutton} onPress={onPressRightIcon}>
-                  <Image source={images.user} style={styles.userIcon} />
+                  <Image source={images.usernav} style={styles.userIcon} resizeMode={'contain'} />
                 </TouchableOpacity>
               )
           }
