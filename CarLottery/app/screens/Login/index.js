@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, Image, TouchableOpacity,
+  StyleSheet, View, Text, Image, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -204,8 +204,10 @@ class Login extends Component {
     } = this.state;
 
     return (
-      <View style={styles.mainContainer}>
-        <NavigationHeader />
+      <SafeAreaView style={styles.mainContainer}>
+        <NavigationHeader
+          logo
+        />
         <View style={styles.subContainer}>
           <Text style={styles.loginText}>{Localization.loginScreen.LOGIN}</Text>
           <View style={[styles.textInputContainer, { marginTop: spacing.extraLarge }]}>
@@ -257,7 +259,7 @@ class Login extends Component {
             <Text style={styles.loginBtntxt}>{Localization.loginScreen.LOGIN}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

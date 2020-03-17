@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
+import base64 from 'react-native-base64';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -18,7 +19,6 @@ import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
 import { showPopupAlert } from '../../utils/showAlert';
 import { isNetworkConnected } from '../../utils/utils';
-import base64 from 'react-native-base64';
 
 
 const inputWidth = '90%';
@@ -108,43 +108,41 @@ class Signup extends Component {
       password: '',
       confirmPassword: '',
       referalId: '',
-      have_Refferal: images.unCheckedIcon,
-      Terms_Condtion: images.unCheckedIcon,
       isReferalCheck: false,
-      is_Terms_Check: false,
+      isTermsCheck: false,
       // isShowPassword: false,
     };
   }
 
-  Reffral_Image=() => {
-    // eslint-disable-next-line react/destructuring-assignment
-    if (this.state.isReferalCheck === true) {
-      this.setState({
-        have_Refferal: images.checkedIcon,
-        isReferalCheck: false,
-      });
-    } else {
-      this.setState({
-        have_Refferal: images.unCheckedIcon,
-        isReferalCheck: true,
-      });
-    }
-  }
+  // Reffral_Image=() => {
+  //   // eslint-disable-next-line react/destructuring-assignment
+  //   if (this.state.isReferalCheck === true) {
+  //     this.setState({
+  //       have_Refferal: images.checkedIcon,
+  //       isReferalCheck: false,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       have_Refferal: images.unCheckedIcon,
+  //       isReferalCheck: true,
+  //     });
+  //   }
+  // }
 
-  Terms_Condtion_Image=() => {
-    // eslint-disable-next-line react/destructuring-assignment
-    if (this.state.is_Terms_Check === true) {
-      this.setState({
-        Terms_Condtion: images.checkedIcon,
-      });
-      this.state.is_Terms_Check = false;
-    } else {
-      this.setState({
-        Terms_Condtion: images.unCheckedIcon,
-      });
-      this.state.is_Terms_Check = true;
-    }
-  }
+  // Terms_Condtion_Image=() => {
+  //   // eslint-disable-next-line react/destructuring-assignment
+  //   if (this.state.is_Terms_Check === true) {
+  //     this.setState({
+  //       Terms_Condtion: images.checkedIcon,
+  //     });
+  //     this.state.is_Terms_Check = false;
+  //   } else {
+  //     this.setState({
+  //       Terms_Condtion: images.unCheckedIcon,
+  //     });
+  //     this.state.is_Terms_Check = true;
+  //   }
+  // }
 
   onChangeEmailText(email) {
     this.setState({ email });
@@ -216,7 +214,7 @@ class Signup extends Component {
   getValidationErrorMessage() {
     const {
       email, mobileNumber, password, confirmPassword, referalId,
-      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check
+      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check,
     } = this.state;
     // // Email
     // if (!email) {
@@ -245,7 +243,7 @@ class Signup extends Component {
   signupAction() {
     const {
       email, mobileNumber, password, confirmPassword, referalId,
-      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check
+      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check,
     } = this.state;
     const { registerRequest } = this.props;
     const errorMessage = this.getValidationErrorMessage();
@@ -282,15 +280,15 @@ class Signup extends Component {
       password,
       confirmPassword,
       referalId,
-      have_Refferal,
-      Terms_Condtion,
       isReferalCheck,
-      is_Terms_Check,
+      isTermsCheck,
 
     } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
-        <NavigationHeader />
+        <NavigationHeader
+          logo
+        />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
             <Text style={styles.loginText}>{Localization.SignupScreen.Signup}</Text>
@@ -371,8 +369,8 @@ class Signup extends Component {
               /> */}
             </View>
             <View style={styles.checkBoxContainer}>
-              <TouchableOpacity onPress={this.Reffral_Image}>
-                <Image style={[styles.checkIcon, { backgroundColor: isReferalCheck ? UIColors.purpleButtonColor : 'transparent' }]} source={have_Refferal} />
+              <TouchableOpacity onPress={() => this.setState({ isReferalCheck: !isReferalCheck })}>
+                <Image style={styles.checkIcon} source={isReferalCheck ? images.checkedIcon : images.unCheckedIcon} />
               </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.referalCode}</Text>
             </View>
@@ -393,8 +391,8 @@ class Signup extends Component {
               />
             </View>
             <View style={styles.checkBoxContainer}>
-              <TouchableOpacity onPress={this.Terms_Condtion_Image}>
-                <Image style={styles.emailIcon} source={Terms_Condtion} />
+              <TouchableOpacity onPress={() => this.setState({isTermsCheck: !isTermsCheck })}>
+                <Image style={styles.emailIcon} source={isTermsCheck ? images.checkedIcon : images.unCheckedIcon} />
 
               </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.termsAndPolicy}</Text>

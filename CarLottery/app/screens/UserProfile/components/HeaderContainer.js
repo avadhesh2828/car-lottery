@@ -83,7 +83,7 @@ const HeaderContainer = (props) => (
     <View style={styles.imageContainer}>
       <Image
         style={styles.userProfile}
-        source={images.passwordIcon}
+        source={images.profileIcon}
       />
     </View>
     <View style={styles.subHeaderView}>
