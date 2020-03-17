@@ -16,6 +16,8 @@ import {
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Dropdown } from 'react-native-material-dropdown';
+import PropTypes from 'prop-types';
+import { prototype } from 'react-native-modal-dropdown';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -32,6 +34,8 @@ import CustomTextInput from '../../components/CustomTextInput';
 import CustomText from '../../components/CustomText';
 import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
+import { UserData } from '../../utils/global';
+import PopUpScreen from '../../components/PopupScreen';
 
 const inputWidth = '90%';
 let isOpenDOBPicker = false;
@@ -144,6 +148,7 @@ class UserProfile extends Component {
       city: this.props.profileResponse.city,
       address: this.props.profileResponse.address,
       zipCode: this.props.profileResponse.pincode,
+      isPopupVisible: false,
       // isShowPassword: false,
     };
   }
@@ -154,6 +159,9 @@ class UserProfile extends Component {
     // this.props.getStateRequest('231');
   }
 
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
+  }
 
   onChangeEmailText(email) {
     this.setState({ email });
@@ -355,8 +363,14 @@ class UserProfile extends Component {
     if (isIOS) {
       return (
         <View style={{}}>
-          <TouchableOpacity onPress={() => { this.setState({ isShowDatePicker: false }) }}>
-            <Text style={{ paddingVertical: 10, paddingHorizontal: 10, textAlign: 'right', color: 'blue' }}> DONE </Text>
+          <TouchableOpacity onPress={() => { this.setState({ isShowDatePicker: false }); }}>
+            <Text style={{
+              paddingVertical: 10, paddingHorizontal: 10, textAlign: 'right', color: 'blue',
+            }}
+            >
+              {' '}
+              DONE
+            </Text>
           </TouchableOpacity>
           <DatePickerIOS
             date={this.state.dob}
@@ -397,7 +411,9 @@ class UserProfile extends Component {
   }
 
   updateProfile() {
-    let { firstName, lastName, mobileNumber, email, dob, country, state, city, address, zipCode } = this.state;
+    const {
+      firstName, lastName, mobileNumber, email, dob, country, state, city, address, zipCode,
+    } = this.state;
     const profileObject = {
       fname: firstName,
       lname: lastName,
@@ -416,11 +432,16 @@ class UserProfile extends Component {
   render() {
     const {
       email, firstName, lastName, mobileNumber, dob, gender, country,
-      state, city, address, zipCode, isShowDatePicker,
+      state, city, address, zipCode, isShowDatePicker, isPopupVisible,
     } = this.state || this.props.profileResponse;
     return (
       <SafeAreaView style={styles.mainContainer}>
-        <NavigationHeader />
+        <NavigationHeader
+          logo
+          showRightUserImageIcon
+          showRightBellImageIcon
+          onPressRightIcon={() => { this.onChangeView(); }}
+        />
         <HeaderContainer />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
@@ -508,7 +529,8 @@ class UserProfile extends Component {
             </View>
 
             {
-              this.props.countryResponse.length > 0 && (
+              // eslint-disable-next-line react/destructuring-assignment
+              this.props.countryResponse && this.props.countryResponse.length > 0 && (
                 <View style={[styles.textInputContainer, {}]}>
                   <Image style={styles.emailIcon} source={images.email} />
                   <Dropdown
@@ -524,7 +546,7 @@ class UserProfile extends Component {
               )
             }
             {
-              this.props.stateResponse.length > 0 && (
+              this.props.stateResponse && this.props.stateResponse.length > 0 && (
                 <View style={[styles.textInputContainer, {}]}>
                   <Image style={styles.emailIcon} source={images.email} />
                   <Dropdown
@@ -620,11 +642,28 @@ class UserProfile extends Component {
           ))}
         {this.props.isLoading
           && <Loader isAnimating={this.props.isLoading} />}
+
+        {
+      UserData.SessionKey && isPopupVisible
+        ? (
+          <PopUpScreen
+            logoutAction={() => this.props.logoutRequest()}
+          />
+        )
+        : null
+  }
       </SafeAreaView>
     );
   }
 }
 
+UserProfile.propTypes = {
+  logoutRequest: PropTypes.func,
+};
+
+UserProfile.defaultProps = {
+  logoutRequest: () => {},
+};
 const mapStateToProps = (state) => ({
   countryResponse: state.getCountriesReducer.countryResponse,
   countryResponseisLoading: state.getCountriesReducer.isLoading,
@@ -632,7 +671,6 @@ const mapStateToProps = (state) => ({
   stateResponseisLoading: state.getStatesReducer.isLoading,
   profileResponse: state.getProfileDataReducer.profileResponse,
   profileResponseisLoading: state.getProfileDataReducer.isLoading,
-
   isLoading: state.getStatesReducer.isLoading || state.getCountriesReducer.isLoading || state.getProfileDataReducer.isLoading,
 });
 

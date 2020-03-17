@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
@@ -18,7 +19,9 @@ import { formateData } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
-import { screenNames } from '../../utils/constant';
+import constant, { screenNames } from '../../utils/constant';
+import PopUpScreen from '../../components/PopupScreen';
+import { UserData } from '../../utils/global';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -44,24 +47,42 @@ const styles = StyleSheet.create({
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPopupVisible: false,
+    };
+  }
+
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
     this.props.getHotLotteriesRequest();
   }
 
-  buyLottery(item) {
-    this.props.joinLotteryRequest(item.contest_unique_id);
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
   }
+
   onPressPrizeModel(item) {
     Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_PRIZE_MODEL_SCREEN, { item });
   }
 
+  buyLottery(item) {
+    this.props.joinLotteryRequest(item.contest_unique_id);
+  }
+
   render() {
+    const { isPopupVisible } = this.state;
     const { dashboard } = this.props;
     const { hotLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
-        <NavigationHeader />
+        <NavigationHeader
+          logo
+          showRightUserImageIcon
+          showRightBellImageIcon
+          onPressRightIcon={() => { this.onChangeView(); }}
+        />
         <View style={styles.listView}>
           {hotLotteries.length !== 0 ? (
             <FlatList
@@ -94,6 +115,15 @@ class Home extends Component {
           )
             : (<BackgroundMessage title="No data available" />)}
         </View>
+        {
+      UserData.SessionKey && isPopupVisible
+        ? (
+          <PopUpScreen
+            logoutAction={() => this.props.logoutRequest()}
+          />
+        )
+        : null
+  }
       </SafeAreaView>
     );
   }
@@ -102,11 +132,13 @@ class Home extends Component {
 Home.propTypes = {
   getHotLotteriesRequest: PropTypes.func,
   dashboard: PropTypes.object,
+  logoutRequest: PropTypes.func,
 };
 
 Home.defaultProps = {
   getHotLotteriesRequest: () => { },
   dashboard: {},
+  logoutRequest: () => {},
 };
 
 const mapStateToProps = (state) => ({

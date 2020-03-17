@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 /* eslint-disable no-sequences */
 /* eslint-disable react/sort-comp */
@@ -27,6 +28,8 @@ import { contestImgUrl } from '../../api/urls';
 import CustomLabel from './CustomLabel';
 import { screenNames } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
+import PopUpScreen from '../../components/PopupScreen';
+import { UserData } from '../../utils/global';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -127,6 +130,7 @@ class Lobby extends Component {
       searchValue: '',
       is_Radio_check: false,
       multiSliderValue: [0, 100],
+      isPopupVisible: false,
     };
   }
 
@@ -135,7 +139,9 @@ class Lobby extends Component {
     // this.props.lobbyFilterRequest();
   }
 
-
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
+  }
   // componentDidUpdate(prevProps) {
   //   if ((this.state.multiSliderValue[0] !== this.props.dashboard.minEntryFee)
   //   || (this.state.multiSliderValue[0] !== this.props.dashboard.maxEntryFee)) {
@@ -227,11 +233,16 @@ class Lobby extends Component {
 
   render() {
     const { dashboard } = this.props;
-    const { multiSliderValue } = this.state;
+    const { multiSliderValue, isPopupVisible } = this.state;
     const { lobbyHotLotteries } = dashboard;
     return (
-      <View style={styles.mainContainer}>
-        <NavigationHeader />
+      <SafeAreaView style={styles.mainContainer}>
+        <NavigationHeader
+          logo
+          showRightUserImageIcon
+          showRightBellImageIcon
+          onPressRightIcon={() => { this.onChangeView(); }}
+        />
         <View style={styles.subContainer}>
           <View style={{ flexDirection: 'column' }}>
             <View style={{ flexDirection: 'row' }}>
@@ -254,6 +265,7 @@ class Lobby extends Component {
                   backgroundColor: 'gray',
                 }}
                 markerStyle={{
+                  marginTop: spacing.semiMedium,
                   height: spacing.extraLarge,
                   width: spacing.extraLarge,
                   backgroundColor: UIColors.purpleButtonColor,
@@ -344,7 +356,16 @@ class Lobby extends Component {
           )
             : (<BackgroundMessage title="No data available" />)}
         </View>
-      </View>
+        {
+      UserData.SessionKey && isPopupVisible
+        ? (
+          <PopUpScreen
+            logoutAction={() => this.props.logoutRequest()}
+          />
+        )
+        : null
+  }
+      </SafeAreaView>
     );
   }
 }
@@ -353,12 +374,14 @@ Lobby.propTypes = {
   getLobbyHotLotteriesRequest: PropTypes.func,
   dashboard: PropTypes.object,
   lobbyFilterRequest: PropTypes.func,
+  logoutRequest: PropTypes.func,
 };
 
 Lobby.defaultProps = {
   getLobbyHotLotteriesRequest: () => {},
   lobbyFilterRequest: () => {},
   dashboard: {},
+  logoutRequest: () => {},
 };
 
 const mapStateToProps = (state) => ({

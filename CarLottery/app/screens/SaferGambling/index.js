@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
   StyleSheet, SafeAreaView, View, Text, Dimensions,
@@ -16,6 +17,8 @@ import DepositLimitContainer from './components/DepositLimitContainer';
 import WagerLimitContainer from './components/WagerLimitContainer';
 import TimeoutContainer from './components/TimeoutContainer';
 import SelfExclusionContainer from './components/SelfExclusionContainer';
+import { UserData } from '../../utils/global';
+import PopUpScreen from '../../components/PopupScreen';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -69,6 +72,7 @@ class SaferGambling extends Component {
     super(props);
     this.state = {
       // tabIndex: 0,
+      isPopupVisible: false,
       index: 0,
       routes: [
         { key: 'first', title: 'Deposit Limit' },
@@ -82,6 +86,9 @@ class SaferGambling extends Component {
   componentDidMount() {
   }
 
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
+  }
 
   _renderLabel = ({ route }) => (
     <Text style={styles.label}>{route.title}</Text>
@@ -90,15 +97,17 @@ class SaferGambling extends Component {
   render() {
     // const {} = this.state;
     const { saferGambling } = this.props;
+    const { isPopupVisible } = this.state;
     // const {} = saferGambling;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
           showBackButton
           showRightImageIcon
+          logo
+          showRightUserImageIcon
           showRightBellImageIcon
-          rightImageIcon
-          // onPressRightIcon={() => { this.onChangeView(); }}
+          onPressRightIcon={() => { this.onChangeView(); }}
         />
         <View style={styles.subContainer}>
           <TabView
@@ -115,15 +124,26 @@ class SaferGambling extends Component {
             initialLayout={{ width: Dimensions.get('window').width }}
           />
         </View>
+        {
+      UserData.SessionKey && isPopupVisible
+        ? (
+          <PopUpScreen
+            logoutAction={() => this.props.logoutRequest()}
+          />
+        )
+        : null
+  }
       </SafeAreaView>
     );
   }
 }
 
 SaferGambling.propTypes = {
+  logoutRequest: PropTypes.func,
 };
 
 SaferGambling.defaultProps = {
+  logoutRequest: () => {},
 };
 
 const mapStateToProps = (state) => ({

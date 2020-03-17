@@ -1,3 +1,5 @@
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
   StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, TextInput, RefreshControl,
@@ -6,12 +8,15 @@ import { connect } from 'react-redux';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
+import PropTypes from 'prop-types';
 import NavigationHeader from '../../components/NavigationHeader';
 import {
   spacing, UIColors, fontSizes, fontName, itemSizes,
 } from '../../utils/variables';
 import HeaderContainer from './components/HeaderContainer';
 import TicketsTable from './components/TicketsTable';
+import { UserData } from '../../utils/global';
+import PopUpScreen from '../../components/PopupScreen';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -65,7 +70,19 @@ const ticketList = [
 
 // eslint-disable-next-line react/prefer-stateless-function
 class MyTicketDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPopupVisible: false,
+    };
+  }
+
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
+  }
+  
   render() {
+    const {isPopupVisible} = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader />
@@ -73,10 +90,27 @@ class MyTicketDetail extends Component {
         <TicketsTable
           ticketList={ticketList}
         />
+        {
+      UserData.SessionKey && isPopupVisible
+        ? (
+          <PopUpScreen
+            logoutAction={() => this.props.logoutRequest()}
+          />
+        )
+        : null
+  }
       </SafeAreaView>
     );
   }
 }
+
+MyTicketDetail.propTypes = {
+  logoutRequest: PropTypes.func,
+};
+
+MyTicketDetail.defaultProps = {
+  logoutRequest: () => {},
+};
 
 const mapStateToProps = (state) => ({
 });

@@ -28,6 +28,8 @@ import { Localization } from '../../utils/localization';
 import { screenNames } from '../../utils/constant';
 import Navigation from '../../utils/navigation';
 import { isIOS } from '../../utils/plateformSpecific';
+import { UserData } from '../../utils/global';
+import PopUpScreen from '../../components/PopupScreen';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -142,11 +144,15 @@ class MyTicket extends Component {
       searchValue: '',
       multiSliderValue: [0, 100],
       isVisible: false,
+      isPopupVisible: false,
       // Showlottery: images.uncheckedIconRadio,
       radioStatusValue: 'all',
     };
   }
 
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
+  }
 
   componentDidMount() {
     this.props.myTicketsFilterRequest({ status: 'all' });
@@ -154,10 +160,6 @@ class MyTicket extends Component {
 
   onChangeText(text) {
     this.setState({ searchValue: text });
-  }
-
-  onChangeView() {
-    this.setState({ isVisible: !this.state.isVisible });
   }
 
   onPressAllRadiobtn() {
@@ -250,13 +252,18 @@ class MyTicket extends Component {
 
   render() {
     const {
-      multiSliderValue, radioStatusValue, isVisible,
+      multiSliderValue, radioStatusValue, isVisible, isPopupVisible,
     } = this.state;
     const { dashboard } = this.props;
     const { myLotteries } = dashboard;
     return (
       <SafeAreaView style={styles.mainContainer}>
-        <NavigationHeader />
+        <NavigationHeader
+          logo
+          showRightUserImageIcon
+          showRightBellImageIcon
+          onPressRightIcon={() => { this.onChangeView(); }}
+        />
         <View style={styles.subContainer}>
           <View style={{ flexDirection: 'row' }}>
             <View style={{ flex: 6 }}>
@@ -278,6 +285,7 @@ class MyTicket extends Component {
                 backgroundColor: 'gray',
               }}
               markerStyle={{
+                marginTop: spacing.semiMedium,
                 height: spacing.extraLarge,
                 width: spacing.extraLarge,
                 backgroundColor: UIColors.purpleButtonColor,
@@ -378,6 +386,15 @@ class MyTicket extends Component {
             : (<BackgroundMessage title="No data available" />)}
         </View>
         {
+            UserData.SessionKey && isPopupVisible
+              ? (
+                <PopUpScreen
+                  logoutAction={() => this.props.logoutRequest()}
+                />
+              )
+              : null
+        }
+        {/* {
         isVisible
           ? (
             <View style={styles.modalcontainer}>
@@ -387,7 +404,7 @@ class MyTicket extends Component {
             </View>
           )
           : null
-        }
+        } */}
       </SafeAreaView>
     );
   }

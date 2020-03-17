@@ -23,6 +23,8 @@ import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import PrizeModelCell from './components/PrizeModelCell';
 import { contestImgUrl } from '../../api/urls';
+import { UserData } from '../../utils/global';
+import PopUpScreen from '../../components/PopupScreen';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
   jackpotPrizeText: {
     marginTop: spacing.medium,
     marginLeft: spacing.small,
-    fontSize: fontSizes.extraSmall,
+    fontSize: fontSizes.small,
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProRegular,
   },
@@ -106,6 +108,13 @@ const styles = StyleSheet.create({
 
 // eslint-disable-next-line react/prefer-stateless-function
 class MyTicketPrizeModel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPopupVisible: false,
+    };
+  }
+
   getconsolationDetails(myLotteryItem, userWinnerTicket, contestWinners) {
     const consolationList = [];
     const consolationPrizeList = JSON.parse(myLotteryItem.consolation_prizes);
@@ -138,7 +147,12 @@ class MyTicketPrizeModel extends Component {
     }
   }
 
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
+  }
+
   render() {
+    const { isPopupVisible } = this.state;
     const { dashboard } = this.props;
     const { userWinnerTickets, selectedLotterieWinnerslist } = dashboard;
     const { item } = this.props.navigation.state.params;
@@ -147,7 +161,10 @@ class MyTicketPrizeModel extends Component {
         <NavigationHeader
           showBackButton
           showRightImageIcon
+          logo
+          showRightUserImageIcon
           showRightBellImageIcon
+          onPressRightIcon={() => { this.onChangeView(); }}
         />
         <View style={styles.subContainer}>
           <View style={styles.LotterytextConatiner}>
@@ -160,8 +177,8 @@ class MyTicketPrizeModel extends Component {
           </View>
           <View style={styles.lotteryViewConatiner}>
             <Image style={styles.carimage} source={{ uri: contestImgUrl(item.item.jackpot_prize_image) }} />
-            <View>
-              <Text style={styles.jackpotPrizeText}>{item.item.jackpot_prize}</Text>
+            <View style={{ flex: 1 }}>
+              <Text numberOfLines={4} style={styles.jackpotPrizeText}>{item.item.jackpot_prize}</Text>
               {
              item.item.status === '3'
                ? (
@@ -223,6 +240,15 @@ class MyTicketPrizeModel extends Component {
               : null
           }
         </View>
+        {
+      UserData.SessionKey && isPopupVisible
+        ? (
+          <PopUpScreen
+            logoutAction={() => this.props.logoutRequest()}
+          />
+        )
+        : null
+  }
       </SafeAreaView>
     );
   }
@@ -233,6 +259,7 @@ MyTicketPrizeModel.propTypes = {
   getLotterieWinnersRequest: PropTypes.func,
   getUserWinnerTicketsRequest: PropTypes.func,
   dashboard: PropTypes.object,
+  logoutRequest: PropTypes.func,
 };
 
 MyTicketPrizeModel.defaultProps = {
@@ -240,6 +267,7 @@ MyTicketPrizeModel.defaultProps = {
   getUserWinnerTicketsRequest: () => {},
   getLotterieWinnersRequest: () => {},
   dashboard: {},
+  logoutRequest: () => {},
 };
 
 const mapStateToProps = (state) => ({
