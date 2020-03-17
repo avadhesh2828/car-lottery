@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  Text,
+  View,
 } from 'react-native';
 import Login from './LoginTabNavigator';
 import SignUp from './SignUpTabNavigator';
@@ -13,7 +15,7 @@ import Home from './HomeTabNavigator';
 import Lobby from './LobbyTabNavigator';
 import { images } from '../../assets/images';
 import {
-  UIColors, itemSizes, spacing,
+  UIColors, itemSizes, spacing, fontSizes, fontName,
 } from '../../utils/variables';
 
 const { width } = Dimensions.get('window');
@@ -22,17 +24,14 @@ const styles = StyleSheet.create({
   tabStyle: {
     backgroundColor: UIColors.purpleButtonColor,
   },
-  // tabContainer: {
-  //   padding: spacing.medium,
-  //   marginTop: spacing.large,
-  //   width: itemSizes.largeWidth,
-  //   height: itemSizes.defaultHeight,
-  //   backgroundColor: 'green',
-  // },
-  // titleStyle: {
-  //   fontSize: fontSizes.tiny,
-  //   width: width / 2,
-  // },
+  titleStyle: {
+    fontSize: fontSizes.tiny,
+    color: UIColors.whiteTxt,
+    fontFamily: fontName.sourceSansProRegular,
+    paddingBottom: spacing.extraExtraSmall,
+    textAlign: 'center',
+    // fontSize: fontSizes.medium,
+  },
   tabIcon: {
     width: itemSizes.iconExtraLarge,
     height: itemSizes.iconLarge,
@@ -44,6 +43,19 @@ const styles = StyleSheet.create({
     height: itemSizes.defaultHeight,
     marginTop: spacing.smalls,
   },
+  tabbarContainer: {
+    backgroundColor: UIColors.navigationBar,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabLabelContainer: {
+    width: '100%',
+    backgroundColor: UIColors.navigationBar,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default createBottomTabNavigator(
@@ -53,10 +65,14 @@ export default createBottomTabNavigator(
       key: 'Home',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Home',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>Home</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.home} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.home} /></View>
             : <Image style={styles.tabIcon} source={images.home} />
         ),
       },
@@ -66,10 +82,14 @@ export default createBottomTabNavigator(
       key: 'Lobby',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Lobby',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>Lobby</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.lobby} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.lobby} /></View>
             : <Image style={styles.tabIcon} source={images.lobby} />
         ),
       },
@@ -79,11 +99,15 @@ export default createBottomTabNavigator(
       key: 'Login',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Login',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>Login</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.user} />
-            : <Image style={styles.tabIcon} source={images.user} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.login} /></View>
+            : <Image style={styles.tabIcon} source={images.login} />
         ),
       },
     },
@@ -92,10 +116,14 @@ export default createBottomTabNavigator(
       key: 'SignUp',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Register',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>Register</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.register} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.register} /></View>
             : <Image style={styles.tabIcon} source={images.register} />
         ),
       },

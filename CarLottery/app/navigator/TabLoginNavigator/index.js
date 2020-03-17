@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  View,
+  Text,
 } from 'react-native';
 import MyTicket from './MyTicket';
 // import InviteFriend from './InviteFriend';
@@ -14,7 +16,7 @@ import MyFinance from './MyFinTabNavigator';
 import User from './UserTabNavigator';
 import { images } from '../../assets/images';
 import {
-  UIColors, itemSizes, spacing,
+  UIColors, itemSizes, spacing, fontName, fontSizes,
 } from '../../utils/variables';
 
 const { width } = Dimensions.get('window');
@@ -30,10 +32,13 @@ const styles = StyleSheet.create({
   //   height: itemSizes.defaultHeight,
   //   backgroundColor: 'green',
   // },
-  // titleStyle: {
-  //   fontSize: fontSizes.tiny,
-  //   width: width / 2,
-  // },
+  titleStyle: {
+    fontSize: fontSizes.tiny,
+    color: UIColors.whiteTxt,
+    fontFamily: fontName.sourceSansProRegular,
+    paddingBottom: spacing.extraExtraSmall,
+    // fontSize: fontSizes.medium,
+  },
   tabIcon: {
     width: itemSizes.iconExtraLarge,
     height: itemSizes.iconLarge,
@@ -45,6 +50,19 @@ const styles = StyleSheet.create({
     height: itemSizes.defaultHeight,
     marginTop: spacing.smalls,
   },
+  tabbarContainer: {
+    backgroundColor: UIColors.navigationBar,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabLabelContainer: {
+    width: '100%',
+    backgroundColor: UIColors.navigationBar,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default createBottomTabNavigator(
@@ -54,10 +72,14 @@ export default createBottomTabNavigator(
       key: 'Home',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Home',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>Home</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.home} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.home} /></View>
             : <Image style={styles.tabIcon} source={images.home} />
         ),
       },
@@ -67,10 +89,14 @@ export default createBottomTabNavigator(
       key: 'User',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'User',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>User</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.user} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.user} /></View>
             : <Image style={styles.tabIcon} source={images.user} />
         ),
       },
@@ -80,10 +106,14 @@ export default createBottomTabNavigator(
       key: 'Lobby',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'Lobby',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>Lobby</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.lobby} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.lobby} /></View>
             : <Image style={styles.tabIcon} source={images.lobby} />
         ),
       },
@@ -93,10 +123,14 @@ export default createBottomTabNavigator(
       key: 'MyTicket ',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'MyTicket ',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>MyTicket</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.myTicket} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.myTicket} /></View>
             : <Image style={styles.tabIcon} source={images.myTicket} />
         ),
       },
@@ -106,11 +140,15 @@ export default createBottomTabNavigator(
       key: 'MyFinance',
       navigationOptions: {
         header: null,
-        tabBarLabel: 'MyFinance',
+        tabBarLabel: ({ focused }) => (
+          <View style={[styles.tabLabelContainer, { backgroundColor: focused ? UIColors.navigationBar : 'transparent' }]}>
+            <Text style={styles.titleStyle}>MyFinance</Text>
+          </View>
+        ),
         tabBarIcon: ({ focused }) => (
           focused
-            ? <Image style={styles.tabIcon} source={images.help} />
-            : <Image style={styles.tabIcon} source={images.help} />
+            ? <View style={styles.tabbarContainer}><Image style={styles.tabIcon} source={images.finance} /></View>
+            : <Image style={styles.tabIcon} source={images.finance} />
         ),
       },
     },

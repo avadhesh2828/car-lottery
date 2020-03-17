@@ -1,3 +1,5 @@
+const splash = require('./Splash.jpg');
+const carlogo = require('./carlotterylogo.png');
 const logo = require('./logo.png');
 const email = require('./email.png');
 const hidePassowrd = require('./hide_passowrd.png');
@@ -8,6 +10,9 @@ const inviteFriendIcon = require('./invitation.png');
 const printIcon = require('./printer-512.png');
 const downloadIcon = require('./download-512.png');
 const searchIcon = require('./search.png');
+const usernav = require('./usernav.png');
+const profileIcon = require('./profilepic.png');
+const login = require('./login.png');
 const user = require('./male.png');
 const lobby = require('./lobby.png');
 const myTicket = require('./bill.png');
@@ -26,8 +31,11 @@ const statusSelectRadioIcon = require('./SelectedDot.png');
 const bellIcon = require('./bell.png');
 const Completed = require('./Completed.png');
 const backIcon = require('./Back.png');
+const finance =require('./myfinance.png');
 
 export const images = {
+  splash,
+  carlogo,
   logo,
   email,
   hidePassowrd,
@@ -56,4 +64,8 @@ export const images = {
   bellIcon,
   Completed,
   backIcon,
+  usernav,
+  login,
+  profileIcon,
+  finance,
 };
