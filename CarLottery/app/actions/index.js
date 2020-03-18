@@ -10,6 +10,11 @@ import {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
+  forgetpasswordFailure,
+  forgetpasswordRequest,
+  forgetpasswordSuccess,
+  openLoginView,
+  openAuthForgotPasswordView,
 } from './authenticationActions';
 
 import {
@@ -154,6 +159,9 @@ const actions = {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
+  forgetpasswordRequest,
+  forgetpasswordFailure,
+  forgetpasswordSuccess,
   getLotterieWinnersRequest,
   getLotterieWinnersSuccess,
   getLotterieWinnersFailure,
@@ -209,6 +217,8 @@ const actions = {
   suspendUserRequest,
   suspendUserSuccess,
   suspendUserFailure,
+  openLoginView,
+  openAuthForgotPasswordView,
 };
 
 export default bindActionCreators(actions, store.dispatch);

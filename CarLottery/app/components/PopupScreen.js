@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     width: '35%',
     position: 'absolute',
     right: 0,
-    top: isIOS ? responsiveSize(95) : responsiveSize(50),
+    top: isIOS ? responsiveSize(90) : responsiveSize(44),
     backgroundColor: UIColors.grayBackgroundColor,
     borderBottomLeftRadius: spacing.medium,
     borderLeftWidth: 1,

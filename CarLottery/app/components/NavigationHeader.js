@@ -37,43 +37,45 @@ const styles = StyleSheet.create({
   },
   backbutton: {
     position: 'absolute',
-    top: spacing.semiMedium,
+    top: isIOS ? responsiveSize(20) : responsiveSize(13),
     left: 0,
     marginLeft: spacing.small,
     width: responsiveSize(40),
-    height: responsiveSize(30),
+    // height: responsiveSize(30),
   },
   userbutton: {
     position: 'absolute',
-    top: spacing.semiMedium,
+    top: isIOS ? responsiveSize(20) : responsiveSize(13),
+    // backgroundColor: 'pink',
     right: 0,
     marginLeft: spacing.semiMedium,
     width: responsiveSize(40),
-    height: responsiveSize(30),
+    // height: responsiveSize(30),
   },
   bellbutton: {
     position: 'absolute',
-    top: spacing.semiMedium,
+    top: isIOS ? responsiveSize(20) : responsiveSize(13),
     right: 0,
     marginRight: responsiveSize(30),
     width: responsiveSize(40),
-    height: responsiveSize(30),
+    // height: responsiveSize(30),
   },
   userIcon: {
     tintColor: UIColors.appBackGroundColor,
-    margin: spacing.semiMedium,
+    marginHorizontal: spacing.semiMedium,
+    // backgroundColor: 'orange',
     width: itemSizes.iconMedium,
     height: itemSizes.iconSmall,
   },
   bellIcon: {
     tintColor: UIColors.appBackGroundColor,
-    margin: spacing.semiMedium,
+    marginHorizontal: spacing.semiMedium,
     width: itemSizes.iconMedium,
     height: itemSizes.iconMedium,
   },
   backIcon: {
     tintColor: UIColors.appBackGroundColor,
-    margin: spacing.semiMedium,
+    marginHorizontal: spacing.semiMedium,
     width: itemSizes.iconMedium,
     height: itemSizes.iconMedium,
   },
@@ -129,7 +131,7 @@ class NavigationHeader extends Component {
           {
             showRightBellImageIcon
               && (
-                <TouchableOpacity style={styles.bellbutton} onPress={onPressRightIcon}>
+                <TouchableOpacity style={styles.bellbutton}>
                   <Image source={images.bellIcon} style={styles.bellIcon} resizeMode={'contain'} />
                 </TouchableOpacity>
               )

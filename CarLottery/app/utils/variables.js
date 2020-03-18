@@ -64,6 +64,7 @@ export const itemSizes = {
   titleHeight: 20,
   mediumWidth: 60,
   largeWidth: 80,
+  extraLargeWidth: 120,
   defaultHeight: responsiveSize(50),
   defaultIosTextInputHeight: responsiveSize(36),
   defaultAndroidTextInputHeight: responsiveSize(40),

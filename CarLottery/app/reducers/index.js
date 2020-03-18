@@ -7,6 +7,7 @@ import getCountriesReducer from './getCountriesReducer';
 import getStatesReducer from './getStatesReducer';
 import getProfileDataReducer from './getProfileReducer';
 import saferGamblingReducer from './saferGamblingReducer';
+import authWelcomeReducer from './authWelcomeReducer';
 
 const appReducer = combineReducers({
   loaderReducers,
@@ -16,10 +17,9 @@ const appReducer = combineReducers({
   getStatesReducer,
   getProfileDataReducer,
   saferGamblingReducer,
+  authWelcomeReducer,
 });
 
-const rootReducer = (state, action) => {
-  return appReducer(state, action);
-};
+const rootReducer = (state, action) => appReducer(state, action);
 
 export default rootReducer;

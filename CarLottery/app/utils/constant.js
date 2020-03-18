@@ -18,6 +18,7 @@ export const appIntervals = {
 };
 
 export const InputKey = {
+  forgotPassword: 'forgotPassword',
   email: 'email',
   firstName: 'firstName',
   lastName: 'lastName',

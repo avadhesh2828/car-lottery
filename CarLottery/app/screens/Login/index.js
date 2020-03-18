@@ -1,13 +1,12 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
   StyleSheet, View, Text, Image, TouchableOpacity, SafeAreaView,
 } from 'react-native';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import base64 from 'react-native-base64';
-import UserActions from '../../actions';
-import Navigation from '../../utils/navigation';
 // import { screenNames, appIntervals } from '../../utils/constant';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { images } from '../../assets/images';
 import NavigationHeader from '../../components/NavigationHeader';
 import CustomTextInput from '../../components/CustomTextInput';
@@ -15,11 +14,13 @@ import {
   spacing, UIColors, fontSizes, fontName, itemSizes,
 } from '../../utils/variables';
 import { Localization } from '../../utils/localization';
-import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
+import { InputKey, KeyboardType, ReturnKeyType, screenNames } from '../../utils/constant';
 import ToggleIcon from '../../components/ToggleIcon';
 import { showPopupAlert } from '../../utils/showAlert';
-import { isNetworkConnected } from '../../utils/utils';
 import { isIOS } from '../../utils/plateformSpecific';
+import { AuthWelcomeView } from '../../utils/enum';
+import UserActions from '../../actions';
+import Navigation from '../../utils/navigation';
 
 const inputWidth = '90%';
 
@@ -91,6 +92,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: UIColors.purpleButtonColor,
   },
+  resetBtn: {
+    marginTop: spacing.small,
+    paddingVertical: spacing.semiMedium,
+    width: itemSizes.extraLargeWidth,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: UIColors.purpleButtonColor,
+  },
   loginBtntxt: {
     color: UIColors.navigationTitle,
     fontFamily: fontName.sourceSansProRegular,
@@ -104,12 +114,17 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      forgetEmail: '',
       isShowPassword: false,
     };
   }
 
   onChangeEmailText(email) {
     this.setState({ email });
+  }
+
+  onChangeForgetEmailText(forgetEmail) {
+    this.setState({ forgetEmail });
   }
 
   onChangePasswordText(password) {
@@ -124,6 +139,8 @@ class Login extends Component {
           break;
         case InputKey.password:
           break;
+        case InputKey.forgotPassword:
+          break;
         default:
           break;
       }
@@ -131,6 +148,7 @@ class Login extends Component {
       console.log(' error: ', error);
     }
   }
+
 
   getTextInputReference(key, reference) {
     switch (key) {
@@ -140,13 +158,15 @@ class Login extends Component {
       case InputKey.password:
         this.passwordInput = reference;
         break;
+      case InputKey.forgotPassword:
+        this.forgotPasswordInput = reference;
+        break;
       default:
         break;
     }
   }
 
   getValidationErrorMessage() {
-    const { email, password } = this.state;
     // Email or Username
     // if (!email) {
     //   return commonLocalizeStrings.emptyEmailUsernameErrorMessage;
@@ -195,69 +215,160 @@ class Login extends Component {
     }
   }
 
-
-  render() {
+  renderLogin = () => {
     const {
       email,
       password,
       isShowPassword,
     } = this.state;
+    return (
+      <View>
+        <Text style={styles.loginText}>{Localization.loginScreen.LOGIN}</Text>
+        <View style={[styles.textInputContainer, { marginTop: spacing.extraLarge }]}>
+          <Image style={styles.emailIcon} source={images.email} />
+          <CustomTextInput
+            textInput={StyleSheet.flatten(styles.textInput)}
+            inputView={StyleSheet.flatten(styles.textInputView)}
+            placeholderTextColor={UIColors.defaultTextColor}
+            placeholder={Localization.loginScreen.Email}
+            inputKey={InputKey.email}
+            getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
+            keyboardType={KeyboardType.emailAddress}
+            value={email}
+            returnKeyType={ReturnKeyType.next}
+            onChangeText={(value) => this.onChangeEmailText(value)}
+            onSubmitEditing={(key) => this.onSubmitEditing(key)}
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
+          <Image style={styles.emailIcon} source={images.passwordIcon} />
+          <CustomTextInput
+            textInput={StyleSheet.flatten(styles.textInput)}
+            inputView={StyleSheet.flatten(styles.textInputView)}
+            placeholderTextColor={UIColors.defaultTextColor}
+            placeholder={Localization.loginScreen.Password}
+            inputKey={InputKey.password}
+            getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
+            value={password}
+            secureTextEntry={!isShowPassword}
+            returnKeyType={ReturnKeyType.done}
+            onChangeText={(value) => this.onChangePasswordText(value)}
+            onSubmitEditing={(key) => this.onSubmitEditing(key)}
+          />
+          <ToggleIcon
+            isShowPassword={isShowPassword}
+            showPassowrdText={() => this.showPassowrdText()}
+          />
+        </View>
+        <TouchableOpacity style={styles.forgotBtn} onPress={() => this.openCurrentView(AuthWelcomeView.AUTH_FORGOT_PASSWORD)}>
+          <Image
+            source={images.questionIcon}
+            style={styles.forgotImage}
+          />
+          <Text style={styles.forgotText}>{Localization.loginScreen.ForgotPassword}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => this.loginAction()}>
+          <Text style={styles.loginBtntxt}>{Localization.loginScreen.LOGIN}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
+  renderForgetPassword = () => {
+    {
+      console.log('Forget Password');
+    }
+    const {
+      forgetEmail,
+    } = this.state;
+    return (
+      <View>
+        <Text style={styles.loginText}>{Localization.FORGETPASSWORD}</Text>
+        <View style={[styles.textInputContainer, { marginTop: spacing.extraLarge }]}>
+          <Image style={styles.emailIcon} source={images.email} />
+          <CustomTextInput
+            textInput={StyleSheet.flatten(styles.textInput)}
+            inputView={StyleSheet.flatten(styles.textInputView)}
+            placeholderTextColor={UIColors.defaultTextColor}
+            placeholder={Localization.loginScreen.Email}
+            inputKey={InputKey.forgotPassword}
+            getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
+            keyboardType={KeyboardType.emailAddress}
+            value={forgetEmail}
+            returnKeyType={ReturnKeyType.next}
+            onChangeText={(value) => this.onChangeForgetEmailText(value)}
+            onSubmitEditing={(key) => this.onSubmitEditing(key)}
+            autoCapitalize="none"
+          />
+        </View>
+        <TouchableOpacity style={styles.forgotBtn} onPress={() => this.openCurrentView(AuthWelcomeView.AUTH_LOGIN)}>
+          <Image
+            source={images.questionIcon}
+            style={styles.forgotImage}
+          />
+          <Text style={styles.forgotText}>{Localization.loginScreen.RememberPassword}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.resetBtn} onPress={() => this.forgetpasswordAction()}>
+          <Text style={styles.loginBtntxt}>{Localization.loginScreen.ResetPassword}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  openCurrentView = (currentAuthWelcomeView) => {
+    const { openLoginView, openAuthForgotPasswordView } = this.props;
+    switch (currentAuthWelcomeView) {
+      case AuthWelcomeView.AUTH_LOGIN:
+        return (openLoginView());
+      case AuthWelcomeView.AUTH_FORGOT_PASSWORD:
+        return (openAuthForgotPasswordView());
+      default:
+        return (openLoginView());
+    }
+  }
+
+  renderCurrentView = (currentAuthWelcomeView) => {
+    switch (currentAuthWelcomeView) {
+      case AuthWelcomeView.AUTH_LOGIN:
+        return (this.renderLogin());
+      case AuthWelcomeView.AUTH_FORGOT_PASSWORD:
+        return (this.renderForgetPassword());
+      default:
+        return (this.renderLogin()());
+    }
+  }
+
+  forgetpasswordAction() {
+    const { forgetEmail } = this.state;
+    const { forgetpasswordRequest } = this.props;
+    const errorMessage = this.getValidationErrorMessage();
+    if (errorMessage) {
+      showPopupAlert(errorMessage);
+    } else {
+      // isNetworkConnected((isConnected) => {
+      //   if (isConnected) {
+      const data = {
+        // email: 'smenariya@gammastack.com',
+        forgotemail: forgetEmail,
+        user_type: '0',
+      };
+      forgetpasswordRequest(data);
+      // }
+      // });
+    }
+  }
+
+
+  render() {
+    const { currentAuthWelcomeView } = this.props;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
           logo
         />
         <View style={styles.subContainer}>
-          <Text style={styles.loginText}>{Localization.loginScreen.LOGIN}</Text>
-          <View style={[styles.textInputContainer, { marginTop: spacing.extraLarge }]}>
-            <Image style={styles.emailIcon} source={images.email} />
-            <CustomTextInput
-              textInput={StyleSheet.flatten(styles.textInput)}
-              inputView={StyleSheet.flatten(styles.textInputView)}
-              placeholderTextColor={UIColors.defaultTextColor}
-              placeholder={Localization.loginScreen.Email}
-              inputKey={InputKey.email}
-              getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
-              keyboardType={KeyboardType.emailAddress}
-              value={email}
-              returnKeyType={ReturnKeyType.next}
-              onChangeText={(value) => this.onChangeEmailText(value)}
-              onSubmitEditing={(key) => this.onSubmitEditing(key)}
-              autoCapitalize="none"
-            />
-          </View>
-          <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
-            <Image style={styles.emailIcon} source={images.passwordIcon} />
-            <CustomTextInput
-              textInput={StyleSheet.flatten(styles.textInput)}
-              inputView={StyleSheet.flatten(styles.textInputView)}
-              placeholderTextColor={UIColors.defaultTextColor}
-              placeholder={Localization.loginScreen.Password}
-              inputKey={InputKey.password}
-              getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
-              value={password}
-              secureTextEntry={!isShowPassword}
-              returnKeyType={ReturnKeyType.done}
-              onChangeText={(value) => this.onChangePasswordText(value)}
-              onSubmitEditing={(key) => this.onSubmitEditing(key)}
-            />
-            <ToggleIcon
-              isShowPassword={isShowPassword}
-              showPassowrdText={() => this.showPassowrdText()}
-              // screenOrientation={screenOrientation}
-            />
-          </View>
-          <TouchableOpacity style={styles.forgotBtn}>
-            <Image
-              source={images.questionIcon}
-              style={styles.forgotImage}
-            />
-            <Text style={styles.forgotText}>{Localization.loginScreen.ForgotPassword}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn} onPress={() => this.loginAction()}>
-            <Text style={styles.loginBtntxt}>{Localization.loginScreen.LOGIN}</Text>
-          </TouchableOpacity>
+          {this.renderCurrentView(currentAuthWelcomeView)}
         </View>
       </SafeAreaView>
     );
@@ -266,13 +377,22 @@ class Login extends Component {
 
 Login.propTypes = {
   loginRequest: PropTypes.func,
+  forgetpasswordRequest: PropTypes.func,
+  openLoginView: PropTypes.func,
+  openForgotPasswordView: PropTypes.func,
+  currentAuthWelcomeView: PropTypes.number,
 };
 
 Login.defaultProps = {
   loginRequest: () => {},
+  forgetpasswordRequest: () => {},
+  openForgotPasswordView: () => {},
+  openLoginView: () => {},
+  currentAuthWelcomeView: AuthWelcomeView.AUTH_LOGIN,
 };
 
 const mapStateToProps = (state) => ({
+  currentAuthWelcomeView: state.authWelcomeReducer.currentAuthWelcomeView,
 });
 
 const mapDispatchToProps = () => UserActions;

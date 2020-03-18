@@ -1,4 +1,5 @@
 export const Localization = {
+  FORGETPASSWORD: 'Forgot Password',
   LOGIN: 'Login',
   FACEBOOK_LOGIN: 'FACEBOOK LOGIN',
   NO_CONTENT: 'Sorry! there is not list available',
@@ -23,6 +24,8 @@ export const Localization = {
     Email: 'Email',
     Password: 'Password',
     ForgotPassword: 'Forgot Password?',
+    RememberPassword: 'Remember Your Password, Login ?',
+    ResetPassword: 'Reset Password',
   },
   SignupScreen: {
     Signup: 'Signup',

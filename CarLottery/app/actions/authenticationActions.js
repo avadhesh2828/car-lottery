@@ -14,10 +14,30 @@ export const GET_SPORTS_REQUEST = 'GET_SPORTS_REQUEST';
 export const GET_SPORTS_SUCCESS = 'GET_SPORTS_SUCCESS';
 export const GET_SPORTS_FAILURE = 'GET_SPORTS_FAILURE';
 
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
+export const FORGOT_PASSWORD_FAILURE = 'FORGOT_PASSWORD_FAILURE';
+
+export const AUTH_LOGIN = 'AUTH_LOGIN';
+export const AUTH_FORGOT_PASSWORD = 'AUTH_FORGOT_PASSWORD';
+
 // LOGIN APIS
 export const loginRequest = (data) => ({
   type: LOGIN_REQUEST,
   data,
+});
+
+export const forgetpasswordRequest = (data) => ({
+  type: FORGOT_PASSWORD_REQUEST,
+  data,
+});
+
+export const forgetpasswordSuccess = () => ({
+  type: FORGOT_PASSWORD_SUCCESS,
+});
+
+export const forgetpasswordFailure = () => ({
+  type: FORGOT_PASSWORD_FAILURE,
 });
 
 export const logoutRequest = () => ({
@@ -50,4 +70,13 @@ export const getSportsFailure = () => ({
 export const registerRequest = (data) => ({
   type: REGISTER_REQUEST,
   data,
+});
+
+// Auth Welcome View
+export const openLoginView = () => ({
+  type: AUTH_LOGIN,
+});
+
+export const openAuthForgotPasswordView = () => ({
+  type: AUTH_FORGOT_PASSWORD,
 });

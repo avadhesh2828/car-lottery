@@ -10,6 +10,7 @@ export const commonHotLotteriesUrl = `${getBaseUrl()}/api/common/hot_lotteries`;
 export const joinContestUrl = `${getBaseUrl()}/api/contest/join_contest`;
 export const lobbyFilterUrl = `${getBaseUrl()}/api/common/lobby_filter`;
 export const lobbyListUrl = `${getBaseUrl()}/api/common/lotteries_list`;
+export const forgetpasswordUrl = `${getBaseUrl()}/api/auth/forgot_password`;
 // My Tickets
 export const myTicketsFilterUrl = `${getBaseUrl()}/api/contest/my_lotteries_filter`;
 export const myLotteriesUrl = `${getBaseUrl()}/api/contest/my_lotteries`;

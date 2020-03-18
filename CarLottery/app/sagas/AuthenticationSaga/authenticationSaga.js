@@ -9,9 +9,13 @@ import {
   getSportsFailure,
   LOGIN_REQUEST,
   REGISTER_REQUEST,
+  openLoginView,
   logoutSuccess,
   logoutFailure,
   LOGOUT_REQUEST,
+  FORGOT_PASSWORD_REQUEST,
+  forgetpasswordSuccess,
+  forgetpasswordFailure,
 } from '../../actions/authenticationActions';
 
 import {
@@ -24,6 +28,7 @@ import {
   loginUrl,
   signupUrl,
   logoutUrl,
+  forgetpasswordUrl,
 } from '../../api/urls';
 
 import {
@@ -169,6 +174,7 @@ function* signupRequest(action) {
     if (isSuccessAPI(response) && parsedResponse) {
       // showPopupAlert('signup success');
       showSuccessMessage(parsedResponse);
+      yield put(openLoginView());
       Navigation.sharedInstance().pushToScreen(screenNames.LOGIN_SCREEN);
       // TODO put response in user
       // UserData.user = parsedResponse;
@@ -178,6 +184,37 @@ function* signupRequest(action) {
       showErrorMessage(response, parsedResponse);
       // yield put(userLoginFailure(parsedResponse));
       // yield call(loginRequestFailed, response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    console.log('error', error);
+    // yield put(userLoginFailure());
+    showExceptionErrorMessage();
+    // yield put(userLoginStatus(false));
+  }
+}
+
+function* forgetpasswordRequest(action) {
+  yield put(showLoader());
+  try {
+    const response = yield call(
+      apiCall,
+      forgetpasswordUrl,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    yield put(hideLoader());
+    // console.log('parseRes1', parsedResponse);
+    // console.log('parseResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      showSuccessMessage(parsedResponse);
+      yield put(forgetpasswordSuccess(parsedResponse));
+      yield put(openLoginView());
+    } else {
+      // yield put(userLoginFailure(parsedResponse));
+      yield put(forgetpasswordFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
     }
   } catch (error) {
     yield put(hideLoader());
@@ -222,5 +259,6 @@ export default function* sportsSaga() {
     takeLatest(LOGIN_REQUEST, loginRequest),
     takeLatest(LOGOUT_REQUEST, logoutRequest),
     takeLatest(REGISTER_REQUEST, signupRequest),
+    takeLatest(FORGOT_PASSWORD_REQUEST, forgetpasswordRequest),
   ]);
 }
