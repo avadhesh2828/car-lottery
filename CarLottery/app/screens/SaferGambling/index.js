@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import _ from 'lodash';
 import UserActions from '../../actions';
 import NavigationHeader from '../../components/NavigationHeader';
@@ -21,6 +21,7 @@ import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import HeaderAd from '../../components/HeaderAd';
+import { responsiveSize } from '../../utils/utils';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -68,6 +69,18 @@ const FourthRoute = () => (
   <SelfExclusionContainer />
 );
 
+const renderTabBar = (props) => (
+  <TabBar
+    {...props}
+    indicatorStyle={{ backgroundColor: 'yellow' }}
+    style={{ backgroundColor: UIColors.purpleButtonColor }}
+    renderLabel={({ route, focused, color }) => (
+      <Text style={{ color: focused ? 'yellow' : UIColors.whiteTxt, margin: 1, fontSize: responsiveSize(12) }}>
+        {route.title}
+      </Text>
+    )}
+  />
+);
 
 class SaferGambling extends Component {
   constructor(props) {
@@ -94,9 +107,6 @@ class SaferGambling extends Component {
     this.setState({ isPopupVisible: !this.state.isPopupVisible });
   }
 
-  _renderLabel = ({ route }) => (
-    <Text style={styles.label}>{route.title}</Text>
-  );
 
   render() {
     // const {} = this.state;
@@ -116,7 +126,7 @@ class SaferGambling extends Component {
         <KeyboardAwareScrollView style={styles.subContainer}>
           <HeaderAd adData={dashboard.headerAd} />
           <TabView
-            renderLabel={() => this._renderLabel()}
+            renderTabBar={renderTabBar}
             navigationState={this.state}
             scrollEnabled
             renderScene={SceneMap({

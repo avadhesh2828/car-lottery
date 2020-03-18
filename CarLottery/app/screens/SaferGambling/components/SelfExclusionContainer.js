@@ -17,6 +17,7 @@ import { showOptionAlert } from '../../../utils/showAlert';
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    paddingTop: spacing.small,
   },
   textStyle: {
     color: UIColors.blackTxt,
@@ -69,10 +70,10 @@ class SelfExclusionContainer extends Component {
   render() {
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
-        <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text>
+        {/* <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text> */}
         <View style={styles.buttonView}>
           <TouchableOpacity style={styles.updateButton} onPress={() => this.onPressSetBtn()}>
-            <Text style={styles.updateTxt}>Deactivate Container</Text>
+            <Text style={styles.updateTxt}>Deactivate Account</Text>
           </TouchableOpacity>
         </View>
 

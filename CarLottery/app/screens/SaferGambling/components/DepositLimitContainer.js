@@ -22,6 +22,7 @@ import DateManager from '../../../utils/dateManager';
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    paddingTop: spacing.small,
   },
   textStyle: {
     color: UIColors.blackTxt,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // backgroundColor: 'yellow',
     alignItems: 'center',
-    marginTop: spacing.medium,
+    marginTop: spacing.large,
   },
   limitTxt: {
     color: UIColors.blackTxt,
@@ -208,7 +209,7 @@ class DepositLimitContainer extends Component {
     const { monthDepositLimitInfo, weekDepositLimitInfo, dayDepositLimitInfo } = saferGambling;
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
-        <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text>
+        {/* <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text> */}
         <View style={styles.limitContainer}>
           <Text style={styles.textStyle}>Monthly Limit</Text>
           <View style={[styles.textInputContainer, {}]}>

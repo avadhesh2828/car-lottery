@@ -19,6 +19,7 @@ import { showOptionAlert } from '../../../utils/showAlert';
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    paddingTop: spacing.small,
   },
   textStyle: {
     color: UIColors.blackTxt,
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // backgroundColor: 'yellow',
     alignItems: 'center',
-    marginTop: spacing.medium,
+    marginTop: spacing.large,
   },
   limitTxt: {
     color: UIColors.blackTxt,
@@ -101,18 +102,6 @@ class TimeoutContainer extends Component {
   componentDidMount() {
   }
 
-  // static getDerivedStateFromProps(props, current_state) {
-  //   console.log('currentstate', current_state, 'props', props);
-  //   if (props.saferGambling.monthDepositLimitInfo && current_state.monthlyDepositLimit !== props.saferGambling.monthDepositLimitInfo.amount) {
-  //     console.log('propsAm===', props.saferGambling.monthDepositLimitInfo.amount);
-  //     return {
-  //       monthlyDepositLimit: props.saferGambling.monthDepositLimitInfo.amount,
-  //       // computed_prop: heavy_computation(props.value)
-  //     };
-  //   }
-  //   return null;
-  // }
-
   onPressSetBtn() {
     if (this.state.timeoutLimit) {
       showOptionAlert(
@@ -140,7 +129,7 @@ class TimeoutContainer extends Component {
   render() {
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
-        <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text>
+        {/* <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text> */}
         <View style={styles.limitContainer}>
           <Text style={styles.textStyle}>Timeout Limit</Text>
           <View style={[styles.textInputContainer, {}]}>
