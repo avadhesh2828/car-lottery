@@ -9,7 +9,8 @@ import {
 import { images } from '../../../assets/images';
 import { responsiveSize } from '../../../utils/utils';
 import { Localization } from '../../../utils/localization';
-
+import { screenNames } from '../../../utils/constant'
+import Navigation from '../../../utils/navigation';
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
@@ -92,7 +93,7 @@ const HeaderContainer = (props) => (
         {/* <TouchableOpacity style={styles.editBtn}>
         <Text style={styles.btnTxt}>Edit Image</Text>
       </TouchableOpacity> */}
-        <TouchableOpacity style={styles.changeBtn}>
+        <TouchableOpacity style={styles.changeBtn} onPress={() => Navigation.sharedInstance().pushToScreen(screenNames.CHANGE_PASSWORD_SCREEN)}>
           <Text style={styles.btnTxt}>Change Password</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.inviteBtn}>

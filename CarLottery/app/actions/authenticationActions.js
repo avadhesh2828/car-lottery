@@ -18,6 +18,10 @@ export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAILURE = 'FORGOT_PASSWORD_FAILURE';
 
+export const CHANGE_PASSWORD_REQUEST = 'CHANGE_PASSWORD_REQUEST';
+export const CHANGE_PASSWORD_SUCCESS = 'CHANGE_PASSWORD_SUCCESS';
+export const CHANGE_PASSWORD_FAILURE = 'CHANGE_PASSWORD_FAILURE';
+
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const AUTH_FORGOT_PASSWORD = 'AUTH_FORGOT_PASSWORD';
 
@@ -38,6 +42,19 @@ export const forgetpasswordSuccess = () => ({
 
 export const forgetpasswordFailure = () => ({
   type: FORGOT_PASSWORD_FAILURE,
+});
+
+export const changepasswordRequest = (data) => ({
+  type: CHANGE_PASSWORD_REQUEST,
+  data,
+});
+
+export const changepasswordSuccess = () => ({
+  type: CHANGE_PASSWORD_SUCCESS,
+});
+
+export const changepasswordFailure = () => ({
+  type: CHANGE_PASSWORD_FAILURE,
 });
 
 export const logoutRequest = () => ({

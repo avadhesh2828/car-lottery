@@ -35,6 +35,13 @@ export const Localization = {
     refererId: 'Referer ID',
     termsAndPolicy: 'I agree with terms conditions and privacy policy',
   },
+  ChangePasswordScreen: {
+    ChangePassword: 'Change Password',
+    ConfirmPassword: 'Confirm Password',
+    OldPassword: 'Old Password',
+    NewPassword: 'New Password',
+    UpdatePassword: 'Update Password',
+  },
   homeScreen: {
     Play: 'Play',
     View: 'View',

@@ -11,6 +11,7 @@ export const screenNames = {
   TAB_NAVIGATOR: 'TabNavigator',
   LOBBY_SCREEN: 'Lobby',
   TAB_LOGIN_NAVIGATOR: 'TabLoginNavigator',
+  CHANGE_PASSWORD_SCREEN: 'ChangePassword',
 };
 
 export const appIntervals = {
@@ -18,6 +19,8 @@ export const appIntervals = {
 };
 
 export const InputKey = {
+  oldPassword: 'oldPassword',
+  newPassword: 'newPassword',
   forgotPassword: 'forgotPassword',
   email: 'email',
   firstName: 'firstName',

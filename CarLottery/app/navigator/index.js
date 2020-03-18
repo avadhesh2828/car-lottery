@@ -13,7 +13,7 @@ import TabNavigator from './TabNavigator';
 import Lobby from '../screens/Lobby';
 import TabLoginNavigator from './TabLoginNavigator';
 import MyTicketPrizeModel from '../screens/MyTicketPrizeModel';
-
+import ChangePassword from '../screens/ChangePassword';
 // const BeforeLoginTabNavigator = createStackNavigator(
 //   {
 //     Login: {
@@ -137,6 +137,14 @@ const MainNavigator = createStackNavigator(
     Login: {
       screen: Login,
       key: screenNames.LOGIN_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    ChangePassword: {
+      screen: ChangePassword,
+      key: screenNames.CHANGE_PASSWORD_SCREEN,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,

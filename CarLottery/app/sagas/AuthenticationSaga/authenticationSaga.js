@@ -9,6 +9,9 @@ import {
   getSportsFailure,
   LOGIN_REQUEST,
   REGISTER_REQUEST,
+  CHANGE_PASSWORD_REQUEST,
+  changepasswordFailure,
+  changepasswordSuccess,
   openLoginView,
   logoutSuccess,
   logoutFailure,
@@ -16,6 +19,7 @@ import {
   FORGOT_PASSWORD_REQUEST,
   forgetpasswordSuccess,
   forgetpasswordFailure,
+  logoutRequest,
 } from '../../actions/authenticationActions';
 
 import {
@@ -29,6 +33,7 @@ import {
   signupUrl,
   logoutUrl,
   forgetpasswordUrl,
+  changepasswordUrl,
 } from '../../api/urls';
 
 import {
@@ -100,7 +105,7 @@ function* loginRequestFailed(response, parsedResponse) {
 }
 
 
-function* loginRequest(action) {
+function* login(action) {
   yield put(showLoader());
   try {
     const response = yield call(
@@ -135,7 +140,7 @@ export const userLogoutSucess = () => {
 };
 
 // User logout request
-function* logoutRequest() {
+function* logoutApi() {
   yield put(showLoader());
   try {
     const response = yield call(
@@ -176,6 +181,39 @@ function* signupRequest(action) {
       showSuccessMessage(parsedResponse);
       yield put(openLoginView());
       Navigation.sharedInstance().pushToScreen(screenNames.LOGIN_SCREEN);
+      // TODO put response in user
+      // UserData.user = parsedResponse;
+      // UserData.BearerToken = parsedResponse.access_token;
+      // yield call(loginRequestSuccess, parsedResponse);
+    } else {
+      showErrorMessage(response, parsedResponse);
+      // yield put(userLoginFailure(parsedResponse));
+      // yield call(loginRequestFailed, response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    console.log('error', error);
+    // yield put(userLoginFailure());
+    showExceptionErrorMessage();
+    // yield put(userLoginStatus(false));
+  }
+}
+
+function* changepasswordRequest(action) {
+  yield put(showLoader());
+  try {
+    const response = yield call(
+      apiCall,
+      changepasswordUrl,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parseResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      // showPopupAlert('signup success');
+      showSuccessMessage(parsedResponse);
+      yield put(logoutRequest());
       // TODO put response in user
       // UserData.user = parsedResponse;
       // UserData.BearerToken = parsedResponse.access_token;
@@ -256,9 +294,10 @@ function* getSportsList(action) {
 export default function* sportsSaga() {
   yield all([
     takeLatest(GET_SPORTS_REQUEST, getSportsList),
-    takeLatest(LOGIN_REQUEST, loginRequest),
-    takeLatest(LOGOUT_REQUEST, logoutRequest),
+    takeLatest(LOGIN_REQUEST, login),
+    takeLatest(LOGOUT_REQUEST, logoutApi),
     takeLatest(REGISTER_REQUEST, signupRequest),
     takeLatest(FORGOT_PASSWORD_REQUEST, forgetpasswordRequest),
+    takeLatest(CHANGE_PASSWORD_REQUEST, changepasswordRequest),
   ]);
 }
