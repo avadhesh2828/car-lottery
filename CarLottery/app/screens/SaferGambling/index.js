@@ -19,6 +19,8 @@ import TimeoutContainer from './components/TimeoutContainer';
 import SelfExclusionContainer from './components/SelfExclusionContainer';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import HeaderAd from '../../components/HeaderAd';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -73,7 +75,9 @@ class SaferGambling extends Component {
     this.state = {
       // tabIndex: 0,
       isPopupVisible: false,
+      // eslint-disable-next-line react/no-unused-state
       index: 0,
+      // eslint-disable-next-line react/no-unused-state
       routes: [
         { key: 'first', title: 'Deposit Limit' },
         { key: 'second', title: 'Wager Limit' },
@@ -96,7 +100,7 @@ class SaferGambling extends Component {
 
   render() {
     // const {} = this.state;
-    const { saferGambling } = this.props;
+    const { saferGambling, dashboard } = this.props;
     const { isPopupVisible } = this.state;
     // const {} = saferGambling;
     return (
@@ -109,7 +113,8 @@ class SaferGambling extends Component {
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
         />
-        <View style={styles.subContainer}>
+        <KeyboardAwareScrollView style={styles.subContainer}>
+          <HeaderAd adData={dashboard.headerAd} />
           <TabView
             renderLabel={() => this._renderLabel()}
             navigationState={this.state}
@@ -123,7 +128,10 @@ class SaferGambling extends Component {
             onIndexChange={(index) => this.setState({ index })}
             initialLayout={{ width: Dimensions.get('window').width }}
           />
-        </View>
+          <View style={{ flex: 1, marginTop: spacing.small }}>
+            <HeaderAd adData={dashboard.footerAd} />
+          </View>
+        </KeyboardAwareScrollView>
         {
       UserData.SessionKey && isPopupVisible
         ? (
@@ -140,10 +148,14 @@ class SaferGambling extends Component {
 
 SaferGambling.propTypes = {
   logoutRequest: PropTypes.func,
+  dashboard: PropTypes.object,
+  saferGambling: PropTypes.object,
 };
 
 SaferGambling.defaultProps = {
   logoutRequest: () => {},
+  dashboard: {},
+  saferGambling: {},
 };
 
 const mapStateToProps = (state) => ({

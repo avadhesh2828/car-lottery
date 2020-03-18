@@ -118,6 +118,14 @@ import {
   suspendUserFailure,
 } from './saferGamblingActions';
 
+import {
+  getHeaderAdRequest,
+  getHeaderAdSuccess,
+  getHeaderAdFailure,
+  getFooterAdRequest,
+  getFooterAdFailure,
+  getFooterAdSuccess,
+} from './advertisementActions';
 
 const actions = {
   getSportsRequest,
@@ -219,6 +227,13 @@ const actions = {
   suspendUserFailure,
   openLoginView,
   openAuthForgotPasswordView,
+  // advertisement
+  getHeaderAdRequest,
+  getHeaderAdSuccess,
+  getHeaderAdFailure,
+  getFooterAdRequest,
+  getFooterAdFailure,
+  getFooterAdSuccess,
 };
 
 export default bindActionCreators(actions, store.dispatch);

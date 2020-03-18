@@ -5,6 +5,7 @@ import authenticationSaga from './AuthenticationSaga/authenticationSaga';
 import dashboardSaga from './Dashboard/dashboardSaga';
 import getCountriesSaga from './ProfileSaga/profileSaga';
 import saferGamblingSaga from './SaferGambling/saferGamblingSaga';
+import advertisementSaga from './AdvertisementSaga/advertisementSaga';
 
 function* root() {
   yield fork(sportsSaga);
@@ -12,6 +13,7 @@ function* root() {
   yield fork(dashboardSaga);
   yield fork(getCountriesSaga);
   yield fork(saferGamblingSaga);
+  yield fork(advertisementSaga);
 }
 
 const run = () => sagaMiddleware.run(root);

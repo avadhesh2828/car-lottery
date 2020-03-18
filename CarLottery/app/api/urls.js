@@ -25,8 +25,14 @@ export const delDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/delete_dep
 export const delWagerLimitUrl = `${getBaseUrl()}/api/safer_gambling/delete_wager_limit`;
 export const selfTimeoutUrl = `${getBaseUrl()}/api/safer_gambling/self_timeout`;
 export const suspendUserUrl = `${getBaseUrl()}/api/auth/suspend`;
+// Advertisement
+export const headerAdUrl = `${getBaseUrl()}/api/common/get_all_header_advertisement`;
+export const FooterAdUrl = `${getBaseUrl()}/api/common/get_all_footer_advertisement`;
 // Image Urls
 export const contestImgUrl = (imgName) => `${getBaseUrl()}/uploads/contests/${imgName}`;
+export const adImgUrl = (imgName) => `${getBaseUrl()}/uploads/advertisement/${imgName}`;
+export const userProfileImgUrl = (imgName) => `${getBaseUrl()}/uploads/user-profile-img/${imgName}`;
+export const profileThumbImgUrl = (imgName) => `${getBaseUrl()}/uploads/user-profile-img-thumb/${imgName}`;
 
 export const getCountriesUrl = `${getBaseUrl()}/api/auth/get_country`;
 export const getStatesbyCountryUrl = `${getBaseUrl()}/api/auth/get_state_by_country`;

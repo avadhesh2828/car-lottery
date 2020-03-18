@@ -11,7 +11,7 @@ import { UIColors, fontName, fontSizes } from '../utils/variables';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     // backgroundColor: UIColors.primaryText,
     justifyContent: 'center',
     alignItems: 'center',

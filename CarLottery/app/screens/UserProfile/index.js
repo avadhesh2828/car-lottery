@@ -36,6 +36,7 @@ import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
+import HeaderAd from '../../components/HeaderAd';
 
 const inputWidth = '90%';
 let isOpenDOBPicker = false;
@@ -434,6 +435,7 @@ class UserProfile extends Component {
       email, firstName, lastName, mobileNumber, dob, gender, country,
       state, city, address, zipCode, isShowDatePicker, isPopupVisible,
     } = this.state || this.props.profileResponse;
+    const { dashboard } = this.props;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
@@ -442,8 +444,9 @@ class UserProfile extends Component {
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
         />
-        <HeaderContainer />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <HeaderAd adData={dashboard.headerAd} />
+          <HeaderContainer />
           <View style={styles.subContainer}>
             <Text style={styles.personalText}>Personal Info</Text>
             <View style={[styles.textInputContainer, {}]}>
@@ -622,6 +625,7 @@ class UserProfile extends Component {
               <Text style={styles.updateTxt}>Cancel</Text>
             </TouchableOpacity>
           </View>
+          <HeaderAd adData={dashboard.footerAd} />
         </KeyboardAwareScrollView>
         {isShowDatePicker && (isIOS
           ? (
@@ -659,12 +663,15 @@ class UserProfile extends Component {
 
 UserProfile.propTypes = {
   logoutRequest: PropTypes.func,
+  dashboard: PropTypes.object,
 };
 
 UserProfile.defaultProps = {
   logoutRequest: () => {},
+  dashboard: {},
 };
 const mapStateToProps = (state) => ({
+  dashboard: state.dashboardReducer,
   countryResponse: state.getCountriesReducer.countryResponse,
   countryResponseisLoading: state.getCountriesReducer.isLoading,
   stateResponse: state.getStatesReducer.statesResponse,

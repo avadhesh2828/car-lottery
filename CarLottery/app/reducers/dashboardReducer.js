@@ -20,6 +20,7 @@ import {
   GET_USER_WINNER_TICKETS_SUCCESS,
   GET_USER_WINNER_TICKETS_FAILURE,
 } from '../actions/dashboardActions';
+import { GET_HEADER_AD_SUCCESS, GET_FOOTER_AD_SUCCESS } from '../actions/advertisementActions';
 
 const initialState = {
   hotLotteries: [],
@@ -94,8 +95,8 @@ function dashboardReducer(state = initialState, action) {
     case LOBBY_FILTER_SUCCESS:
       return {
         ...state,
-        minEntryFee: parseInt(action.data.Data.min_entry_fee),
-        maxEntryFee: parseInt(action.data.Data.max_entry_fee),
+        minEntryFee: action.data.Data.min_entry_fee ? parseInt(action.data.Data.min_entry_fee) : 0,
+        maxEntryFee: action.data.Data.max_entry_fee ? parseInt(action.data.Data.max_entry_fee) : 100,
       };
     case LOBBY_FILTER_FAILURE:
       return {
@@ -108,8 +109,8 @@ function dashboardReducer(state = initialState, action) {
     case MYTICKETS_FILTER_SUCCESS:
       return {
         ...state,
-        myTicketMinEntryFee: parseInt(action.data.Data.min_entry_fee),
-        myTicketMaxEntryFee: parseInt(action.data.Data.max_entry_fee),
+        myTicketMinEntryFee: action.data.Data.min_entry_fee ? parseInt(action.data.Data.min_entry_fee) : 0,
+        myTicketMaxEntryFee: action.data.Data.max_entry_fee ? parseInt(action.data.Data.max_entry_fee) : 100,
       };
     case MYTICKETS_FILTER_FAILURE:
       return {
@@ -155,6 +156,16 @@ function dashboardReducer(state = initialState, action) {
     case GET_USER_WINNER_TICKETS_FAILURE:
       return {
         ...state,
+      };
+    case GET_HEADER_AD_SUCCESS:
+      return {
+        ...state,
+        headerAd: action.data.Data,
+      };
+    case GET_FOOTER_AD_SUCCESS:
+      return {
+        ...state,
+        footerAd: action.data.Data,
       };
     default:
       return state;

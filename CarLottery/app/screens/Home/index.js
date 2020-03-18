@@ -2,26 +2,24 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, Dimensions,
+  StyleSheet, SafeAreaView, View, FlatList, RefreshControl, Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
-import { images } from '../../assets/images';
 import NavigationHeader from '../../components/NavigationHeader';
-import {
-  spacing, UIColors, fontSizes, fontName, itemSizes,
-} from '../../utils/variables';
-import { Localization } from '../../utils/localization';
+import { spacing, UIColors } from '../../utils/variables';
 import { formateData } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
-import constant, { screenNames } from '../../utils/constant';
+import { screenNames } from '../../utils/constant';
 import PopUpScreen from '../../components/PopupScreen';
 import { UserData } from '../../utils/global';
+import HeaderAd from '../../components/HeaderAd';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -57,6 +55,8 @@ class Home extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
     this.props.getHotLotteriesRequest();
+    this.props.getHeaderAdRequest({});
+    this.props.getFooterAdRequest({});
   }
 
   onChangeView() {
@@ -83,38 +83,42 @@ class Home extends Component {
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
         />
-        <View style={styles.listView}>
-          {hotLotteries.length !== 0 ? (
-            <FlatList
-              key="v"
-              keyExtractor={(item, index) => index.toString()}
-              ItemSeparatorComponent={() => <View style={styles.seperator} />}
-              data={formateData(hotLotteries, 2)}
-              numColumns={2}
-              // onEndReached={() => props.handleLoadMore()}
-              onEndThreshold={0.1}
-              refreshControl={(
-                <RefreshControl
-                  refreshing={false}
-                />
-              )}
-              renderItem={(item) => {
-                if (_.isEmpty(item.item)) {
-                  return <View style={styles.blankContainer} />;
-                }
-                return (
-                  <LotteryCell
-                    item={item.item}
-                    contestImgUrl={contestImgUrl}
-                    buyLottery={(item) => this.buyLottery(item)}
-                    onPressPrizeModel={() => this.onPressPrizeModel(item)}
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
+          <HeaderAd adData={dashboard.headerAd} />
+          <View style={styles.listView}>
+            {hotLotteries.length !== 0 ? (
+              <FlatList
+                key="v"
+                keyExtractor={(item, index) => index.toString()}
+                ItemSeparatorComponent={() => <View style={styles.seperator} />}
+                data={formateData(hotLotteries, 2)}
+                numColumns={2}
+                // onEndReached={() => props.handleLoadMore()}
+                onEndThreshold={0.1}
+                refreshControl={(
+                  <RefreshControl
+                    refreshing={false}
                   />
-                );
-              }}
-            />
-          )
-            : (<BackgroundMessage title="No data available" />)}
-        </View>
+                )}
+                renderItem={(item) => {
+                  if (_.isEmpty(item.item)) {
+                    return <View style={styles.blankContainer} />;
+                  }
+                  return (
+                    <LotteryCell
+                      item={item.item}
+                      contestImgUrl={contestImgUrl}
+                      buyLottery={(item) => this.buyLottery(item)}
+                      onPressPrizeModel={() => this.onPressPrizeModel(item)}
+                    />
+                  );
+                }}
+              />
+            )
+              : (<BackgroundMessage title="No data available" />)}
+          </View>
+          <HeaderAd adData={dashboard.footerAd} />
+        </KeyboardAwareScrollView>
         {
       UserData.SessionKey && isPopupVisible
         ? (
