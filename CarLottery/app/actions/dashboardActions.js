@@ -39,6 +39,9 @@ export const GET_LOTTERIE_WINNERS_FAILURE = 'GET_LOTTERIE_WINNERS_FAILURE';
 export const USER_CONTEST_DETAILS_REQUEST = 'USER_CONTEST_DETAILS_REQUEST';
 export const USER_CONTEST_DETAILS_SUCCESS = 'USER_CONTEST_DETAILS_SUCCESS';
 export const USER_CONTEST_DETAILS_FAILURE = 'USER_CONTEST_DETAILS_FAILURE';
+export const PRINT_TICKETS_REQUEST = 'PRINT_TICKETS_REQUEST';
+export const PRINT_TICKETS_SUCCESS = 'PRINT_TICKETS_SUCCESS';
+export const PRINT_TICKETS_FAILURE = 'PRINT_TICKETS_FAILURE';
 
 // GET SPORTS LIST
 export const getHotLotteriesRequest = () => ({
@@ -186,4 +189,18 @@ export const getUserContestDetailsSuccess = (data) => ({
 
 export const getUserContestDetailsFailure = () => ({
   type: USER_CONTEST_DETAILS_FAILURE,
+});
+
+export const printTicketsRequest = (data) => ({
+  type: PRINT_TICKETS_REQUEST,
+  data,
+});
+
+export const printTicketsSuccess = (data) => ({
+  type: PRINT_TICKETS_SUCCESS,
+  data,
+});
+
+export const printTicketsFailure = () => ({
+  type: PRINT_TICKETS_FAILURE,
 });

@@ -74,6 +74,9 @@ import {
   joinLotteryRequest,
   joinLotterySuccess,
   joinLotteryFailure,
+  printTicketsRequest,
+  printTicketsSuccess,
+  printTicketsFailure,
 } from './dashboardActions';
 
 import {
@@ -194,6 +197,9 @@ const actions = {
   myTicketsContestDetailsSuccess,
   myTicketsContestDetailsFailure,
   myTicketsContestDetailsRequest,
+  printTicketsRequest,
+  printTicketsSuccess,
+  printTicketsFailure,
   // safe gambling
   getDepositLimitMonthsRequest,
   getDepositLimitMonthsSuccess,

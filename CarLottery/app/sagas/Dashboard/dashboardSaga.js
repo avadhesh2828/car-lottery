@@ -36,6 +36,9 @@ import {
   MYTICKETS_CONTEST_DETAILS_REQUEST,
   myTicketsContestDetailsSuccess,
   myTicketsContestDetailsFailure,
+  PRINT_TICKETS_REQUEST,
+  printTicketsSuccess,
+  printTicketsFailure,
 
 } from '../../actions/dashboardActions';
 
@@ -55,6 +58,7 @@ import {
   lotteriesWinnerUrl,
   userWinnerTicketsUrl,
   usercontestdetailsUrl,
+  printTicketsUrl,
 } from '../../api/urls';
 
 import {
@@ -389,6 +393,34 @@ function* joinLotteries(action) {
   }
 }
 
+function* printTickets(action) {
+  try {
+    yield put(showLoader());
+    const url = printTicketsUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(printTicketsSuccess(dataResponse));
+    } else {
+      yield put(printTicketsFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(printTicketsFailure());
+  }
+}
+
 
 export default function* dashboardSaga() {
   yield all([
@@ -402,5 +434,6 @@ export default function* dashboardSaga() {
     takeLatest(GET_USER_WINNER_TICKETS_REQUEST, getUserWinnerTickets),
     takeLatest(USER_CONTEST_DETAILS_REQUEST, getUserContestDetailsRequest),
     takeLatest(MYTICKETS_CONTEST_DETAILS_REQUEST, myTicketsContestDetailsRequest),
+    takeLatest(PRINT_TICKETS_REQUEST, printTickets),
   ]);
 }

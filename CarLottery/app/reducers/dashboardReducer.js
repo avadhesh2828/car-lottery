@@ -25,6 +25,9 @@ import {
   USER_CONTEST_DETAILS_FAILURE,
   USER_CONTEST_DETAILS_SUCCESS,
   USER_CONTEST_DETAILS_REQUEST,
+  PRINT_TICKETS_SUCCESS,
+  PRINT_TICKETS_REQUEST,
+  PRINT_TICKETS_FAILURE,
 } from '../actions/dashboardActions';
 import { GET_HEADER_AD_SUCCESS, GET_FOOTER_AD_SUCCESS } from '../actions/advertisementActions';
 
@@ -50,6 +53,7 @@ const initialState = {
   isLoadingMyContestTickets: false,
   selectedLotterieWinnerslist: [],
   selectedContestDetails: {},
+  printTicketData: '',
 };
 
 function dashboardReducer(state = initialState, action) {
@@ -213,6 +217,16 @@ function dashboardReducer(state = initialState, action) {
       return {
         ...state,
         footerAd: action.data.Data,
+      };
+    case PRINT_TICKETS_SUCCESS:
+      return {
+        ...state,
+        printTicketData: action.data.Data.tickets_view,
+      };
+    case PRINT_TICKETS_FAILURE:
+      return {
+        ...state,
+        printTicketData: '',
       };
     default:
       return state;

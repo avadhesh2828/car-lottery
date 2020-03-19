@@ -95,6 +95,13 @@ class MyTicketDetail extends Component {
     this.setState({ isPopupVisible: !this.state.isPopupVisible });
   }
 
+  onPressPrintBtn(item) {
+    this.props.printTicketsRequest({
+      contest_unique_id: item.contest_unique_id,
+      teckits_numbers: [],
+    });
+  }
+
   render() {
     const { isPopupVisible } = this.state;
     return (
@@ -109,6 +116,7 @@ class MyTicketDetail extends Component {
         <HeaderContainer />
         <TicketsTable
           ticketList={ticketList}
+          // onPressPrintBtn={(data) => this.onPressPrintBtn(data)}
         />
         {
       UserData.SessionKey && isPopupVisible

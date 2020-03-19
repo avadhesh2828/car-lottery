@@ -5,7 +5,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, TextInput, Dimensions, Modal,
+  ScrollView, StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, FlatList, RefreshControl, TextInput, Dimensions, Modal,
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -266,7 +266,15 @@ class MyTicket extends Component {
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
         />
-        <KeyboardAwareScrollView style={{ flex: 1 }}>
+        <ScrollView
+          style={{ flex: 1 }}
+          refreshControl={(
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => this.refreshMyLotteries()}
+            />
+          )}
+        >
           <HeaderAd adData={dashboard.headerAd} />
           <View style={styles.subContainer}>
             <View style={{ flexDirection: 'row' }}>
@@ -302,8 +310,8 @@ class MyTicket extends Component {
                 onValuesChange={(e) => this.multiSliderValuesChange(e)}
                 onValuesChangeFinish={() => this.multiSliderValuesChangeFinish()}
                 sliderLength={Dimensions.get('window').width - 80}
-                min={this.props.dashboard.myTicketMinEntryFee}
-                max={this.props.dashboard.myTicketMaxEntryFee}
+                min={dashboard.myTicketMinEntryFee}
+                max={(dashboard.myTicketMaxEntryFee === dashboard.myTicketMinEntryFee) ? dashboard.myTicketMinEntryFee + 1 : dashboard.myTicketMaxEntryFee}
                 step={1}
                 allowOverlap
                 snapped
@@ -367,12 +375,12 @@ class MyTicket extends Component {
                 numColumns={2}
               // onEndReached={() => this.handleLoadMoreLottery()}
                 onEndThreshold={0.1}
-                refreshControl={(
-                  <RefreshControl
-                    refreshing={false}
-                    onRefresh={() => this.refreshMyLotteries()}
-                  />
-            )}
+            //     refreshControl={(
+            //       <RefreshControl
+            //         refreshing={false}
+            //         onRefresh={() => this.refreshMyLotteries()}
+            //       />
+            // )}
                 renderItem={(item) => {
                   if (_.isEmpty(item.item)) {
                     return <View style={styles.blankContainer} />;
@@ -382,6 +390,7 @@ class MyTicket extends Component {
                       item={item.item}
                       contestImgUrl={contestImgUrl}
                       onPressPrizeModel={() => this.onPressPrizeModel(item)}
+                      onPressViewBtn={() => this.onPressViewBtn(item)}
                     />
                   );
                 }}
@@ -390,7 +399,7 @@ class MyTicket extends Component {
               : (<BackgroundMessage title="No data available" />)}
           </View>
           <HeaderAd adData={dashboard.footerAd} />
-        </KeyboardAwareScrollView>
+        </ScrollView>
         {
             UserData.SessionKey && isPopupVisible
               ? (
