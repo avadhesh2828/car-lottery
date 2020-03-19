@@ -13,9 +13,14 @@ export const LOBBY_FILTER_FAILURE = 'LOBBY_FILTER_FAILURE';
 export const JOIN_LOTTERY_REQUEST = 'JOIN_LOTTERY_REQUEST';
 export const JOIN_LOTTERY_SUCCESS = 'JOIN_LOTTERY_SUCCESS';
 export const JOIN_LOTTERY_FAILURE = 'JOIN_LOTTERY_FAILURE';
+
 export const MYTICKETS_FILTER_REQUEST = 'MYTICKETS_FILTER_REQUEST';
 export const MYTICKETS_FILTER_SUCCESS = 'MYTICKETS_FILTER_SUCCESS';
 export const MYTICKETS_FILTER_FAILURE = 'MYTICKETS_FILTER_FAILURE';
+
+export const MYTICKETS_CONTEST_DETAILS_REQUEST = 'MYTICKETS_CONTEST_DETAILS_REQUEST';
+export const MYTICKETS_CONTEST_DETAILS_SUCCESS = 'MYTICKETS_CONTEST_DETAILS_SUCCESS';
+export const MYTICKETS_CONTEST_DETAILS_FAILURE = 'MYTICKETS_CONTEST_DETAILS_FAILURE';
 
 export const GET_MY_LOTTERIES_REQUEST = 'GET_MY_LOTTERIES_REQUEST';
 export const GET_MY_LOTTERIES_SUCCESS = 'GET_MY_LOTTERIES_SUCCESS';
@@ -31,6 +36,9 @@ export const GET_LOTTERIE_WINNERS_REQUEST = 'GET_LOTTERIE_WINNERS_REQUEST';
 export const GET_LOTTERIE_WINNERS_SUCCESS = 'GET_LOTTERIE_WINNERS_SUCCESS';
 export const GET_LOTTERIE_WINNERS_FAILURE = 'GET_LOTTERIE_WINNERS_FAILURE';
 
+export const USER_CONTEST_DETAILS_REQUEST = 'USER_CONTEST_DETAILS_REQUEST';
+export const USER_CONTEST_DETAILS_SUCCESS = 'USER_CONTEST_DETAILS_SUCCESS';
+export const USER_CONTEST_DETAILS_FAILURE = 'USER_CONTEST_DETAILS_FAILURE';
 
 // GET SPORTS LIST
 export const getHotLotteriesRequest = () => ({
@@ -105,6 +113,20 @@ export const myTicketsFilterFailure = () => ({
   type: MYTICKETS_FILTER_FAILURE,
 });
 
+export const myTicketsContestDetailsRequest = (data) => ({
+  type: MYTICKETS_CONTEST_DETAILS_REQUEST,
+  data,
+});
+
+export const myTicketsContestDetailsSuccess = (data) => ({
+  type: MYTICKETS_CONTEST_DETAILS_SUCCESS,
+  data,
+});
+
+export const myTicketsContestDetailsFailure = () => ({
+  type: MYTICKETS_CONTEST_DETAILS_FAILURE,
+});
+
 export const updateLobbyCurrentPage = (pageNo) => ({
   type: UPDATE_LOBBY_CURRENT_PAGE,
   pageNo,
@@ -150,4 +172,18 @@ export const getLotterieWinnersSuccess = (data) => ({
 
 export const getLotterieWinnersFailure = () => ({
   type: GET_LOTTERIE_WINNERS_FAILURE,
+});
+
+export const getUserContestDetailsRequest = (data) => ({
+  type: USER_CONTEST_DETAILS_REQUEST,
+  data,
+});
+
+export const getUserContestDetailsSuccess = (data) => ({
+  type: USER_CONTEST_DETAILS_SUCCESS,
+  data,
+});
+
+export const getUserContestDetailsFailure = () => ({
+  type: USER_CONTEST_DETAILS_FAILURE,
 });

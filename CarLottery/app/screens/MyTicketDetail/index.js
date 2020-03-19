@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
@@ -5,10 +6,10 @@ import {
   StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, TextInput, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
-import PropTypes from 'prop-types';
 import NavigationHeader from '../../components/NavigationHeader';
 import {
   spacing, UIColors, fontSizes, fontName, itemSizes,
@@ -77,15 +78,34 @@ class MyTicketDetail extends Component {
     };
   }
 
+  componentDidMount() {
+    const { item } = this.props.navigation.state.params;
+    this.props.myTicketsContestDetailsRequest({
+      items_perpage: 12,
+      current_page: 1,
+      sort_field: '',
+      sort_order: '',
+      keyword: '',
+      contest_unique_id: item.contest_unique_id,
+    });
+    this.props.getUserContestDetailsRequest({ contest_unique_id: item.contest_unique_id });
+  }
+
   onChangeView() {
     this.setState({ isPopupVisible: !this.state.isPopupVisible });
   }
-  
+
   render() {
-    const {isPopupVisible} = this.state;
+    const { isPopupVisible } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
-        <NavigationHeader />
+        <NavigationHeader
+          logo
+          showRightUserImageIcon
+          showRightBellImageIcon
+          onPressRightIcon={() => { this.onChangeView(); }}
+          showBackButton
+        />
         <HeaderContainer />
         <TicketsTable
           ticketList={ticketList}
@@ -105,14 +125,21 @@ class MyTicketDetail extends Component {
 }
 
 MyTicketDetail.propTypes = {
+  myTicketsContestDetailsRequest: PropTypes.func,
+  getUserContestDetailsRequest: PropTypes.func,
   logoutRequest: PropTypes.func,
+  dashboard: PropTypes.object,
 };
 
 MyTicketDetail.defaultProps = {
+  myTicketsContestDetailsRequest: () => {},
   logoutRequest: () => {},
+  getUserContestDetailsRequest: () => {},
+  dashboard: {},
 };
 
 const mapStateToProps = (state) => ({
+  dashboard: state.dashboardReducer,
 });
 
 const mapDispatchToProps = () => UserActions;

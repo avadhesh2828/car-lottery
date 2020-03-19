@@ -12,6 +12,9 @@ import {
   MYTICKETS_FILTER_REQUEST,
   MYTICKETS_FILTER_SUCCESS,
   MYTICKETS_FILTER_FAILURE,
+  MYTICKETS_CONTEST_DETAILS_REQUEST,
+  MYTICKETS_CONTEST_DETAILS_FAILURE,
+  MYTICKETS_CONTEST_DETAILS_SUCCESS,
   GET_MY_LOTTERIES_REQUEST,
   GET_MY_LOTTERIES_SUCCESS,
   GET_MY_LOTTERIES_FAILURE,
@@ -19,6 +22,9 @@ import {
   GET_LOTTERIE_WINNERS_FAILURE,
   GET_USER_WINNER_TICKETS_SUCCESS,
   GET_USER_WINNER_TICKETS_FAILURE,
+  USER_CONTEST_DETAILS_FAILURE,
+  USER_CONTEST_DETAILS_SUCCESS,
+  USER_CONTEST_DETAILS_REQUEST,
 } from '../actions/dashboardActions';
 import { GET_HEADER_AD_SUCCESS, GET_FOOTER_AD_SUCCESS } from '../actions/advertisementActions';
 
@@ -38,7 +44,12 @@ const initialState = {
   currentMyTicketsPage: 1,
   myTicketsTotalPages: 1,
   userWinnerTickets: [],
+  myContestTickets: [],
+  myContestTicketsTotalPages: 1,
+  currentMyContestTicketsPage: 1,
+  isLoadingMyContestTickets: false,
   selectedLotterieWinnerslist: [],
+  selectedContestDetails: {},
 };
 
 function dashboardReducer(state = initialState, action) {
@@ -138,6 +149,42 @@ function dashboardReducer(state = initialState, action) {
         ...state,
         myLotteries: [],
         isLoadingMyTickets: false,
+      };
+    case USER_CONTEST_DETAILS_REQUEST:
+      return {
+        ...state,
+      };
+    case USER_CONTEST_DETAILS_SUCCESS:
+      return {
+        ...state,
+        selectedContestDetails: action.data.Data.contest_details,
+      };
+    case USER_CONTEST_DETAILS_FAILURE:
+      return {
+        ...state,
+      };
+    case MYTICKETS_CONTEST_DETAILS_REQUEST:
+      return {
+        ...state,
+        isLoadingMyContestTickets: true,
+      };
+    case MYTICKETS_CONTEST_DETAILS_SUCCESS:
+      // eslint-disable-next-line no-case-declarations
+      const tiList = action.data.response.Data.tickets_list;
+      // eslint-disable-next-line no-case-declarations
+      const myTiList = action.data.current_page === 1 ? tiList : [...state.myContestTickets, ...tiList];
+      return {
+        ...state,
+        myContestTickets: myTiList,
+        myContestTicketsTotalPages: Math.ceil((action.data.response.Data.total_ticket_bought) / action.data.items_perpage),
+        isLoadingMyContestTickets: false,
+        currentMyContestTicketsPage: action.data.current_page,
+
+      };
+    case MYTICKETS_CONTEST_DETAILS_FAILURE:
+      return {
+        ...state,
+        isLoadingMyContestTickets: false,
       };
     case GET_LOTTERIE_WINNERS_SUCCESS:
       return {

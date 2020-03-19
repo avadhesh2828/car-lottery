@@ -174,7 +174,7 @@ const MainNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
-    MyTicketDetails: {
+    MyTicketDetail: {
       screen: MyTicketDetail,
       key: screenNames.MY_TICKET_DETAIL_SCREEN,
       navigationOptions: {

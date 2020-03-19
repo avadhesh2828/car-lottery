@@ -17,6 +17,8 @@ import { responsiveSize } from '../../../utils/utils';
 import { Localization } from '../../../utils/localization';
 import isIOS from '../../../utils/plateformSpecific';
 import MyTicketPrizeModel from '../../MyTicketPrizeModel';
+import { screenNames } from '../../../utils/constant';
+import Navigation from '../../../utils/navigation';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -231,7 +233,7 @@ const LotteryCell = (props) => {
             )
             : null
         }
-          <TouchableOpacity style={styles.viewBtn}>
+          <TouchableOpacity style={styles.viewBtn} onPress={() => Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_DETAIL_SCREEN, { item })}>
             <Text style={styles.txtStyle}>{Localization.homeScreen.View}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.openDetailBtn} onPress={() => onPressPrizeModel(item)}>
