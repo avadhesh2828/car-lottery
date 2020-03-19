@@ -94,47 +94,47 @@ const FlatlistHeader = () => (
 
 const TicketsTable = (props) => (
   <View style={styles.tableContainer}>
-    {props.ticketList !== 0 && (
-      <FlatList
-        key="v"
-        keyExtractor={(item, index) => index.toString()}
-        ItemSeparatorComponent={() => <View style={styles.seperator} />}
-        ListHeaderComponent={FlatlistHeader}
-        data={props.ticketList}
-        onEndThreshold={0.1}
-        refreshControl={(
-          <RefreshControl
-            refreshing={false}
-          />
+    {props.myContestTickets !== 0 && (
+    <FlatList
+      key="v"
+      keyExtractor={(item, index) => index.toString()}
+      ItemSeparatorComponent={() => <View style={styles.seperator} />}
+      ListHeaderComponent={FlatlistHeader}
+      data={props.myContestTickets}
+      onEndThreshold={0.1}
+      refreshControl={(
+        <RefreshControl
+          refreshing={false}
+        />
       )}
-        renderItem={(item) => (
-          <View style={styles.tableRow}>
-            <View style={styles.rowNumber}>
-              <Text style={styles.rowTxt}>1</Text>
-            </View>
-            <View style={styles.ticketNumber}>
-              <Text style={styles.rowTxt}>20 14 26 55 60 47 01 32</Text>
-            </View>
-            <View style={styles.date}>
-              <Text style={styles.rowTxt}>2 jan 2020 8:20 AM</Text>
-            </View>
-            <View style={styles.printContainer}>
-              <TouchableOpacity style={styles.printBtn}>
-                <Image
-                  style={styles.printImage}
-                  source={images.searchIcon}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.printBtn}>
-                <Image
-                  style={styles.printImage}
-                  source={images.searchIcon}
-                />
-              </TouchableOpacity>
-            </View>
+      renderItem={(item) => (
+        <View style={styles.tableRow}>
+          <View style={styles.rowNumber}>
+            <Text style={styles.rowTxt}>{item.index + 1}</Text>
           </View>
-        )}
-      />
+          <View style={styles.ticketNumber}>
+            <Text style={styles.rowTxt}>{item.item.ticket_number}</Text>
+          </View>
+          <View style={styles.date}>
+            <Text style={styles.rowTxt}>{item.item.created_date}</Text>
+          </View>
+          <View style={styles.printContainer}>
+            <TouchableOpacity style={styles.printBtn}>
+              <Image
+                style={styles.printImage}
+                source={images.searchIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.printBtn}>
+              <Image
+                style={styles.printImage}
+                source={images.searchIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    />
     )}
   </View>
 );

@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/destructuring-assignment */
@@ -104,6 +105,9 @@ class MyTicketDetail extends Component {
 
   render() {
     const { isPopupVisible } = this.state;
+    const { dashboard } = this.props;
+    const { selectedContestDetails, myContestTickets } = dashboard;
+    const { item } = this.props.navigation.state.params;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
@@ -113,10 +117,11 @@ class MyTicketDetail extends Component {
           onPressRightIcon={() => { this.onChangeView(); }}
           showBackButton
         />
-        <HeaderContainer />
+        <HeaderContainer
+          selectedContestDetails={selectedContestDetails}
+        />
         <TicketsTable
-          ticketList={ticketList}
-          // onPressPrintBtn={(data) => this.onPressPrintBtn(data)}
+          myContestTickets={myContestTickets}
         />
         {
       UserData.SessionKey && isPopupVisible
