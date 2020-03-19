@@ -88,20 +88,24 @@ const styles = StyleSheet.create({
 });
 
 const HeaderContainer = (props) => (
+
   // <View style={{flex: 1, backgroundColor}}>
   <View style={styles.contestDetailContainer}>
     <View style={styles.contestDetail}>
       <View style={styles.nameView}>
         <Text style={styles.titleTxt}>Name</Text>
-        <Text style={styles.valueTxt}>Win Audi R8</Text>
+        <Text style={styles.valueTxt}>{props.selectedContestDetails.contest_name}</Text>
       </View>
       <View style={styles.nameView}>
         <Text style={styles.titleTxt}>Ticket Price</Text>
-        <Text style={styles.valueTxt}>N 80</Text>
+        <Text style={styles.valueTxt}>
+          ₦
+           {props.selectedContestDetails.entry_fee}
+        </Text>
       </View>
       <View style={styles.nameView}>
         <Text style={styles.titleTxt}>Ticket Brought</Text>
-        <Text style={styles.valueTxt}>50</Text>
+        <Text style={styles.valueTxt}>{props.selectedContestDetails.total_ticket_bought}</Text>
       </View>
     </View>
 
