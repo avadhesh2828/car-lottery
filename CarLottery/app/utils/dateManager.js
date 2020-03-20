@@ -22,10 +22,10 @@ export default class DateManager {
 
   static formatDateToString(date) {
     const monthNames = [
-      'January', 'February', 'March',
-      'April', 'May', 'June', 'July',
-      'August', 'September', 'October',
-      'November', 'December',
+      'Jan', 'Feb', 'Mar',
+      'Apr', 'May', 'Jun', 'Jul',
+      'Aug', 'Sep', 'Oct',
+      'Nov', 'Dec',
     ];
     const day = date.getDate();
     const monthIndex = date.getMonth();
@@ -59,5 +59,15 @@ export default class DateManager {
       return true;
     }
     return false;
+  }
+
+  static DisplayCurrentTime(date) {
+    date = new Date(date);
+    let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+    const am_pm = date.getHours() >= 12 ? 'PM' : 'AM';
+    hours = hours < 10 ? `0${hours}` : hours;
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+    const time = `${hours}:${minutes} ${am_pm}`;
+    return time;
   }
 }
