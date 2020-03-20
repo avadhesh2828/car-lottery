@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing.medium,
   },
   nameView: {
+    flex: 1.5,
+  },
+  nameViewOther: {
     flex: 1,
   },
   titleTxt: {
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
     fontFamily: fontName.sourceSansProRegular,
   },
   valueTxt: {
-    fontSize: fontSizes.small,
+    fontSize: fontSizes.extraSmall,
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProSemiBold,
   },
@@ -88,23 +91,22 @@ const styles = StyleSheet.create({
 });
 
 const HeaderContainer = (props) => (
-
   // <View style={{flex: 1, backgroundColor}}>
   <View style={styles.contestDetailContainer}>
     <View style={styles.contestDetail}>
       <View style={styles.nameView}>
-        <Text style={styles.titleTxt}>Name</Text>
-        <Text style={styles.valueTxt}>{props.selectedContestDetails.contest_name}</Text>
+        <Text style={styles.titleTxt}>{Localization.myTicketDetailsScreen.Name}</Text>
+        <Text style={styles.valueTxt} numberOfLines={2}>{props.selectedContestDetails.contest_name}</Text>
       </View>
-      <View style={styles.nameView}>
-        <Text style={styles.titleTxt}>Ticket Price</Text>
+      <View style={styles.nameViewOther}>
+        <Text style={styles.titleTxt}>{Localization.myTicketDetailsScreen.TicketPrice}</Text>
         <Text style={styles.valueTxt}>
           ₦
-           {props.selectedContestDetails.entry_fee}
+          {props.selectedContestDetails.entry_fee}
         </Text>
       </View>
-      <View style={styles.nameView}>
-        <Text style={styles.titleTxt}>Ticket Brought</Text>
+      <View style={styles.nameViewOther}>
+        <Text style={styles.titleTxt}>{Localization.myTicketDetailsScreen.TicketBought}</Text>
         <Text style={styles.valueTxt}>{props.selectedContestDetails.total_ticket_bought}</Text>
       </View>
     </View>
@@ -116,20 +118,26 @@ const HeaderContainer = (props) => (
           style={styles.textInputStyle}
           placeholder={'Search by Lottery name'}
           placeholderTextColor={UIColors.grayText}
-          onChangeText={props.onChangetext}
+          onChangeText={(text) => props.onChangeText(text)}
           clearButtonMode={'always'}
           value={props.searchValue}
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity style={styles.searchButton} onPress={() => props.searchText()}>
           <Image style={styles.searchIconStyle} source={images.searchIcon} />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.prizeButton}>
-        <Text style={styles.buyTxt}>Prizes</Text>
+      <TouchableOpacity style={styles.prizeButton} onPress={() => props.onPressPrizeModel(props.item)}>
+        <Text style={styles.buyTxt}>{Localization.myTicketDetailsScreen.Prizes}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buyButton}>
-        <Text style={styles.buyTxt}>Buy</Text>
-      </TouchableOpacity>
+      {
+      props.item.status === '1'
+        ? (
+          <TouchableOpacity style={styles.buyButton} onPress={() => props.buyLottery(props.item)}>
+            <Text style={styles.buyTxt}>{Localization.myTicketDetailsScreen.Play}</Text>
+          </TouchableOpacity>
+        )
+        : null
+      }
     </View>
   </View>
 );

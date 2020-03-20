@@ -19,6 +19,7 @@ import HeaderContainer from './components/HeaderContainer';
 import TicketsTable from './components/TicketsTable';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
+import { screenNames } from '../../utils/constant';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -27,54 +28,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const ticketList = [
-  {
-    ticket_number: '91 61 96 44 53 20 88 00',
-    created_date: '2020-02-14 10:13:21+00',
-    user_won: null,
-  },
-  {
-    ticket_number: '29 23 62 77 23 92 34 98',
-    created_date: '2020-02-14 10:12:57+00',
-    user_won: null,
-  },
-  {
-    ticket_number: '20 14 26 55 60 47 01 32',
-    created_date: '2020-02-12 05:06:07+00',
-    user_won: null,
-  },
-  {
-    ticket_number: '46 24 64 65 97 50 63 79',
-    created_date: '2020-02-11 08:15:52+00',
-    user_won: null,
-  },
-  {
-    ticket_number: '19 89 22 06 97 67 96 93',
-    created_date: '2020-02-10 10:53:41+00',
-    user_won: null,
-  },
-  {
-    ticket_number: '90 06 92 96 52 13 22 54',
-    created_date: '2020-02-10 10:53:29+00',
-    user_won: null,
-  },
-  {
-    ticket_number: '97 16 27 17 51 11 79 81',
-    created_date: '2020-02-07 06:40:54+00',
-    user_won: null,
-  },
-  {
-    ticket_number: '89 18 77 83 12 46 59 38',
-    created_date: '2020-02-06 05:23:23+00',
-    user_won: null,
-  },
-];
 
 // eslint-disable-next-line react/prefer-stateless-function
 class MyTicketDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchValue: '',
       isPopupVisible: false,
     };
   }
@@ -103,8 +63,37 @@ class MyTicketDetail extends Component {
     });
   }
 
+  onChangeText(text) {
+    this.setState({ searchValue: text });
+  }
+
+  buyLottery(item) {
+    this.props.joinLotteryRequest(item.contest_unique_id);
+  }
+
+  searchText() {
+    this.refreshMyTickets();
+  }
+
+  onPressPrizeModel(item) {
+    item.item = item;
+    Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_PRIZE_MODEL_SCREEN, { item });
+  }
+
+  refreshMyTickets() {
+    const { item } = this.props.navigation.state.params;
+    this.props.myTicketsContestDetailsRequest({
+      items_perpage: 12,
+      current_page: 1,
+      sort_field: '',
+      sort_order: '',
+      keyword: this.state.searchValue,
+      contest_unique_id: item.contest_unique_id,
+    });
+  }
+
   render() {
-    const { isPopupVisible } = this.state;
+    const { isPopupVisible, searchValue } = this.state;
     const { dashboard } = this.props;
     const { selectedContestDetails, myContestTickets } = dashboard;
     const { item } = this.props.navigation.state.params;
@@ -118,7 +107,13 @@ class MyTicketDetail extends Component {
           showBackButton
         />
         <HeaderContainer
+          item={item}
+          searchValue={searchValue}
           selectedContestDetails={selectedContestDetails}
+          onPressPrizeModel={(item) => this.onPressPrizeModel(item)}
+          searchText={() => this.searchText()}
+          onChangeText={(text) => this.onChangeText(text)}
+          buyLottery={(item) => this.buyLottery(item)}
         />
         <TicketsTable
           myContestTickets={myContestTickets}

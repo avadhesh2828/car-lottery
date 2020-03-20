@@ -8,6 +8,8 @@ import {
   spacing, itemSizes, UIColors, fontName, fontSizes,
 } from '../../../utils/variables';
 import { images } from '../../../assets/images';
+import DateManager from '../../../utils/dateManager';
+import { Localization } from '../../../utils/localization';
 
 const styles = StyleSheet.create({
   tableContainer: {
@@ -28,12 +30,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   rowNumber: {
+    paddingTop: spacing.small,
     paddingHorizontal: spacing.extraSmall,
     justifyContent: 'center',
     alignItems: 'center',
   },
   ticketNumber: {
     flex: 1,
+    paddingTop: spacing.small,
     paddingHorizontal: spacing.extraSmall,
     justifyContent: 'center',
     alignItems: 'center',
@@ -41,6 +45,7 @@ const styles = StyleSheet.create({
   },
   date: {
     flex: 1,
+    paddingTop: spacing.small,
     paddingHorizontal: spacing.extraSmall,
     justifyContent: 'center',
     alignItems: 'center',
@@ -49,6 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: spacing.small,
     paddingHorizontal: spacing.extraSmall,
     // backgroundColor: 'green',
   },
@@ -78,16 +84,16 @@ const styles = StyleSheet.create({
 const FlatlistHeader = () => (
   <View style={styles.headerRow}>
     <View style={styles.rowNumber}>
-      <Text style={styles.rowTitleTxt}>#</Text>
+      <Text style={styles.rowTitleTxt}>{Localization.myTicketDetailsScreen.serialNo}</Text>
     </View>
     <View style={styles.ticketNumber}>
-      <Text style={styles.rowTitleTxt}>Ticket</Text>
+      <Text style={styles.rowTitleTxt}>{Localization.myTicketDetailsScreen.Ticket}</Text>
     </View>
     <View style={styles.date}>
-      <Text style={styles.rowTitleTxt}>Bought at</Text>
+      <Text style={styles.rowTitleTxt}>{Localization.myTicketDetailsScreen.Boughtat}</Text>
     </View>
     <View style={[styles.printContainer, { width: itemSizes.largeWidth }]}>
-      <Text style={styles.rowTitleTxt}>Print</Text>
+      <Text style={styles.rowTitleTxt}>{Localization.myTicketDetailsScreen.Print}</Text>
     </View>
   </View>
 );
@@ -107,33 +113,42 @@ const TicketsTable = (props) => (
           refreshing={false}
         />
       )}
-      renderItem={(item) => (
-        <View style={styles.tableRow}>
-          <View style={styles.rowNumber}>
-            <Text style={styles.rowTxt}>{item.index + 1}</Text>
+      renderItem={(item) => {
+        const date = new Date(item.item.created_date);
+        const matchDate = DateManager.formatDateToString(date);
+        const time = DateManager.DisplayCurrentTime(date);
+        return (
+          <View style={styles.tableRow}>
+            <View style={styles.rowNumber}>
+              <Text style={styles.rowTxt}>{item.index + 1}</Text>
+            </View>
+            <View style={styles.ticketNumber}>
+              <Text style={styles.rowTxt}>{item.item.ticket_number}</Text>
+            </View>
+            <View style={styles.date}>
+              <Text style={styles.rowTxt}>
+                {matchDate}
+                {' '}
+                {time}
+              </Text>
+            </View>
+            <View style={styles.printContainer}>
+              <TouchableOpacity style={styles.printBtn}>
+                <Image
+                  style={styles.printImage}
+                  source={images.print}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.printBtn}>
+                <Image
+                  style={styles.printImage}
+                  source={images.download}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.ticketNumber}>
-            <Text style={styles.rowTxt}>{item.item.ticket_number}</Text>
-          </View>
-          <View style={styles.date}>
-            <Text style={styles.rowTxt}>{item.item.created_date}</Text>
-          </View>
-          <View style={styles.printContainer}>
-            <TouchableOpacity style={styles.printBtn}>
-              <Image
-                style={styles.printImage}
-                source={images.searchIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.printBtn}>
-              <Image
-                style={styles.printImage}
-                source={images.searchIcon}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
+        );
+      }}
     />
     )}
   </View>

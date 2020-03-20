@@ -31,7 +31,9 @@ const statusSelectRadioIcon = require('./SelectedDot.png');
 const bellIcon = require('./bell.png');
 const Completed = require('./Completed.png');
 const backIcon = require('./Back.png');
-const finance =require('./myfinance.png');
+const finance = require('./myfinance.png');
+const download = require('./download.png');
+const print = require('./ink.png');
 
 export const images = {
   splash,
@@ -68,4 +70,6 @@ export const images = {
   login,
   profileIcon,
   finance,
+  download,
+  print,
 };
