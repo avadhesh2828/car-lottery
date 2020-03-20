@@ -136,7 +136,11 @@ const HeaderContainer = (props) => (
             <Text style={styles.buyTxt}>{Localization.myTicketDetailsScreen.Play}</Text>
           </TouchableOpacity>
         )
-        : null
+        : (
+          <TouchableOpacity style={styles.buyButton} onPress={() => props.Dispute(props.item)}>
+            <Image style={styles.searchIconStyle} source={images.dispute} />
+          </TouchableOpacity>
+        )
       }
     </View>
   </View>

@@ -40,6 +40,9 @@ import {
   printTicketsSuccess,
   printTicketsFailure,
 
+  disputeFailure,
+  disputeSuccess,
+  DISPUTE_REQUEST,
 } from '../../actions/dashboardActions';
 
 import {
@@ -59,6 +62,7 @@ import {
   userWinnerTicketsUrl,
   usercontestdetailsUrl,
   printTicketsUrl,
+  disputeUrl,
 } from '../../api/urls';
 
 import {
@@ -364,6 +368,35 @@ function* getUserWinnerTickets(action) {
   }
 }
 
+function* disputeRequest(action) {
+  try {
+    yield put(showLoader());
+    const url = disputeUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    // console.log('parsedResponse', parsedResponse);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      yield put(disputeSuccess(dataResponse));
+      showSuccessMessage(parsedResponse);
+    } else {
+      yield put(disputeFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(disputeFailure());
+  }
+}
+
 function* joinLotteries(action) {
   try {
     yield put(showLoader());
@@ -435,5 +468,6 @@ export default function* dashboardSaga() {
     takeLatest(USER_CONTEST_DETAILS_REQUEST, getUserContestDetailsRequest),
     takeLatest(MYTICKETS_CONTEST_DETAILS_REQUEST, myTicketsContestDetailsRequest),
     takeLatest(PRINT_TICKETS_REQUEST, printTickets),
+    takeLatest(DISPUTE_REQUEST, disputeRequest),
   ]);
 }

@@ -12,6 +12,7 @@ export const screenNames = {
   LOBBY_SCREEN: 'Lobby',
   TAB_LOGIN_NAVIGATOR: 'TabLoginNavigator',
   CHANGE_PASSWORD_SCREEN: 'ChangePassword',
+  DISPUTE_REASON: 'DisputeReason',
 };
 
 export const appIntervals = {

@@ -20,6 +20,7 @@ export const userWinnerTicketsUrl = `${getBaseUrl()}/api/contest/user_Winner_tic
 export const usercontestdetailsUrl = `${getBaseUrl()}/api/contest/user_contest_details`;
 export const myTicketsContestDetailsUrl = `${getBaseUrl()}/api/contest/my_tickets`;
 export const printTicketsUrl = `${getBaseUrl()}/api/contest/print_tickets`;
+export const disputeUrl = `${getBaseUrl()}/api/contest/new_disputes`;
 // Safer Gambling
 export const getDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/get_deposit_limit`;
 export const setDepositLimitUrl = `${getBaseUrl()}/api/safer_gambling/set_deposit_limit`;

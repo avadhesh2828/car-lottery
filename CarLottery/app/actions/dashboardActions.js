@@ -43,6 +43,9 @@ export const PRINT_TICKETS_REQUEST = 'PRINT_TICKETS_REQUEST';
 export const PRINT_TICKETS_SUCCESS = 'PRINT_TICKETS_SUCCESS';
 export const PRINT_TICKETS_FAILURE = 'PRINT_TICKETS_FAILURE';
 
+export const DISPUTE_REQUEST = 'DISPUTE_REQUEST';
+export const DISPUTE_SUCCESS = 'DISPUTE_SUCCESS';
+export const DISPUTE_FAILURE = 'DISPUTE_FAILURE';
 // GET SPORTS LIST
 export const getHotLotteriesRequest = () => ({
   type: GET_HOT_LOTTERIES_REQUEST,
@@ -203,4 +206,18 @@ export const printTicketsSuccess = (data) => ({
 
 export const printTicketsFailure = () => ({
   type: PRINT_TICKETS_FAILURE,
+});
+
+export const disputeRequest = (data) => ({
+  type: DISPUTE_REQUEST,
+  data,
+});
+
+export const disputeSuccess = (data) => ({
+  type: DISPUTE_SUCCESS,
+  data,
+});
+
+export const disputeFailure = () => ({
+  type: DISPUTE_FAILURE,
 });

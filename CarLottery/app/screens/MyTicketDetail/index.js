@@ -80,6 +80,11 @@ class MyTicketDetail extends Component {
     Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_PRIZE_MODEL_SCREEN, { item });
   }
 
+  Dispute(item) {
+    item.item = item;
+    Navigation.sharedInstance().pushToScreen(screenNames.DISPUTE_REASON, { item });
+  }
+
   refreshMyTickets() {
     const { item } = this.props.navigation.state.params;
     this.props.myTicketsContestDetailsRequest({
@@ -114,6 +119,7 @@ class MyTicketDetail extends Component {
           searchText={() => this.searchText()}
           onChangeText={(text) => this.onChangeText(text)}
           buyLottery={(item) => this.buyLottery(item)}
+          Dispute={(item) => this.Dispute(item)}
         />
         <TicketsTable
           myContestTickets={myContestTickets}

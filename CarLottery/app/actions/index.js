@@ -77,6 +77,11 @@ import {
   printTicketsRequest,
   printTicketsSuccess,
   printTicketsFailure,
+
+  // dispute
+  disputeFailure,
+  disputeRequest,
+  disputeSuccess,
 } from './dashboardActions';
 
 import {
@@ -200,6 +205,9 @@ const actions = {
   printTicketsRequest,
   printTicketsSuccess,
   printTicketsFailure,
+  disputeSuccess,
+  disputeRequest,
+  disputeFailure,
   // safe gambling
   getDepositLimitMonthsRequest,
   getDepositLimitMonthsSuccess,

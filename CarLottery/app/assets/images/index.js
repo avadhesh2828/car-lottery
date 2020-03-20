@@ -34,6 +34,7 @@ const backIcon = require('./Back.png');
 const finance = require('./myfinance.png');
 const download = require('./download.png');
 const print = require('./ink.png');
+const dispute = require('./dispute.png');
 
 export const images = {
   splash,
@@ -72,4 +73,5 @@ export const images = {
   finance,
   download,
   print,
+  dispute,
 };

@@ -14,6 +14,8 @@ import Lobby from '../screens/Lobby';
 import TabLoginNavigator from './TabLoginNavigator';
 import MyTicketPrizeModel from '../screens/MyTicketPrizeModel';
 import ChangePassword from '../screens/ChangePassword';
+import DisputeReason from '../screens/Dispute';
+
 // const BeforeLoginTabNavigator = createStackNavigator(
 //   {
 //     Login: {
@@ -210,6 +212,14 @@ const MainNavigator = createStackNavigator(
     SaferGambling: {
       screen: SaferGambling,
       key: screenNames.SAFER_GAMBLING,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    DisputeReason: {
+      screen: DisputeReason,
+      key: screenNames.DISPUTE_REASON,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,

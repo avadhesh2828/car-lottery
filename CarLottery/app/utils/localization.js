@@ -90,4 +90,8 @@ export const Localization = {
     Print: 'Print',
     serialNo: '#',
   },
+  DisputeReason: {
+    DisputeReason: 'Dispute Reason',
+    Submit: 'Submit',
+  },
 };

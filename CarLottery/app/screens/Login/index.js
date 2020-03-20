@@ -276,9 +276,6 @@ class Login extends Component {
   }
 
   renderForgetPassword = () => {
-    {
-      console.log('Forget Password');
-    }
     const {
       forgetEmail,
     } = this.state;
