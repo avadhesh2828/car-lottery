@@ -130,7 +130,7 @@ class Lobby extends Component {
     this.state = {
       searchValue: '',
       is_Radio_check: false,
-      multiSliderValue: [0, 100],
+      multiSliderValue: [0.2, 99.8],
       isPopupVisible: false,
     };
   }
@@ -140,15 +140,19 @@ class Lobby extends Component {
     // this.props.lobbyFilterRequest();
   }
 
+  static getDerivedStateFromProps(props, current_state) {
+    if ((props.dashboard.minEntryFee !== 0 && props.dashboard.maxEntryFee !== 10000
+      && (current_state.multiSliderValue[0] === 0.2 && current_state.multiSliderValue[1] === 99.8))) {
+      return {
+        multiSliderValue: [props.dashboard.minEntryFee, props.dashboard.maxEntryFee],
+      };
+    }
+    return null;
+  }
+
   onChangeView() {
     this.setState({ isPopupVisible: !this.state.isPopupVisible });
   }
-  // componentDidUpdate(prevProps) {
-  //   if ((this.state.multiSliderValue[0] !== this.props.dashboard.minEntryFee)
-  //   || (this.state.multiSliderValue[0] !== this.props.dashboard.maxEntryFee)) {
-  //     this.setState({ multiSliderValue: [this.props.dashboard.myTicketMinEntryFee, this.props.dashboard.myTicketMaxEntryFee] });
-  //   }
-  // }
 
   runApis() {
     this.props.lobbyFilterRequest();

@@ -144,7 +144,7 @@ class MyTicket extends Component {
     super(props);
     this.state = {
       searchValue: '',
-      multiSliderValue: [0, 100],
+      multiSliderValue: [0.2, 99.8],
       isVisible: false,
       isPopupVisible: false,
       // Showlottery: images.uncheckedIconRadio,
@@ -158,6 +158,16 @@ class MyTicket extends Component {
 
   componentDidMount() {
     this.props.myTicketsFilterRequest({ status: 'all' });
+  }
+
+  static getDerivedStateFromProps(props, current_state) {
+    if ((props.dashboard.myTicketMinEntryFee !== 0 && props.dashboard.myTicketMaxEntryFee !== 10000
+      && (current_state.multiSliderValue[0] === 0.2 && current_state.multiSliderValue[1] === 99.8))) {
+      return {
+        multiSliderValue: [props.dashboard.myTicketMinEntryFee, props.dashboard.myTicketMaxEntryFee],
+      };
+    }
+    return null;
   }
 
   onChangeText(text) {
