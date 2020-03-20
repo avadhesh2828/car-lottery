@@ -13,6 +13,7 @@ export const LOBBY_FILTER_FAILURE = 'LOBBY_FILTER_FAILURE';
 export const JOIN_LOTTERY_REQUEST = 'JOIN_LOTTERY_REQUEST';
 export const JOIN_LOTTERY_SUCCESS = 'JOIN_LOTTERY_SUCCESS';
 export const JOIN_LOTTERY_FAILURE = 'JOIN_LOTTERY_FAILURE';
+export const UPDATED_MY_TICKETS = 'UPDATED_MY_TICKETS';
 
 export const MYTICKETS_FILTER_REQUEST = 'MYTICKETS_FILTER_REQUEST';
 export const MYTICKETS_FILTER_SUCCESS = 'MYTICKETS_FILTER_SUCCESS';
@@ -97,6 +98,10 @@ export const joinLotteryRequest = (contestId) => {
 export const joinLotterySuccess = (data) => ({
   type: JOIN_LOTTERY_SUCCESS,
   data,
+});
+
+export const updatedMyTickets = () => ({
+  type: UPDATED_MY_TICKETS,
 });
 
 export const joinLotteryFailure = () => ({

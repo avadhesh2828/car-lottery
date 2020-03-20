@@ -160,6 +160,13 @@ class MyTicket extends Component {
     this.props.myTicketsFilterRequest({ status: 'all' });
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.dashboard.needToUpdateMyTickets !== this.props.dashboard.needToUpdateMyTickets && this.props.dashboard.needToUpdateMyTickets) {
+      this.refreshMyLotteries();
+      this.props.updatedMyTickets();
+    }
+  }
+
   static getDerivedStateFromProps(props, current_state) {
     if ((props.dashboard.myTicketMinEntryFee !== 0 && props.dashboard.myTicketMaxEntryFee !== 10000
       && (current_state.multiSliderValue[0] === 0.2 && current_state.multiSliderValue[1] === 99.8))) {
@@ -260,6 +267,10 @@ class MyTicket extends Component {
 
   onPressPrizeModel(item) {
     Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_PRIZE_MODEL_SCREEN, { item });
+  }
+
+  buyLottery(item) {
+    this.props.joinLotteryRequest(item.contest_unique_id);
   }
 
   render() {
@@ -401,6 +412,7 @@ class MyTicket extends Component {
                       contestImgUrl={contestImgUrl}
                       onPressPrizeModel={() => this.onPressPrizeModel(item)}
                       onPressViewBtn={() => this.onPressViewBtn(item)}
+                      buyLottery={(contest) => this.buyLottery(contest)}
                     />
                   );
                 }}
@@ -430,6 +442,8 @@ MyTicket.propTypes = {
   logoutRequest: PropTypes.func,
   // lobbyFilterRequest: PropTypes.func,
   getMyLotteriesRequest: PropTypes.func,
+  joinLotteryRequest: PropTypes.func,
+  updatedMyTickets: PropTypes.func,
 };
 
 MyTicket.defaultProps = {
@@ -438,6 +452,8 @@ MyTicket.defaultProps = {
   // lobbyFilterRequest: () => {},
   dashboard: {},
   logoutRequest: () => {},
+  joinLotteryRequest: () => {},
+  updatedMyTickets: () => {},
 };
 
 const mapStateToProps = (state) => ({
