@@ -28,6 +28,10 @@ import {
   PRINT_TICKETS_SUCCESS,
   PRINT_TICKETS_REQUEST,
   PRINT_TICKETS_FAILURE,
+  JOIN_LOTTERY_REQUEST,
+  JOIN_LOTTERY_SUCCESS,
+  JOIN_LOTTERY_FAILURE,
+  UPDATED_MY_TICKETS,
 } from '../actions/dashboardActions';
 import { GET_HEADER_AD_SUCCESS, GET_FOOTER_AD_SUCCESS } from '../actions/advertisementActions';
 
@@ -54,6 +58,7 @@ const initialState = {
   selectedLotterieWinnerslist: [],
   selectedContestDetails: {},
   printTicketData: '',
+  needToUpdateMyTickets: false,
 };
 
 function dashboardReducer(state = initialState, action) {
@@ -153,6 +158,25 @@ function dashboardReducer(state = initialState, action) {
         ...state,
         myLotteries: [],
         isLoadingMyTickets: false,
+      };
+    case JOIN_LOTTERY_REQUEST:
+      return {
+        ...state,
+        needToUpdateMyTickets: false,
+      };
+    case JOIN_LOTTERY_SUCCESS:
+      return {
+        ...state,
+        needToUpdateMyTickets: true,
+      };
+    case JOIN_LOTTERY_FAILURE:
+      return {
+        ...state,
+      };
+    case UPDATED_MY_TICKETS:
+      return {
+        ...state,
+        needToUpdateMyTickets: false,
       };
     case USER_CONTEST_DETAILS_REQUEST:
       return {

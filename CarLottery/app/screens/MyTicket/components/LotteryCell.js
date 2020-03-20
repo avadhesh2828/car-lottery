@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
 
 
 const LotteryCell = (props) => {
-  const { item, contestImgUrl, onPressPrizeModel } = props;
+  const { item, contestImgUrl, onPressPrizeModel, buyLottery } = props;
   const fill_percent = Math.floor(parseInt(item.total_user_joined) / parseInt(item.contest_size) * 100);
   return (
     <View style={styles.mainContainer}>
@@ -227,7 +227,7 @@ const LotteryCell = (props) => {
           {
           item.status === '1'
             ? (
-              <TouchableOpacity style={styles.buyBtn}>
+              <TouchableOpacity style={styles.buyBtn} onPress={() => buyLottery(item)}>
                 <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
               </TouchableOpacity>
             )
