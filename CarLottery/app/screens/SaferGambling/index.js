@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import _ from 'lodash';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserActions from '../../actions';
 import NavigationHeader from '../../components/NavigationHeader';
 import {
@@ -19,7 +20,6 @@ import TimeoutContainer from './components/TimeoutContainer';
 import SelfExclusionContainer from './components/SelfExclusionContainer';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import HeaderAd from '../../components/HeaderAd';
 import { responsiveSize } from '../../utils/utils';
 
@@ -146,6 +146,8 @@ class SaferGambling extends Component {
       UserData.SessionKey && isPopupVisible
         ? (
           <PopUpScreen
+            balance={this.props.profileResponse.balance}
+            userName={this.props.profileResponse.user_name}
             logoutAction={() => this.props.logoutRequest()}
           />
         )
@@ -171,6 +173,7 @@ SaferGambling.defaultProps = {
 const mapStateToProps = (state) => ({
   dashboard: state.dashboardReducer,
   saferGambling: state.SaferGamblingReducer,
+  profileResponse: state.getProfileDataReducer.profileResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

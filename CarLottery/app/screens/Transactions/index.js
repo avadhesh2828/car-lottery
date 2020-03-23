@@ -13,20 +13,30 @@ import { UIColors } from '../../utils/variables';
 import { screenNames } from '../../utils/constant';
 import TransactionContainer from './components/TransactionContainer';
 import NavigationHeader from '../../components/NavigationHeader';
+import { UserData } from '../../utils/global';
+import PopUpScreen from '../../components/PopupScreen';
 // import TransactionContainer from '../Account copy/components/containers/TransactionContainer';
 // import TransactionContainer from '../Account copy/components/containers/TransactionContainer';
 
-const initialData = [{ amount: 'Amount', key:0, created_date: 'Date', description: 'Description', is_processed: 'Status' }];
+const initialData = [{
+  amount: 'Amount', key: 0, created_date: 'Date', description: 'Description', is_processed: 'Status',
+}];
 
 class TransactionList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isPopupVisible: false,
     };
   }
 
+
   componentDidMount() {
     this.props.getTransactionsRequest();
+  }
+
+  onChangeView() {
+    this.setState({ isPopupVisible: !this.state.isPopupVisible });
   }
 
   componentWillUnmount() {
@@ -37,8 +47,9 @@ class TransactionList extends Component {
   }
 
   render() {
+    const { isPopupVisible } = this.state;
     return (
-      <View style={{ flex: 1, backgroundColor: UIColors.primary }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: UIColors.primary }}>
 
         <NavigationHeader
           logo
@@ -50,7 +61,18 @@ class TransactionList extends Component {
         <TransactionContainer paymentsList={this.props.getTransactionsResponse.result} onTransactionListClicked={() => this.onTransactionListClicked()} />
         {this.props.isLoading
           && <Loader isAnimating={this.props.isLoading} />}
-      </View>
+        {
+      UserData.SessionKey && isPopupVisible
+        ? (
+          <PopUpScreen
+            balance={this.props.profileResponse.balance}
+            userName={this.props.profileResponse.user_name}
+            logoutAction={() => this.props.logoutRequest()}
+          />
+        )
+        : null
+  }
+      </SafeAreaView>
     );
   }
 }
@@ -75,9 +97,10 @@ TransactionList.defaultProps = {
   checkApplicantResponseIsLoading: false,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.getTransactionsReducer.isLoading,
   getTransactionsResponse: state.getTransactionsReducer.getTransactionsResponse,
+  profileResponse: state.getProfileDataReducer.profileResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

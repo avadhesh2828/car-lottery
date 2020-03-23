@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import NavigationHeader from '../../components/NavigationHeader';
@@ -19,7 +20,6 @@ import { screenNames } from '../../utils/constant';
 import PopUpScreen from '../../components/PopupScreen';
 import { UserData } from '../../utils/global';
 import HeaderAd from '../../components/HeaderAd';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -57,6 +57,7 @@ class Home extends Component {
     this.props.getHotLotteriesRequest();
     this.props.getHeaderAdRequest({});
     this.props.getFooterAdRequest({});
+    this.props.getProfileRequest();
   }
 
   onChangeView() {
@@ -123,6 +124,8 @@ class Home extends Component {
       UserData.SessionKey && isPopupVisible
         ? (
           <PopUpScreen
+            balance={this.props.profileResponse.balance}
+            userName={this.props.profileResponse.user_name}
             logoutAction={() => this.props.logoutRequest()}
           />
         )
@@ -147,6 +150,7 @@ Home.defaultProps = {
 
 const mapStateToProps = (state) => ({
   dashboard: state.dashboardReducer,
+  profileResponse: state.getProfileDataReducer.profileResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

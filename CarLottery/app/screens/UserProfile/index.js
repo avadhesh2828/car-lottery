@@ -435,7 +435,7 @@ class UserProfile extends Component {
     });
     this.props.getStateRequest(countryData.data.master_country_id);
 
-    return this.state.countryID
+    return this.state.countryID;
   }
 
   selectedStateItem(item, index, data) {
@@ -473,7 +473,7 @@ class UserProfile extends Component {
   onChangeusernameText(text) {
     this.setState({
       username: text,
-    })
+    });
   }
 
   render() {
@@ -715,6 +715,8 @@ class UserProfile extends Component {
             ? (
               <PopUpScreen
                 logoutAction={() => this.props.logoutRequest()}
+                balance={this.props.profileResponse.balance}
+                userName={this.props.profileResponse.user_name}
               />
             )
             : null
