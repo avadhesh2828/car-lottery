@@ -244,6 +244,8 @@ class MyTicketPrizeModel extends Component {
       UserData.SessionKey && isPopupVisible
         ? (
           <PopUpScreen
+            balance={this.props.profileResponse.balance}
+            userName={this.props.profileResponse.user_name}
             logoutAction={() => this.props.logoutRequest()}
           />
         )
@@ -273,6 +275,7 @@ MyTicketPrizeModel.defaultProps = {
 const mapStateToProps = (state) => ({
 
   dashboard: state.dashboardReducer,
+  profileResponse: state.getProfileDataReducer.profileResponse,
 });
 
 const mapDispatchToProps = () => UserActions;

@@ -56,16 +56,16 @@ const styles = StyleSheet.create({
 });
 
 const PopUpScreen = (props) => {
-  const { logoutAction } = props;
+  const { logoutAction, balance, userName} = props;
   return (
     <View style={styles.container}>
       <View style={styles.subcontainer}>
-        <Text style={styles.userName}>User Name</Text>
+        <Text style={styles.userName}>{userName}</Text>
       </View>
       <View style={[styles.subcontainer, { flexDirection: 'row' }]}>
         <Text style={styles.userName}>Balance</Text>
         <Text style={[styles.userName, { marginLeft: spacing.semiMedium }]}>
-          ₦ 212524
+          ₦ {balance}
         </Text>
       </View>
       <TouchableOpacity style={styles.subcontainer} onPress={() => Navigation.sharedInstance().pushToScreen(screenNames.SAFER_GAMBLING)}>
