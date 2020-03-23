@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.mediumLarge,
   },
   SearchContainer: {
-    marginLeft: spacing.extraLarge,
+    marginLeft: spacing.large,
     flex: 1.2,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
     color: UIColors.textTitle,
     borderColor: 'gray',
     borderWidth: 1,
-    paddingLeft: spacing.semiMedium,
+    paddingLeft: spacing.smallHalf,
+    paddingRight: spacing.smallHalf,
   },
   filter_label_label: {
     marginLeft: spacing.large,
@@ -108,13 +109,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  sliderTxt1: {
+  sliderTxt: {
     color: UIColors.textTitle,
-    marginHorizontal: spacing.extraLarge,
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.small,
   },
-  sliderTxt2: {
+  ticketPriceTxt: {
+    textAlign: 'center',
+    marginBottom: spacing.medium,
     color: UIColors.textTitle,
     fontFamily: fontName.sourceSansProRegular,
     fontSize: fontSizes.small,
@@ -299,11 +301,19 @@ class MyTicket extends Component {
           <HeaderAd adData={dashboard.headerAd} />
           <View style={styles.subContainer}>
             <View style={{ flexDirection: 'row' }}>
-              <View style={{ flex: 6 }}>
-                <Text style={styles.sliderTxt1}>{multiSliderValue[0]}</Text>
+              <View style={{ flex: 5, marginLeft: spacing.extraLarge }}>
+                <Text style={styles.sliderTxt}>
+                  {' '}
+                  ₦
+                  {multiSliderValue[0]}
+                </Text>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.sliderTxt2}>{multiSliderValue[1]}</Text>
+              <View style={{ flex: 1, marginLeft: spacing.semiMedium }}>
+                <Text style={styles.sliderTxt}>
+                  {' '}
+                  ₦
+                  {multiSliderValue[1]}
+                </Text>
               </View>
             </View>
             <View style={styles.sliderContainer}>
@@ -340,6 +350,9 @@ class MyTicket extends Component {
                 customLabel={CustomLabel}
               />
             </View>
+            <Text style={styles.ticketPriceTxt}>
+              {Localization.myTicketDetailsScreen.TicketPrice}
+            </Text>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <View style={{
@@ -374,8 +387,9 @@ class MyTicket extends Component {
                 <TextInput
                   underlineColorAndroid={'transparent'}
                   style={styles.textInputStyle}
-                  placeholder={'Search by Lottery name'}
+                  placeholder={Localization.myTicketScreen.searchByName}
                   placeholderTextColor={UIColors.grayText}
+                  multiline
                   onChangeText={(text)=> this.onChangeText(text)}
                   clearButtonMode={'always'}
                   value={this.state.searchValue}
