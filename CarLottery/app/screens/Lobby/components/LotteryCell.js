@@ -171,7 +171,7 @@ const LotteryCell = (props) => {
           </Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.playBtn}>
+          <TouchableOpacity style={styles.playBtn} onPress={() => props.buyLottery(item)}>
             <Text style={styles.txtStyle}>{Localization.homeScreen.Play}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.openDetailBtn} onPress={() => onPressPrizeModel(item)}>
