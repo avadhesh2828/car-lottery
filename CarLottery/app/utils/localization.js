@@ -53,6 +53,7 @@ export const Localization = {
     All: 'All',
     Win: 'CONGRATULATIONS! YOU WON',
     Loss: 'Better Luck Next Time',
+    searchByName: 'Search by Lottery name',
   },
   userProfileScreen: {
     firstName: 'First Name',
