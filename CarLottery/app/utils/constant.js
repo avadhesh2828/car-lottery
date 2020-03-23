@@ -34,6 +34,7 @@ export const InputKey = {
   city: 'city',
   address: 'address',
   zipCode: 'zipCode',
+  searchValue: 'searchValue',
 };
 
 export const KeyboardType = {
