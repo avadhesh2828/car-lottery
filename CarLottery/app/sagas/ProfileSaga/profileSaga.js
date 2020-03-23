@@ -8,6 +8,9 @@ import {
   GET_STATE_REQUEST,
   GET_PROFILE_REQUEST,
   UPDATE_PROFILE_REQUEST,
+  GET_TRANSACTIONS_REQUEST,
+  getTransactionsSuccess,
+  getTransactionsFailure,
   getCountrySuccess,
   getCountryFailure,
   getStateSuccess,
@@ -15,6 +18,7 @@ import {
   getProfileSuccess,
   getProfileFailure,
   updateProfileSuccess,
+  updateProfileFailure,
 } from '../../actions/profileActions';
 
 import {
@@ -27,6 +31,7 @@ import {
   getStatesbyCountryUrl,
   getProfileDataUrl,
   updateProfileDataUrl,
+  getTransactionsUrl,
 } from '../../api/urls';
 
 import {
@@ -135,8 +140,38 @@ function* updateProfileDataRequest(action) {
     if (isSuccessAPI(response) && parsedResponse) {
       let dataResponse = {};
       dataResponse = parsedResponse;
-      // showErrorMessage(response, parsedResponse);
+      showErrorMessage(response, parsedResponse);
       yield put(updateProfileSuccess(dataResponse.Data));
+    } else {
+      const obj = parsedResponse.Error;
+
+      alert(obj[Object.keys(obj)[0]]);
+      yield put(updateProfileFailure(parsedResponse));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(updateProfileFailure());
+  }
+}
+
+function* getTransactionsRequest(action) {
+  try {
+    yield put(showLoader());
+    const url = getTransactionsUrl;
+    const response = yield call(
+      apiCall,
+      url,
+      METHOD_TYPE.POST,
+      action.body,
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      // showErrorMessage(response, parsedResponse);
+      yield put(getTransactionsSuccess(dataResponse.Data));
     } else {
       yield put(getProfileFailure(parsedResponse));
       showErrorMessage(response, parsedResponse);
@@ -148,12 +183,12 @@ function* updateProfileDataRequest(action) {
   }
 }
 
-
 export default function* getCountriesSaga() {
   yield all([
     takeLatest(GET_COUNTRY_REQUEST, getCountriesRequest),
     takeLatest(GET_STATE_REQUEST, getStatesRequest),
     takeLatest(GET_PROFILE_REQUEST, getProfileDataRequest),
     takeLatest(UPDATE_PROFILE_REQUEST, updateProfileDataRequest),
+    takeLatest(GET_TRANSACTIONS_REQUEST, getTransactionsRequest),
   ]);
 }

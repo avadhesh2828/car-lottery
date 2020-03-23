@@ -43,6 +43,7 @@ import {
   disputeFailure,
   disputeSuccess,
   DISPUTE_REQUEST,
+  getHotLotteriesRequest,
 } from '../../actions/dashboardActions';
 
 import {
@@ -413,8 +414,10 @@ function* joinLotteries(action) {
     if (isSuccessAPI(response) && parsedResponse) {
       let dataResponse = {};
       dataResponse = parsedResponse;
+
       showErrorMessage(response, parsedResponse);
       yield put(joinLotterySuccess(dataResponse));
+      yield put(getHotLotteriesRequest());
     } else {
       yield put(joinLotteryFailure(parsedResponse));
       showErrorMessage(response, parsedResponse);

@@ -15,6 +15,7 @@ import TabLoginNavigator from './TabLoginNavigator';
 import MyTicketPrizeModel from '../screens/MyTicketPrizeModel';
 import ChangePassword from '../screens/ChangePassword';
 import DisputeReason from '../screens/Dispute';
+import TransactionListScreen from '../screens/Transactions';
 
 // const BeforeLoginTabNavigator = createStackNavigator(
 //   {
@@ -239,9 +240,16 @@ const MainNavigator = createStackNavigator(
         header: null,
       },
     },
+    TransactionListScreen: {
+      screen: TransactionListScreen,
+      key: screenNames.TRANSACTION_SCREEN,
+      navigationOptions: {
+        header: null,
+      },
+    },
   },
   {
-    initialRouteName: screenNames.SPLASH_SCREEN,
+    initialRouteName: screenNames.SPLASH,
     headerMode: 'none',
   },
 );

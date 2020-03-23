@@ -145,11 +145,14 @@ class UserProfile extends Component {
       isShowDatePicker: false,
       gender: '',
       country: this.props.profileResponse.country_name,
-      state: this.props.profileResponse.state_name,
+      countryID: '',
+      main: this.props.profileResponse.state_name,
+      mainID: '',
       city: this.props.profileResponse.city,
       address: this.props.profileResponse.address,
       zipCode: this.props.profileResponse.pincode,
       isPopupVisible: false,
+      username: '',
       // isShowPassword: false,
     };
   }
@@ -158,6 +161,28 @@ class UserProfile extends Component {
     this.props.getCountryRequest();
     this.props.getProfileRequest();
     // this.props.getStateRequest('231');
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.profileResponseisLoading !== prevProps.profileResponseisLoading && prevProps.profileResponseisLoading === true) {
+      this.onProfileResponse();
+    }
+  }
+
+  onProfileResponse() {
+    this.setState({
+      firstName: this.props.profileResponse.first_name,
+      lastName: this.props.profileResponse.last_name,
+      mobileNumber: this.props.profileResponse.phone_number,
+      email: this.props.profileResponse.email,
+      country: this.props.profileResponse.country_name,
+      main: this.props.profileResponse.state_name,
+      city: this.props.profileResponse.city,
+      address: this.props.profileResponse.address,
+      dob: this.props.profileResponse.dob,
+      username: this.props.profileResponse.user_name,
+      // zipCode: this.props.profileResponse.pincode,
+    });
   }
 
   onChangeView() {
@@ -405,29 +430,50 @@ class UserProfile extends Component {
       }
     });
 
+    this.setState({
+      countryID: countryData.data.master_country_id,
+    });
     this.props.getStateRequest(countryData.data.master_country_id);
+
+    return this.state.countryID
   }
 
   selectedStateItem(item, index, data) {
+    let selectedItem = {};
+    data.forEach((element) => {
+      if (element.value === item) {
+        selectedItem = element;
+      }
+    });
+
+    this.setState({
+      mainID: selectedItem.data.master_state_id,
+    });
   }
 
   updateProfile() {
     const {
-      firstName, lastName, mobileNumber, email, dob, country, state, city, address, zipCode,
+      firstName, lastName, mobileNumber, email, dob, username, state, city, address, zipCode,
     } = this.state;
     const profileObject = {
+      user_name: username,
       fname: firstName,
       lname: lastName,
       email,
       contact: mobileNumber,
       address,
       city,
-      countryId: country,
-      stateId: state,
-      dob,
+      countryId: this.state.countryID,
+      stateId: this.state.mainID,
+      dob: dob.toString(),
     };
-
     this.props.updateProfileRequest(profileObject);
+  }
+
+  onChangeusernameText(text) {
+    this.setState({
+      username: text,
+    })
   }
 
   render() {
@@ -455,11 +501,28 @@ class UserProfile extends Component {
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
                 placeholderTextColor={UIColors.defaultTextColor}
+                placeholder={'User Name'}
+                inputKey={InputKey.firstName}
+                getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
+                // keyboardType={KeyboardType.emailAddress}
+                value={this.state.username}
+                returnKeyType={ReturnKeyType.next}
+                onChangeText={(value) => this.onChangeusernameText(value)}
+                // onSubmitEditing={(key) => this.onSubmitEditing(key)}
+                autoCapitalize="none"
+              />
+            </View>
+            <View style={[styles.textInputContainer, {}]}>
+              <Image style={styles.emailIcon} source={images.email} />
+              <CustomTextInput
+                textInput={StyleSheet.flatten(styles.textInput)}
+                inputView={StyleSheet.flatten(styles.textInputView)}
+                placeholderTextColor={UIColors.defaultTextColor}
                 placeholder={Localization.userProfileScreen.firstName}
                 inputKey={InputKey.firstName}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.emailAddress}
-                value={this.props.profileResponse.first_name}
+                value={this.state.firstName}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeFirstNameText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -476,7 +539,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.lastName}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.emailAddress}
-                value={this.props.profileResponse.last_name}
+                value={this.state.lastName}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeLastNameText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -493,7 +556,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.email}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 keyboardType={KeyboardType.emailAddress}
-                value={this.props.profileResponse.email}
+                value={this.state.email}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeEmailText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -510,7 +573,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.mobileNumber}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 keyboardType={KeyboardType.phonePad}
-                value={this.props.profileResponse.phone_number}
+                value={this.state.mobileNumber}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeMobileNumberText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -540,7 +603,7 @@ class UserProfile extends Component {
                     fontSize={15}
                     containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
                     label={Localization.userProfileScreen.selectCountry}
-                    value={this.props.profileResponse.country_name !== null && this.props.profileResponse.country_name}
+                    value={this.state.country === null ? '' : this.state.country}
                     data={this.props.countryResponse}
                     onChangeText={(item, index, data) => this.selectedCountryItem(item, index, data)}
                     inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
@@ -557,7 +620,7 @@ class UserProfile extends Component {
                     containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
                     label={Localization.userProfileScreen.selectState}
                     data={this.props.stateResponse}
-                    value={this.props.profileResponse.state_name !== null && this.props.profileResponse.state_name}
+                    value={this.state.main === null ? '' : this.state.main}
                     onChangeText={(item, index, data) => this.selectedStateItem(item, index, data)}
                     inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
                   />
@@ -575,7 +638,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.city}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.phonePad}
-                value={this.props.profileResponse.city}
+                value={this.state.city}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeCityText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -592,7 +655,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.address}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 // keyboardType={KeyboardType.phonePad}
-                value={this.props.profileResponse.address}
+                value={this.state.address}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeAddressText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -609,7 +672,7 @@ class UserProfile extends Component {
                 inputKey={InputKey.zipCode}
                 getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
                 keyboardType={KeyboardType.phonePad}
-                value={this.props.profileResponse.pincode}
+                value={this.state.zipCode}
                 returnKeyType={ReturnKeyType.done}
                 onChangeText={(value) => this.onChangeZipCodeText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
@@ -648,14 +711,14 @@ class UserProfile extends Component {
           && <Loader isAnimating={this.props.isLoading} />}
 
         {
-      UserData.SessionKey && isPopupVisible
-        ? (
-          <PopUpScreen
-            logoutAction={() => this.props.logoutRequest()}
-          />
-        )
-        : null
-  }
+          UserData.SessionKey && isPopupVisible
+            ? (
+              <PopUpScreen
+                logoutAction={() => this.props.logoutRequest()}
+              />
+            )
+            : null
+        }
       </SafeAreaView>
     );
   }
@@ -667,7 +730,7 @@ UserProfile.propTypes = {
 };
 
 UserProfile.defaultProps = {
-  logoutRequest: () => {},
+  logoutRequest: () => { },
   dashboard: {},
 };
 const mapStateToProps = (state) => ({

@@ -88,7 +88,9 @@ export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS';
 export const UPDATE_PROFILE_FAILURE = 'UPDATE_PROFILE_FAILURE';
 
 export const updateProfileRequest = (profileDetails) => {
+
   const body = {
+    user_name: profileDetails.user_name,
     first_name: profileDetails.fname,
     last_name: profileDetails.lname,
     email: profileDetails.email,
@@ -98,6 +100,7 @@ export const updateProfileRequest = (profileDetails) => {
     master_country: profileDetails.countryId,
     master_state_id: profileDetails.stateId,
     dob: profileDetails.dob,
+    gender: "0",
   };
 
   return {
@@ -113,4 +116,36 @@ export const updateProfileSuccess = (data) => ({
 
 export const updateProfileFailure = () => ({
   type: UPDATE_PROFILE_FAILURE,
+});
+
+/**
+ * API to get transaction list
+ */
+
+export const GET_TRANSACTIONS_REQUEST = 'GET_TRANSACTIONS_REQUEST';
+export const GET_TRANSACTIONS_SUCCESS = 'GET_TRANSACTIONS_SUCCESS';
+export const GET_TRANSACTIONS_FAILURE = 'GET_TRANSACTIONS_FAILURE';
+
+export const getTransactionsRequest = () => {
+  const body = {
+    itemsPerPage: 10,
+    currentPage: 1,
+    status: -1,
+    orderByField: 'C.start_date_time',
+    sortOrder: 'ASC',
+  };
+
+  return {
+    type: GET_TRANSACTIONS_REQUEST,
+    body: JSON.stringify(body),
+  };
+};
+
+export const getTransactionsSuccess = (data) => ({
+  type: GET_TRANSACTIONS_SUCCESS,
+  data,
+});
+
+export const getTransactionsFailure = () => ({
+  type: GET_TRANSACTIONS_FAILURE,
 });

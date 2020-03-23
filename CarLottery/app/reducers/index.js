@@ -8,6 +8,7 @@ import getStatesReducer from './getStatesReducer';
 import getProfileDataReducer from './getProfileReducer';
 import saferGamblingReducer from './saferGamblingReducer';
 import authWelcomeReducer from './authWelcomeReducer';
+import getTransactionsReducer from './getTransactionsReducer';
 
 const appReducer = combineReducers({
   loaderReducers,
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   getProfileDataReducer,
   saferGamblingReducer,
   authWelcomeReducer,
+  getTransactionsReducer,
 });
 
 const rootReducer = (state, action) => appReducer(state, action);

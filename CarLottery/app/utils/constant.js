@@ -13,6 +13,7 @@ export const screenNames = {
   TAB_LOGIN_NAVIGATOR: 'TabLoginNavigator',
   CHANGE_PASSWORD_SCREEN: 'ChangePassword',
   DISPUTE_REASON: 'DisputeReason',
+  TRANSACTION_SCREEN: 'TransactionListScreen',
 };
 
 export const appIntervals = {

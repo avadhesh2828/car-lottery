@@ -89,12 +89,16 @@ function* loginRequestSuccess(parsedResponse) {
 function* loginRequestFailed(response, parsedResponse) {
   if (parsedResponse && parsedResponse.Error) {
     let errorMsg;
+
     if (parsedResponse.Error.email) {
       errorMsg = parsedResponse.Error.email;
       showPopupAlert(parsedResponse.Error.email);
     }
     if (parsedResponse.Error.password) {
       errorMsg = errorMsg.concat(' ', parsedResponse.Error.password);
+    }
+    if (parsedResponse.Error.email === null) {
+      errorMsg = parsedResponse.GlobalError;
     }
     showPopupAlert(errorMsg);
   } else {

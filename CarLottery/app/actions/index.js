@@ -37,6 +37,10 @@ import {
   updateProfileSuccess,
   updateProfileFailure,
 
+  getTransactionsRequest,
+  getTransactionsSuccess,
+  getTransactionsFailure,
+
 } from './profileActions';
 
 import {
@@ -268,6 +272,9 @@ const actions = {
   getFooterAdRequest,
   getFooterAdFailure,
   getFooterAdSuccess,
+  getTransactionsRequest,
+  getTransactionsSuccess,
+  getTransactionsFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);
