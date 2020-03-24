@@ -19,6 +19,7 @@ import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
 import { showPopupAlert } from '../../utils/showAlert';
 import { isNetworkConnected } from '../../utils/utils';
+import { isValidEmail } from '../../utils/validators';
 
 
 const inputWidth = '90%';
@@ -114,36 +115,6 @@ class Signup extends Component {
     };
   }
 
-  // Reffral_Image=() => {
-  //   // eslint-disable-next-line react/destructuring-assignment
-  //   if (this.state.isReferalCheck === true) {
-  //     this.setState({
-  //       have_Refferal: images.checkedIcon,
-  //       isReferalCheck: false,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       have_Refferal: images.unCheckedIcon,
-  //       isReferalCheck: true,
-  //     });
-  //   }
-  // }
-
-  // Terms_Condtion_Image=() => {
-  //   // eslint-disable-next-line react/destructuring-assignment
-  //   if (this.state.is_Terms_Check === true) {
-  //     this.setState({
-  //       Terms_Condtion: images.checkedIcon,
-  //     });
-  //     this.state.is_Terms_Check = false;
-  //   } else {
-  //     this.setState({
-  //       Terms_Condtion: images.unCheckedIcon,
-  //     });
-  //     this.state.is_Terms_Check = true;
-  //   }
-  // }
-
   onChangeEmailText(email) {
     this.setState({ email });
   }
@@ -214,36 +185,46 @@ class Signup extends Component {
   getValidationErrorMessage() {
     const {
       email, mobileNumber, password, confirmPassword, referalId,
-      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check,
+      isReferalCheck, isTermsCheck,
     } = this.state;
     // // Email
-    // if (!email) {
-    //   return commonLocalizeStrings.emptyEmailErrorMessage;
-    // }
-    // if (!isValidEmail(email)) {
-    //   return commonLocalizeStrings.invalidEmailErrorMessage;
-    // }
+    if (!email) {
+      return Localization.emptyEmailErrorMessage;
+    }
+    if (!isValidEmail(email)) {
+      return Localization.invalidEmailErrorMessage;
+    }
     // // Username
-    // if (!username) {
-    //   return commonLocalizeStrings.emptyUsernameErrorMessage;
-    // }
-    // if (!isValidUsername(username)) {
-    //   return commonLocalizeStrings.invalidUsernameErrorMessage;
-    // }
+    if (!mobileNumber) {
+      return Localization.emptyMobileNumberErrorMessage;
+    }
+
+    if (mobileNumber.length < 5 || mobileNumber.length < 15) {
+      return Localization.mobileNumberLengthError;
+    }
     // // Password
-    // if (!password) {
-    //   return commonLocalizeStrings.emptyPasswordErrorMessage;
-    // }
-    // // if (!isValidPassword(password)) {
-    // //   return commonLocalizeStrings.invalidPasswordErrorMessage;
-    // // }
+    if (!password) {
+      return Localization.emptyPasswordErrorMessage;
+    }
+    if (password.length < 6) {
+      return Localization.passwordLengthError;
+    }
+    if (password !== confirmPassword) {
+      return Localization.passwordDoNotMatch;
+    }
+    if (isReferalCheck && !referalId) {
+      return Localization.referalCodeIsRequired;
+    }
+    if (!isTermsCheck) {
+      return Localization.termsAndConditionNotChecked;
+    }
     return null;
   }
 
   signupAction() {
     const {
       email, mobileNumber, password, confirmPassword, referalId,
-      have_Refferal, Terms_Condtion, isReferalCheck, is_Terms_Check,
+      isReferalCheck, isTermsCheck,
     } = this.state;
     const { registerRequest } = this.props;
     const errorMessage = this.getValidationErrorMessage();
@@ -374,22 +355,24 @@ class Signup extends Component {
               </TouchableOpacity>
               <Text style={styles.referalTxt}>{Localization.SignupScreen.referalCode}</Text>
             </View>
-            <View style={[styles.textInputContainer, { marginTop: spacing.small }]}>
-              <CustomTextInput
-                textInput={StyleSheet.flatten(styles.textInput)}
-                inputView={StyleSheet.flatten(styles.textInputView)}
-                placeholderTextColor={UIColors.defaultTextColor}
-                placeholder={Localization.SignupScreen.refererId}
-                inputKey={InputKey.referalId}
-                getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
-                // keyboardType={KeyboardType.phonePad}
-                value={referalId}
-                returnKeyType={ReturnKeyType.done}
-                onChangeText={(value) => this.onChangeReferalId(value)}
-                onSubmitEditing={(key) => this.onSubmitEditing(key)}
-                autoCapitalize="none"
-              />
-            </View>
+            {isReferalCheck && (
+              <View style={[styles.textInputContainer, { marginTop: spacing.small }]}>
+                <CustomTextInput
+                  textInput={StyleSheet.flatten(styles.textInput)}
+                  inputView={StyleSheet.flatten(styles.textInputView)}
+                  placeholderTextColor={UIColors.defaultTextColor}
+                  placeholder={Localization.SignupScreen.refererId}
+                  inputKey={InputKey.referalId}
+                  getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
+                  // keyboardType={KeyboardType.phonePad}
+                  value={referalId}
+                  returnKeyType={ReturnKeyType.done}
+                  onChangeText={(value) => this.onChangeReferalId(value)}
+                  onSubmitEditing={(key) => this.onSubmitEditing(key)}
+                  autoCapitalize="none"
+                />
+              </View>
+            )}
             <View style={styles.checkBoxContainer}>
               <TouchableOpacity onPress={() => this.setState({isTermsCheck: !isTermsCheck })}>
                 <Image style={styles.emailIcon} source={isTermsCheck ? images.checkedIcon : images.unCheckedIcon} />
