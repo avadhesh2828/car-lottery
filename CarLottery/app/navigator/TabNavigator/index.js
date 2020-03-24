@@ -17,12 +17,14 @@ import { images } from '../../assets/images';
 import {
   UIColors, itemSizes, spacing, fontSizes, fontName,
 } from '../../utils/variables';
+import { isIOS } from '../../utils/plateformSpecific';
 
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   tabStyle: {
     backgroundColor: UIColors.purpleButtonColor,
+    height: itemSizes.defaultHeight,
   },
   titleStyle: {
     fontSize: fontSizes.tiny,
