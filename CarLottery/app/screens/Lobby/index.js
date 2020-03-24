@@ -298,130 +298,128 @@ class Lobby extends Component {
             />
           )}
         >
-          <KeyboardAwareScrollView style={{ flex: 1 }}>
-            <HeaderAd adData={dashboard.headerAd} />
-            <View style={styles.subContainer}>
-              <View style={{ flexDirection: 'column' }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <View style={{ flex: 5, marginLeft: spacing.large }}>
-                    <Text style={styles.sliderTxt}>
-                      {' '}
-                      ₦
-                      {multiSliderValue[0]}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.sliderTxt}>
-                      {' '}
-                      ₦
-                      {multiSliderValue[1]}
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.sliderContainer}>
-                  <MultiSlider
-                    selectedStyle={{
-                      height: spacing.semiMedium,
-                      backgroundColor: 'green',
-                    }}
-                    unselectedStyle={{
-                      borderRadius: 12,
-                      height: spacing.semiMedium,
-                      backgroundColor: 'gray',
-                    }}
-                    markerStyle={{
-                      marginTop: spacing.semiMedium,
-                      height: spacing.extraLarge,
-                      width: spacing.extraLarge,
-                      backgroundColor: UIColors.purpleButtonColor,
-                    }}
-                    touchDimensions={{
-                      height: spacing.extraLarge,
-                      width: spacing.extraLarge,
-                    }}
-                    values={[multiSliderValue[0], multiSliderValue[1]]}
-                    onValuesChange={(e) => this.multiSliderValuesChange(e)}
-                    onValuesChangeFinish={() => this.multiSliderValuesChangeFinish()}
-                    sliderLength={Dimensions.get('window').width - 80}
-                    min={this.props.dashboard.minEntryFee}
-                    max={this.props.dashboard.maxEntryFee}
-                    step={1}
-                    allowOverlap
-                    snapped
-                    enabledTwo
-                    customLabel={CustomLabel}
-                  />
-                </View>
-                <Text style={styles.ticketPriceTxt}>
-                  {Localization.myTicketDetailsScreen.TicketPrice}
-                </Text>
-              </View>
+          <HeaderAd adData={dashboard.headerAd} />
+          <View style={styles.subContainer}>
+            <View style={{ flexDirection: 'column' }}>
               <View style={{ flexDirection: 'row' }}>
-                <View style={styles.SearchContainer}>
-                  <TextInput
-                    underlineColorAndroid={'transparent'}
-                    style={styles.textInputStyle}
-                    placeholder={'Search by Lottery name'}
-                    placeholderTextColor={UIColors.grayText}
-                    onChangeText={(text)=> this.onChangeText(text)}
-                    clearButtonMode={'always'}
-                    value={this.state.searchValue}
-                  />
-                  <TouchableOpacity style={styles.searchButton} onPress={()=> this.searchText()}>
-                    <Image style={styles.searchIconStyle} source={images.searchIcon} />
-                  </TouchableOpacity>
-                </View>
-                <View style={{ alignItems: 'center', marginLeft: spacing.small, flexDirection: 'row' }}>
-                  <Text style={styles.radiobtnTxt}>
-                    {'Show only\nhot lottery'}
+                <View style={{ flex: 5, marginLeft: spacing.large }}>
+                  <Text style={styles.sliderTxt}>
+                    {' '}
+                    ₦
+                    {multiSliderValue[0]}
                   </Text>
-                  {/* <Text style={styles.radiobtnTxt}>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.sliderTxt}>
+                    {' '}
+                    ₦
+                    {multiSliderValue[1]}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.sliderContainer}>
+                <MultiSlider
+                  selectedStyle={{
+                    height: spacing.semiMedium,
+                    backgroundColor: 'green',
+                  }}
+                  unselectedStyle={{
+                    borderRadius: 12,
+                    height: spacing.semiMedium,
+                    backgroundColor: 'gray',
+                  }}
+                  markerStyle={{
+                    marginTop: spacing.semiMedium,
+                    height: spacing.extraLarge,
+                    width: spacing.extraLarge,
+                    backgroundColor: UIColors.purpleButtonColor,
+                  }}
+                  touchDimensions={{
+                    height: spacing.extraLarge,
+                    width: spacing.extraLarge,
+                  }}
+                  values={[multiSliderValue[0], multiSliderValue[1]]}
+                  onValuesChange={(e) => this.multiSliderValuesChange(e)}
+                  onValuesChangeFinish={() => this.multiSliderValuesChangeFinish()}
+                  sliderLength={Dimensions.get('window').width - 80}
+                  min={this.props.dashboard.minEntryFee}
+                  max={this.props.dashboard.maxEntryFee}
+                  step={1}
+                  allowOverlap
+                  snapped
+                  enabledTwo
+                  customLabel={CustomLabel}
+                />
+              </View>
+              <Text style={styles.ticketPriceTxt}>
+                {Localization.myTicketDetailsScreen.TicketPrice}
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={styles.SearchContainer}>
+                <TextInput
+                  underlineColorAndroid={'transparent'}
+                  style={styles.textInputStyle}
+                  placeholder={'Search by Lottery name'}
+                  placeholderTextColor={UIColors.grayText}
+                  onChangeText={(text)=> this.onChangeText(text)}
+                  clearButtonMode={'always'}
+                  value={this.state.searchValue}
+                />
+                <TouchableOpacity style={styles.searchButton} onPress={()=> this.searchText()}>
+                  <Image style={styles.searchIconStyle} source={images.searchIcon} />
+                </TouchableOpacity>
+              </View>
+              <View style={{ alignItems: 'center', marginLeft: spacing.small, flexDirection: 'row' }}>
+                <Text style={styles.radiobtnTxt}>
+                  {'Show only\nhot lottery'}
+                </Text>
+                {/* <Text style={styles.radiobtnTxt}>
                 hot lottery
               </Text> */}
-                </View>
-                <View style={{ alignItems: 'center', marginTop: spacing.small, flexDirection: 'row' }}>
-                  <TouchableOpacity onPress={this.Show_hot_Lottery}>
-                    <Image style={styles.radiobtnIcon} source={!this.state.is_Radio_check ? images.uncheckedIconRadio : images.checkedIconRadio} />
-                  </TouchableOpacity>
-                </View>
+              </View>
+              <View style={{ alignItems: 'center', marginTop: spacing.small, flexDirection: 'row' }}>
+                <TouchableOpacity onPress={this.Show_hot_Lottery}>
+                  <Image style={styles.radiobtnIcon} source={!this.state.is_Radio_check ? images.uncheckedIconRadio : images.checkedIconRadio} />
+                </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.listView}>
-              { lobbyHotLotteries.length !== 0 ? (
-                <FlatList
-                  key="v"
-                  extraData={this.props}
-                  keyExtractor={(item, index) => index.toString()}
-                  ItemSeparatorComponent={() => <View style={styles.seperator} />}
-                  data={formateData([...lobbyHotLotteries], 2)}
-                  numColumns={2}
-                  onEndReached={this.handleLoadMoreLottery}
-                  onEndThreshold={0.5}
+          </View>
+          <View style={styles.listView}>
+            { lobbyHotLotteries.length !== 0 ? (
+              <FlatList
+                key="v"
+                extraData={this.props}
+                keyExtractor={(item, index) => index.toString()}
+                ItemSeparatorComponent={() => <View style={styles.seperator} />}
+                data={formateData([...lobbyHotLotteries], 2)}
+                numColumns={2}
+                onEndReached={this.handleLoadMoreLottery}
+                onEndThreshold={0.5}
               //   refreshControl={(
               //     <RefreshControl
               //       refreshing={false}
               //       onRefresh={() => this.refreshlist()}
               //     />
               // )}
-                  renderItem={(item) => {
-                    if (_.isEmpty(item.item)) {
-                      return <View style={styles.blankContainer} />;
-                    }
-                    return (
-                      <LotteryCell
-                        item={item.item}
-                        contestImgUrl={contestImgUrl}
-                        onPressPrizeModel={() => this.onPressPrizeModel(item)}
-                        buyLottery={(item) => this.buyLottery(item)}
-                      />
-                    );
-                  }}
-                />
-              )
-                : (<BackgroundMessage title="No data available" />)}
-            </View>
-            <HeaderAd adData={dashboard.footerAd} />
-          </KeyboardAwareScrollView>
+                renderItem={(item) => {
+                  if (_.isEmpty(item.item)) {
+                    return <View style={styles.blankContainer} />;
+                  }
+                  return (
+                    <LotteryCell
+                      item={item.item}
+                      contestImgUrl={contestImgUrl}
+                      onPressPrizeModel={() => this.onPressPrizeModel(item)}
+                      buyLottery={(item) => this.buyLottery(item)}
+                    />
+                  );
+                }}
+              />
+            )
+              : (<BackgroundMessage title="No data available" />)}
+          </View>
+          <HeaderAd adData={dashboard.footerAd} />
         </ScrollView>
         {
         UserData.SessionKey && isPopupVisible
