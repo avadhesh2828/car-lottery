@@ -57,7 +57,7 @@ export const Localization = {
   },
   myTicketScreen: {
     Live: 'Live',
-    Complete: 'Complete',
+    Completed: 'Completed',
     All: 'All',
     Win: 'CONGRATULATIONS! YOU WON',
     Loss: 'Better Luck Next Time',

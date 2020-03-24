@@ -9,6 +9,7 @@ import {
 import { images } from '../../../assets/images';
 import { responsiveSize } from '../../../utils/utils';
 import { Localization } from '../../../utils/localization';
+import { isIOS } from '../../../utils/plateformSpecific';
 
 const styles = StyleSheet.create({
   contestDetailContainer: {
@@ -61,11 +62,11 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     flex: 1,
-    height: responsiveSize(32),
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     color: UIColors.textTitle,
     borderColor: UIColors.grayBackgroundColor,
     borderWidth: 1,
-    paddingLeft: spacing.small,
+    padding: spacing.small,
   },
   prizeButton: {
     backgroundColor: UIColors.navigationBar,

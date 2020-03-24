@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.small,
     color: UIColors.textTitle,
     borderLeftWidth: 1,
-    paddingLeft: 5,
+    padding: spacing.small,
     borderLeftColor: 'gray',
     fontFamily: fontName.sourceSansProRegular,
   },

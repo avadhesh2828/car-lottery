@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   SearchContainer: {
     marginLeft: spacing.large,
-    flex: 1.2,
+    flex: 1.5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     tintColor: UIColors.appBackGroundColor,
   },
   searchButton: {
+    flex: 1,
     backgroundColor: UIColors.purpleButtonColor,
     height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     width: responsiveSize(32),
@@ -79,13 +80,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInputStyle: {
-    flex: 1,
+    flex: 4,
     height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     color: UIColors.textTitle,
     borderColor: 'gray',
     borderWidth: 1,
-    paddingLeft: spacing.smallHalf,
-    paddingRight: spacing.smallHalf,
+    paddingHorizontal: spacing.smallHalf,
+    paddingVertical: spacing.medium,
   },
   filter_label_label: {
     marginLeft: spacing.large,
@@ -374,10 +375,10 @@ class MyTicket extends Component {
                   </TouchableOpacity>
                 </View>
                 <View style={{
-                  flexDirection: 'column', flex: 1, justifyContent: 'center', alignItems: 'center',
+                  flexDirection: 'column', flex: 1.5, justifyContent: 'center', alignItems: 'center',
                 }}
                 >
-                  <Text style={styles.radiobtnTxt}>{Localization.myTicketScreen.Complete}</Text>
+                  <Text style={styles.radiobtnTxt}>{Localization.myTicketScreen.Completed}</Text>
                   <TouchableOpacity onPress={() => this.onPressCompleteRadiobtn()}>
                     <Image style={styles.radiobtnIcon} source={radioStatusValue === 'completed' ? images.statusSelectRadioIcon : images.statusUnselectRadioIcon} />
                   </TouchableOpacity>
@@ -389,9 +390,9 @@ class MyTicket extends Component {
                   style={styles.textInputStyle}
                   placeholder={Localization.myTicketScreen.searchByName}
                   placeholderTextColor={UIColors.grayText}
-                  multiline
                   onChangeText={(text)=> this.onChangeText(text)}
                   clearButtonMode={'always'}
+                  multiline
                   value={this.state.searchValue}
                 />
                 <TouchableOpacity style={styles.searchButton} onPress={()=> this.searchText()}>

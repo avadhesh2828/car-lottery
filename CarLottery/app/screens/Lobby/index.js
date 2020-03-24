@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     color: UIColors.textTitle,
     borderColor: 'gray',
     borderWidth: 1,
-    paddingLeft: spacing.semiMedium,
+    padding: spacing.small,
   },
   filter_label_label: {
     marginLeft: spacing.large,
