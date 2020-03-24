@@ -160,7 +160,8 @@ class UserProfile extends Component {
   componentDidMount() {
     this.props.getCountryRequest();
     this.props.getProfileRequest();
-    // this.props.getStateRequest('231');
+    if (this.props.profileResponse && this.props.profileResponse.master_country_id) 
+    this.props.getStateRequest(this.props.profileResponse.master_country_id);
   }
 
   componentDidUpdate(prevProps) {
@@ -602,6 +603,7 @@ class UserProfile extends Component {
                   <Dropdown
                     fontSize={15}
                     containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
+                    dropdownOffset={{ top: 0, left: 0 }}
                     label={Localization.userProfileScreen.selectCountry}
                     value={this.state.country === null ? '' : this.state.country}
                     data={this.props.countryResponse}
@@ -617,6 +619,7 @@ class UserProfile extends Component {
                   <Image style={styles.emailIcon} source={images.email} />
                   <Dropdown
                     fontSize={15}
+                    dropdownOffset={{ top: 0, left: 0 }}
                     containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
                     label={Localization.userProfileScreen.selectState}
                     data={this.props.stateResponse}
