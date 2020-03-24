@@ -2,12 +2,11 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, FlatList, RefreshControl, Dimensions,
+  StyleSheet, SafeAreaView, View, FlatList, RefreshControl, Dimensions, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import NavigationHeader from '../../components/NavigationHeader';
@@ -68,6 +67,10 @@ class Home extends Component {
     Navigation.sharedInstance().pushToScreen(screenNames.MY_TICKET_PRIZE_MODEL_SCREEN, { item });
   }
 
+  onRefreshLotteries() {
+    this.props.getHotLotteriesRequest();
+  }
+
   buyLottery(item) {
     this.props.joinLotteryRequest(item.contest_unique_id);
   }
@@ -84,7 +87,15 @@ class Home extends Component {
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
         />
-        <KeyboardAwareScrollView style={{ flex: 1 }}>
+        <ScrollView
+          style={{ flex: 1 }}
+          refreshControl={(
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => this.onRefreshLotteries()}
+            />
+          )}
+        >
           <HeaderAd adData={dashboard.headerAd} />
           <View style={styles.listView}>
             {hotLotteries.length !== 0 ? (
@@ -96,11 +107,6 @@ class Home extends Component {
                 numColumns={2}
                 // onEndReached={() => props.handleLoadMore()}
                 onEndThreshold={0.1}
-                refreshControl={(
-                  <RefreshControl
-                    refreshing={false}
-                  />
-                )}
                 renderItem={(item) => {
                   if (_.isEmpty(item.item)) {
                     return <View style={styles.blankContainer} />;
@@ -119,7 +125,7 @@ class Home extends Component {
               : (<BackgroundMessage title="No data available" />)}
           </View>
           <HeaderAd adData={dashboard.footerAd} />
-        </KeyboardAwareScrollView>
+        </ScrollView>
         {
       UserData.SessionKey && isPopupVisible
         ? (
