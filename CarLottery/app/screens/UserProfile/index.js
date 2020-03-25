@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -26,8 +27,11 @@ import Loader from '../../components/Loader';
 import {
   spacing, UIColors, fontSizes, fontName, itemSizes,
 } from '../../utils/variables';
-import { responsiveSize } from '../../utils/utils';
+import { responsiveSize, isNetworkConnected } from '../../utils/utils';
 import HeaderContainer from './components/HeaderContainer';
+import ChooseImagePopup from '../../components/ChooseImagePopup';
+// import ContextMenuButton from '../../components/ContextMenuButton';
+// import Co from '../../components/ContextMenu';
 import DateManager from '../../utils/dateManager';
 import { Localization } from '../../utils/localization';
 import CustomTextInput from '../../components/CustomTextInput';
@@ -146,22 +150,25 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: this.props.profileResponse.first_name,
-      lastName: this.props.profileResponse.last_name,
-      mobileNumber: this.props.profileResponse.phone_number,
-      email: this.props.profileResponse.email,
+      firstName: this.props.profileResponse && this.props.profileResponse.first_name,
+      lastName: this.props.profileResponse && this.props.profileResponse.last_name,
+      mobileNumber: this.props.profileResponse && this.props.profileResponse.phone_number,
+      email: this.props.profileResponse && this.props.profileResponse.email,
       dob: new Date(),
       isShowDatePicker: false,
       gender: '',
-      country: this.props.profileResponse.country_name,
+      country: this.props.profileResponse && this.props.profileResponse.country_name,
       countryID: '',
-      main: this.props.profileResponse.state_name,
+      main: this.props.profileResponse && this.props.profileResponse.state_name,
       mainID: '',
-      city: this.props.profileResponse.city,
-      address: this.props.profileResponse.address,
-      zipCode: this.props.profileResponse.pincode,
+      city: this.props.profileResponse && this.props.profileResponse.city,
+      address: this.props.profileResponse && this.props.profileResponse.address,
+      zipCode: this.props.profileResponse && this.props.profileResponse.pincode,
       isPopupVisible: false,
       username: '',
+      isShowImagePopup: false,
+      imageToShow: '',
+      imageLoading: false,
       // isShowPassword: false,
     };
   }
@@ -179,6 +186,41 @@ class UserProfile extends Component {
   }
 
   onProfileResponse() {
+    if (this.props.profileResponse) {
+      this.setState({
+        firstName: this.props.profileResponse.first_name,
+        lastName: this.props.profileResponse.last_name,
+        mobileNumber: this.props.profileResponse.phone_number,
+        email: this.props.profileResponse.email,
+        country: this.props.profileResponse.country_name,
+        main: this.props.profileResponse.state_name,
+        city: this.props.profileResponse.city,
+        address: this.props.profileResponse.address,
+        dob: this.props.profileResponse.dob,
+        username: this.props.profileResponse.user_name,
+        // zipCode: this.props.profileResponse.pincode,
+      });
+    }
+  }
+
+  setAvaterSource(uri, multipartBody) {
+    if (uri && uri.length > 0 && multipartBody) {
+      this.props.setUserProfileImage(uri);
+      // await this.uploadKycImages(multipartBody);
+    }
+  }
+
+  // eslint-disable-next-line react/sort-comp
+  uploadKycImages(paramsObject) {
+    // const { uploadKycImageRequest } = this.props;
+    isNetworkConnected((isConnected) => {
+      if (isConnected) {
+        // uploadKycImageRequest(paramsObject);
+      }
+    });
+  }
+
+  changeImageLoadingState(boolean) {
     this.setState({
       firstName: this.props.profileResponse.first_name,
       lastName: this.props.profileResponse.last_name,
@@ -191,8 +233,17 @@ class UserProfile extends Component {
       dob: this.props.profileResponse.dob,
       username: this.props.profileResponse.user_name,
       zipCode: this.props.profileResponse.pincode,
+      imageLoading: boolean,
     });
   }
+
+  isShowPopupDialog=() => {
+    console.log('calling popup dialog');
+    this.setState({
+      isShowImagePopup: !this.state.isShowImagePopup,
+      // imageToShow: imageId,
+    });
+  };
 
   onChangeView() {
     this.setState({ isPopupVisible: !this.state.isPopupVisible });
@@ -513,7 +564,13 @@ class UserProfile extends Component {
         />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <HeaderAd adData={dashboard.headerAd} />
-          <HeaderContainer />
+          <HeaderContainer
+            userProfileImage={this.props.profileReducer.userProfileImage}
+            isShowPopupDialog={() => this.isShowPopupDialog()}
+            changeImageLoadingState={(boolean) => this.changeImageLoadingState(boolean)}
+            imageLoading={this.state.imageLoading}
+            // changeImageLoadingState={() => this.changeImageLoadingState()}
+          />
           <View style={styles.subContainer}>
             <Text style={styles.personalText}>Personal Info</Text>
             <View style={[styles.textInputContainer, {}]}>
@@ -738,6 +795,19 @@ class UserProfile extends Component {
               {this.showDOBPicker()}
             </View>
           ))}
+        {
+          this.state.isShowImagePopup
+          && (
+          <ChooseImagePopup
+            isHaveImage={this.state.hasImage}
+            isShowPopup={this.state.isShowImagePopup}
+            setAvaterSource={(source, multipartBody) => this.setAvaterSource(source, multipartBody)}
+            isShowPopupDialog={(isShow) => this.isShowPopupDialog(isShow)}
+            imageToShow={this.state.imageToShow}
+            isPortrait={this.state.isPortrait}
+          />
+          )
+        }
         {this.props.isLoading
           && <Loader isAnimating={this.props.isLoading} />}
 
@@ -768,6 +838,7 @@ UserProfile.defaultProps = {
 };
 const mapStateToProps = (state) => ({
   dashboard: state.dashboardReducer,
+  profileReducer: state.getProfileDataReducer,
   countryResponse: state.getCountriesReducer.countryResponse,
   countryResponseisLoading: state.getCountriesReducer.isLoading,
   stateResponse: state.getStatesReducer.statesResponse,

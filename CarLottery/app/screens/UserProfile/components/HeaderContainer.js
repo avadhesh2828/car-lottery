@@ -9,8 +9,10 @@ import {
 import { images } from '../../../assets/images';
 import { responsiveSize } from '../../../utils/utils';
 import { Localization } from '../../../utils/localization';
-import { screenNames } from '../../../utils/constant'
+import { screenNames } from '../../../utils/constant';
 import Navigation from '../../../utils/navigation';
+import ImageViewContainer from './ImageView';
+
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
@@ -82,10 +84,17 @@ const styles = StyleSheet.create({
 const HeaderContainer = (props) => (
   <View style={styles.headerContainer}>
     <View style={styles.imageContainer}>
-      <Image
+      <ImageViewContainer
+        profileImage={props.userProfileImage}
+        isShowPopupDialog={() => props.isShowPopupDialog()}
+        changeImageLoadingState={(boolean) => props.changeImageLoadingState(boolean)}
+        title={'profile image'}
+        imageLoading={props.imageLoading}
+      />
+      {/* <Image
         style={styles.userProfile}
         source={images.profileIcon}
-      />
+      /> */}
     </View>
     <View style={styles.subHeaderView}>
       <Text style={styles.headingTxt}>User Profile</Text>

@@ -37,6 +37,8 @@ import {
   updateProfileSuccess,
   updateProfileFailure,
 
+  setUserProfileImage,
+
   getTransactionsRequest,
   getTransactionsSuccess,
   getTransactionsFailure,
@@ -176,6 +178,7 @@ const actions = {
   updateProfileRequest,
   updateProfileSuccess,
   updateProfileFailure,
+  setUserProfileImage,
   joinLotteryRequest,
   joinLotterySuccess,
   joinLotteryFailure,

@@ -87,6 +87,8 @@ export const UPDATE_PROFILE_REQUEST = 'UPDATE_PROFILE_REQUEST';
 export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS';
 export const UPDATE_PROFILE_FAILURE = 'UPDATE_PROFILE_FAILURE';
 
+export const SET_USER_PROFILE_IMAGE = 'SET_USER_PROFILE_IMAGE';
+
 export const updateProfileRequest = (profileDetails) => {
 
   const body = {
@@ -108,6 +110,11 @@ export const updateProfileRequest = (profileDetails) => {
     body: JSON.stringify(body),
   };
 };
+
+export const setUserProfileImage = url => ({
+  type: SET_USER_PROFILE_IMAGE,
+  url,
+});
 
 export const updateProfileSuccess = (data) => ({
   type: UPDATE_PROFILE_SUCCESS,

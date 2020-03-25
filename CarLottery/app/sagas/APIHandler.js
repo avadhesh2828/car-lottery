@@ -90,6 +90,7 @@ export const serverMessage = (parsedResponse) => {
 };
 
 export const showErrorMessage = (response, parsedResponse) => {
+  console.log('123', parsedResponse);
   let errorMessage = Localization.serverErrorMessage;
   if (isSessionTimeoutError(response)) {
     errorMessage = Localization.sessionErrorMessage;
