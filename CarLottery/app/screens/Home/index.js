@@ -56,7 +56,9 @@ class Home extends Component {
     this.props.getHotLotteriesRequest();
     this.props.getHeaderAdRequest({});
     this.props.getFooterAdRequest({});
-    this.props.getProfileRequest();
+    if (UserData.SessionKey) {
+      this.props.getProfileRequest();
+    }
   }
 
   onChangeView() {

@@ -64,6 +64,7 @@ function* getCountriesRequest(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    console.log('error', error);
     showExceptionErrorMessage();
     yield put(getCountryFailure());
   }
@@ -92,6 +93,7 @@ function* getStatesRequest(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    console.log('error', error);
     showExceptionErrorMessage();
     yield put(getStateFailure());
   }
@@ -120,6 +122,7 @@ function* getProfileDataRequest(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    console.log('error', error);
     showExceptionErrorMessage();
     yield put(getProfileFailure());
   }
@@ -149,6 +152,7 @@ function* updateProfileDataRequest(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    console.log('error', error);
     showExceptionErrorMessage();
     yield put(updateProfileFailure());
   }
