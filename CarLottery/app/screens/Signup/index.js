@@ -61,10 +61,10 @@ const styles = StyleSheet.create({
   },
   emailIcon: {
     tintColor: UIColors.purpleButtonColor,
-    width: itemSizes.iconLarge,
-    height: itemSizes.iconLarge,
+    width: itemSizes.iconSmall,
+    height: itemSizes.iconSmall,
     marginHorizontal: spacing.medium,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   checkIcon: {
     // tintColor: UIColors.,

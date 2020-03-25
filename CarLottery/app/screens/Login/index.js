@@ -60,10 +60,11 @@ const styles = StyleSheet.create({
     width: inputWidth,
   },
   emailIcon: {
-    width: itemSizes.iconLarge,
-    height: itemSizes.iconLarge,
+    tintColor: UIColors.purpleButtonColor,
+    width: itemSizes.iconSmall,
+    height: itemSizes.iconSmall,
     marginHorizontal: spacing.medium,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   forgotBtn: {
     marginLeft: spacing.large,

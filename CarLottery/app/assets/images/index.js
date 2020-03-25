@@ -35,6 +35,10 @@ const finance = require('./myfinance.png');
 const download = require('./download.png');
 const print = require('./ink.png');
 const dispute = require('./dispute.png');
+const calendar = require('./calendar.png');
+const gender = require('./gender.png');
+const country = require('./global.png');
+const place = require('./place.png');
 
 export const images = {
   splash,
@@ -74,4 +78,8 @@ export const images = {
   download,
   print,
   dispute,
+  calendar,
+  gender,
+  place,
+  country,
 };

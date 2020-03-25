@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // alignItems: 'center',
     alignSelf: 'center',
+    paddingTop: spacing.large,
     paddingLeft: spacing.extraSmall,
-    // backgroundColor: 'orange',
     zIndex: 60,
     marginVertical: spacing.small,
     // top: 20,
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     flex: 3,
     marginRight: spacing.large,
     marginLeft: spacing.small,
+    marginTop: spacing.semiMedium,
     height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     borderColor: 'gray',
     borderWidth: 1,
@@ -216,8 +217,9 @@ class DepositLimitContainer extends Component {
             <Dropdown
               fontSize={15}
               disabled={this.disableDropdown(monthDepositLimitInfo)}
-              containerStyle={[styles.dropdownStyle, {}]}
+              containerStyle={[styles.dropdownStyle]}
               dropdownOffset={{ top: 0, left: 0 }}
+              labelFontSize={16}
               label={'Select monthly deposit limit'}
               value={this.state.monthlyDepositLimit ? `₦${this.state.monthlyDepositLimit}` : ''}
               textColor={UIColors.blackTxt}

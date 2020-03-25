@@ -101,8 +101,8 @@ export const updateProfileRequest = (profileDetails) => {
     master_state_id: profileDetails.stateId,
     dob: profileDetails.dob,
     gender: "0",
+    pincode: profileDetails.pincode,
   };
-
   return {
     type: UPDATE_PROFILE_REQUEST,
     body: JSON.stringify(body),

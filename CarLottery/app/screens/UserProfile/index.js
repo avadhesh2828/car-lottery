@@ -32,7 +32,9 @@ import DateManager from '../../utils/dateManager';
 import { Localization } from '../../utils/localization';
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomText from '../../components/CustomText';
-import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
+import {
+  InputKey, KeyboardType, ReturnKeyType, screenNames,
+} from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
@@ -79,10 +81,11 @@ const styles = StyleSheet.create({
     width: inputWidth,
   },
   emailIcon: {
-    width: itemSizes.iconLarge,
-    height: itemSizes.iconLarge,
+    tintColor: UIColors.purpleButtonColor,
+    width: itemSizes.iconSmall,
+    height: itemSizes.iconSmall,
     marginHorizontal: spacing.medium,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   buttonView: {
     flexDirection: 'row',
@@ -124,11 +127,17 @@ const styles = StyleSheet.create({
     borderLeftWidth: spacing.border,
   },
   dropdownStyle: {
-    width: '85%',
-    // borderLeftWidth: 1,
+    width: '100%',
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
     justifyContent: 'center',
-    alignSelf: 'center',
-    paddingLeft: spacing.extraSmall,
+    paddingLeft: spacing.semiMedium,
+    paddingTop: spacing.semiMedium,
+  },
+  dropdownConatiner: {
+    borderLeftWidth: 1,
+    borderLeftColor: UIColors.grayText,
+    width: '85%',
+    height: isIOS ? itemSizes.defaultIosTextInputHeight : itemSizes.defaultAndroidTextInputHeight,
   },
 });
 
@@ -160,8 +169,7 @@ class UserProfile extends Component {
   componentDidMount() {
     this.props.getCountryRequest();
     this.props.getProfileRequest();
-    if (this.props.profileResponse && this.props.profileResponse.master_country_id) 
-    this.props.getStateRequest(this.props.profileResponse.master_country_id);
+    if (this.props.profileResponse && this.props.profileResponse.master_country_id) this.props.getStateRequest(this.props.profileResponse.master_country_id);
   }
 
   componentDidUpdate(prevProps) {
@@ -182,7 +190,7 @@ class UserProfile extends Component {
       address: this.props.profileResponse.address,
       dob: this.props.profileResponse.dob,
       username: this.props.profileResponse.user_name,
-      // zipCode: this.props.profileResponse.pincode,
+      zipCode: this.props.profileResponse.pincode,
     });
   }
 
@@ -452,6 +460,11 @@ class UserProfile extends Component {
     });
   }
 
+  cancelButton() {
+    this.props.getProfileRequest();
+    Navigation.sharedInstance().pushToScreen(screenNames.HOME_SCREEN);
+  }
+
   updateProfile() {
     const {
       firstName, lastName, mobileNumber, email, dob, username, state, city, address, zipCode,
@@ -467,8 +480,15 @@ class UserProfile extends Component {
       countryId: this.state.countryID,
       stateId: this.state.mainID,
       dob: dob.toString(),
+      pincode: zipCode,
     };
-    this.props.updateProfileRequest(profileObject);
+    if (/[^0-9a-zA-Z]/.test(username)) {
+      alert('username contain only numbers and alphabets');
+    } else if (/[^0-9a-zA-Z]/.test(zipCode)) {
+      alert('Zipcode contain only numbers and alphabets');
+    } else {
+      this.props.updateProfileRequest(profileObject);
+    }
   }
 
   onChangeusernameText(text) {
@@ -497,7 +517,7 @@ class UserProfile extends Component {
           <View style={styles.subContainer}>
             <Text style={styles.personalText}>Personal Info</Text>
             <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.usernav} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -514,7 +534,7 @@ class UserProfile extends Component {
               />
             </View>
             <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.usernav} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -531,7 +551,7 @@ class UserProfile extends Component {
               />
             </View>
             <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.usernav} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -565,7 +585,7 @@ class UserProfile extends Component {
               />
             </View>
             <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.mobileIcon} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -582,7 +602,7 @@ class UserProfile extends Component {
               />
             </View>
             <View style={styles.textInputContainer}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.calendar} />
               <View style={styles.dobContainer}>
                 <TouchableOpacity
                   style={{ flex: 1 }}
@@ -598,41 +618,49 @@ class UserProfile extends Component {
             {
               // eslint-disable-next-line react/destructuring-assignment
               this.props.countryResponse && this.props.countryResponse.length > 0 && (
-                <View style={[styles.textInputContainer, {}]}>
-                  <Image style={styles.emailIcon} source={images.email} />
-                  <Dropdown
-                    fontSize={15}
-                    containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
-                    dropdownOffset={{ top: 0, left: 0 }}
-                    label={Localization.userProfileScreen.selectCountry}
-                    value={this.state.country === null ? '' : this.state.country}
-                    data={this.props.countryResponse}
-                    onChangeText={(item, index, data) => this.selectedCountryItem(item, index, data)}
-                    inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
-                  />
+                <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
+                  <Image style={styles.emailIcon} source={images.country} />
+                  <View style={styles.dropdownConatiner}>
+                    <Dropdown
+                      fontSize={15}
+                      baseColor={this.state.country ? 'transparent' : UIColors.grayText}
+                      containerStyle={styles.dropdownStyle}
+                      dropdownOffset={{ top: 0, left: 0 }}
+                      labelFontSize={this.state.country ? 0 : 12}
+                      label={this.state.country ? '' : Localization.userProfileScreen.selectCountry}
+                      value={this.state.country === null ? '' : this.state.country}
+                      data={this.props.countryResponse}
+                      onChangeText={(item, index, data) => this.selectedCountryItem(item, index, data)}
+                      inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
+                    />
+                  </View>
                 </View>
               )
             }
             {
               this.props.stateResponse && this.props.stateResponse.length > 0 && (
-                <View style={[styles.textInputContainer, {}]}>
-                  <Image style={styles.emailIcon} source={images.email} />
-                  <Dropdown
-                    fontSize={15}
-                    dropdownOffset={{ top: 0, left: 0 }}
-                    containerStyle={[styles.dropdownStyle, { marginTop: spacing.semiMedium, marginBottom: spacing.extraSmall }]}
-                    label={Localization.userProfileScreen.selectState}
-                    data={this.props.stateResponse}
-                    value={this.state.main === null ? '' : this.state.main}
-                    onChangeText={(item, index, data) => this.selectedStateItem(item, index, data)}
-                    inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
-                  />
+                <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
+                  <Image style={styles.emailIcon} source={images.place} />
+                  <View style={[styles.dropdownConatiner, {}]}>
+                    <Dropdown
+                      fontSize={14}
+                      dropdownOffset={{ top: 0, left: 0 }}
+                      containerStyle={styles.dropdownStyle}
+                      baseColor={this.state.main ? 'transparent' : UIColors.grayText}
+                      label={this.state.main ? '' : Localization.userProfileScreen.selectState}
+                    // label={Localization.userProfileScreen.selectState}
+                      data={this.props.stateResponse}
+                      value={this.state.main === null ? '' : this.state.main}
+                      onChangeText={(item, index, data) => this.selectedStateItem(item, index, data)}
+                      inputContainerStyle={{ borderBottomColor: 'transparent', justifyContent: 'center' }}
+                    />
+                  </View>
                 </View>
               )
             }
 
             <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.place} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -649,7 +677,7 @@ class UserProfile extends Component {
               />
             </View>
             <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.place} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -666,7 +694,7 @@ class UserProfile extends Component {
               />
             </View>
             <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.email} />
+              <Image style={styles.emailIcon} source={images.place} />
               <CustomTextInput
                 textInput={StyleSheet.flatten(styles.textInput)}
                 inputView={StyleSheet.flatten(styles.textInputView)}
@@ -687,7 +715,7 @@ class UserProfile extends Component {
             <TouchableOpacity style={styles.updateButton} onPress={() => this.updateProfile()}>
               <Text style={styles.updateTxt}>Update</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cancelButton}>
+            <TouchableOpacity style={styles.cancelButton} onPress={() => this.cancelButton()}>
               <Text style={styles.updateTxt}>Cancel</Text>
             </TouchableOpacity>
           </View>

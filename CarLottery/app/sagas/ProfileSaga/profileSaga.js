@@ -144,7 +144,6 @@ function* updateProfileDataRequest(action) {
       yield put(updateProfileSuccess(dataResponse.Data));
     } else {
       const obj = parsedResponse.Error;
-
       alert(obj[Object.keys(obj)[0]]);
       yield put(updateProfileFailure(parsedResponse));
     }

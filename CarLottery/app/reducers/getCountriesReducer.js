@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  countryResponse: [],
+  countryResponse: [{ value: 'Select Country' }],
 };
 
 function createCountryList(data) {
