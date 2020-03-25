@@ -199,7 +199,7 @@ class Signup extends Component {
       return Localization.emptyMobileNumberErrorMessage;
     }
 
-    if (mobileNumber.length < 5 || mobileNumber.length < 15) {
+    if (mobileNumber.length < 5 || mobileNumber.length > 15) {
       return Localization.mobileNumberLengthError;
     }
     // // Password
