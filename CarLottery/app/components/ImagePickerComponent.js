@@ -1,8 +1,9 @@
 /* eslint no-undef: 0 */
 
 import { Platform } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 
-const ImagePicker = require('react-native-image-picker');
+// const ImagePicker = require('react-native-image-picker');
 
 const mediaOptions = {
   title: 'Select image options',
