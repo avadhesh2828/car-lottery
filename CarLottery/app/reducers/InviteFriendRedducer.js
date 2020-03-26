@@ -11,6 +11,8 @@ const initialState = {
   isLoading: false,
   userInviteResponse: [],
   sendInvitationResponse: [],
+  userInviteTotalPages: 1,
+  currentuserInvitePage: 1,
 };
 
 function getInviteFriendReducer(state = initialState, action) {
@@ -25,10 +27,14 @@ function getInviteFriendReducer(state = initialState, action) {
         userInviteResponse: [],
       };
     case INVITE_FRIEND_SUCCESS:
+      const FriendList = action.data.dataResponse.InviteFreind;
+      const invitelist = action.data.currentPage === 1 ? FriendList : [...state.userInviteResponse, ...FriendList];
       return {
         ...state,
+        userInviteResponse: invitelist,
+        userInviteTotalPages: Math.ceil((action.data.dataResponse.total) / action.data.itemsPerPage),
         isLoading: false,
-        userInviteResponse: action.data.InviteFreind,
+        currentuserInvitePage: action.data.currentPage,
       };
     case INVITE_FRIEND_FAILURE:
       return {

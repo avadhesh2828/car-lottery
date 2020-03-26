@@ -209,7 +209,11 @@ function* inviteFriendRequest(action) {
       let dataResponse = {};
       dataResponse = parsedResponse;
       // showErrorMessage(response, parsedResponse);
-      yield put(inviteFriendSuccess(dataResponse.Data));
+      yield put(inviteFriendSuccess({
+        dataResponse: dataResponse.Data,
+        itemsPerPage: action.data.itemsPerPage,
+        currentPage: action.data.currentPage,
+      }));
     } else {
       yield put(inviteFriendFailure(parsedResponse));
       showErrorMessage(response, parsedResponse);
