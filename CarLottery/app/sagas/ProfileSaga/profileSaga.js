@@ -1,7 +1,7 @@
 import {
   call, takeLatest, put, all,
 } from 'redux-saga/effects';
-import { apiCall } from '../../api/apiInterface';
+import { apiCall, apiCallWithMultipartContent } from '../../api/apiInterface';
 
 import {
   GET_COUNTRY_REQUEST,
@@ -19,6 +19,9 @@ import {
   getProfileFailure,
   updateProfileSuccess,
   updateProfileFailure,
+  UPLOAD_PROFILE_IMAGE_REQUEST,
+  uploadProfileImageSuccess,
+  uploadProfileImageFailure,
 } from '../../actions/profileActions';
 
 import {
@@ -32,6 +35,7 @@ import {
   getProfileDataUrl,
   updateProfileDataUrl,
   getTransactionsUrl,
+  uploadProfileImageUrl,
 } from '../../api/urls';
 
 import {
@@ -186,6 +190,34 @@ function* getTransactionsRequest(action) {
   }
 }
 
+function* uploadProfileImage(action) {
+  try {
+    yield put(showLoader());
+    const url = uploadProfileImageUrl;
+    const response = yield call(
+      apiCallWithMultipartContent,
+      url,
+      METHOD_TYPE.POST,
+      action.data,
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      // showErrorMessage(response, parsedResponse);
+      yield put(uploadProfileImageSuccess(dataResponse.Data));
+    } else {
+      yield put(uploadProfileImageFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(uploadProfileImageFailure());
+  }
+}
+
 export default function* getCountriesSaga() {
   yield all([
     takeLatest(GET_COUNTRY_REQUEST, getCountriesRequest),
@@ -193,5 +225,6 @@ export default function* getCountriesSaga() {
     takeLatest(GET_PROFILE_REQUEST, getProfileDataRequest),
     takeLatest(UPDATE_PROFILE_REQUEST, updateProfileDataRequest),
     takeLatest(GET_TRANSACTIONS_REQUEST, getTransactionsRequest),
+    takeLatest(UPLOAD_PROFILE_IMAGE_REQUEST, uploadProfileImage),
   ]);
 }

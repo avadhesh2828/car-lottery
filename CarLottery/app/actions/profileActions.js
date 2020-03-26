@@ -6,7 +6,24 @@ export const GET_COUNTRY_REQUEST = 'GET_COUNTRY_REQUEST';
 export const GET_COUNTRY_SUCCESS = 'GET_COUNTRY_SUCCESS';
 export const GET_COUNTRY_FAILURE = 'GET_COUNTRY_FAILURE';
 
+export const UPLOAD_PROFILE_IMAGE_REQUEST = 'UPLOAD_PROFILE_IMAGE_REQUEST';
+export const UPLOAD_PROFILE_IMAGE_SUCCESS = 'UPLOAD_PROFILE_IMAGE_SUCCESS';
+export const UPLOAD_PROFILE_IMAGE_FAILURE = 'UPLOAD_PROFILE_IMAGE_FAILURE';
 /* Empty body is sent to the body as per the stucture of backend API */
+
+export const uploadProfileImageRequest = (data) => ({
+  type: UPLOAD_PROFILE_IMAGE_REQUEST,
+  data,
+});
+
+export const uploadProfileImageSuccess = (data) => ({
+  type: UPLOAD_PROFILE_IMAGE_SUCCESS,
+  data,
+});
+
+export const uploadProfileImageFailure = () => ({
+  type: UPLOAD_PROFILE_IMAGE_FAILURE,
+});
 
 export const getCountryRequest = () => {
   const body = {

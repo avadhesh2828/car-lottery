@@ -43,6 +43,10 @@ import {
   getTransactionsSuccess,
   getTransactionsFailure,
 
+  uploadProfileImageRequest,
+  uploadProfileImageSuccess,
+  uploadProfileImageFailure,
+
 } from './profileActions';
 
 import {
@@ -175,6 +179,9 @@ const actions = {
   getProfileRequest,
   getProfileFailure,
   getProfileSuccess,
+  uploadProfileImageRequest,
+  uploadProfileImageSuccess,
+  uploadProfileImageFailure,
   updateProfileRequest,
   updateProfileSuccess,
   updateProfileFailure,

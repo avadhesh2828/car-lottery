@@ -206,16 +206,16 @@ class UserProfile extends Component {
   setAvaterSource(uri, multipartBody) {
     if (uri && uri.length > 0 && multipartBody) {
       this.props.setUserProfileImage(uri);
-      // await this.uploadKycImages(multipartBody);
+      this.uploadProfileImage(multipartBody);
     }
   }
 
   // eslint-disable-next-line react/sort-comp
-  uploadKycImages(paramsObject) {
+  uploadProfileImage(paramsObject) {
     // const { uploadKycImageRequest } = this.props;
     isNetworkConnected((isConnected) => {
       if (isConnected) {
-        // uploadKycImageRequest(paramsObject);
+        this.props.uploadProfileImageRequest(paramsObject);
       }
     });
   }
