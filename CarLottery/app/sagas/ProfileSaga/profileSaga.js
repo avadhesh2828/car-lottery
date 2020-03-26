@@ -25,6 +25,7 @@ import {
   sendInvitationFailure,
   sendInvitationSuccess,
   SEND_INVITATION_REQUEST,
+  inviteFriendRequest,
 } from '../../actions/profileActions';
 
 import {
@@ -39,7 +40,7 @@ import {
   updateProfileDataUrl,
   getTransactionsUrl,
   inviteFriendUrl,
-  sendInvitationUrl
+  sendInvitationUrl,
 } from '../../api/urls';
 
 import {
@@ -194,7 +195,7 @@ function* getTransactionsRequest(action) {
   }
 }
 
-function* inviteFriendRequest(action) {
+function* inviteFriend(action) {
   yield put(showLoader());
   try {
     const response = yield call(
@@ -239,8 +240,12 @@ function* sendInvitationRequest(action) {
     if (isSuccessAPI(response) && parsedResponse) {
       let dataResponse = {};
       dataResponse = parsedResponse;
-      // showErrorMessage(response, parsedResponse);
+      showErrorMessage(response, parsedResponse);
       yield put(sendInvitationSuccess(dataResponse.Data));
+      yield put(inviteFriendRequest({
+        itemsPerPage: 10,
+        currentPage: 1,
+      }));
     } else {
       yield put(sendInvitationFailure(parsedResponse));
       showErrorMessage(response, parsedResponse);
@@ -260,7 +265,7 @@ export default function* getCountriesSaga() {
     takeLatest(GET_PROFILE_REQUEST, getProfileDataRequest),
     takeLatest(UPDATE_PROFILE_REQUEST, updateProfileDataRequest),
     takeLatest(GET_TRANSACTIONS_REQUEST, getTransactionsRequest),
-    takeLatest(INVITE_FRIEND_REQUEST, inviteFriendRequest),
+    takeLatest(INVITE_FRIEND_REQUEST, inviteFriend),
     takeLatest(SEND_INVITATION_REQUEST, sendInvitationRequest),
   ]);
 }

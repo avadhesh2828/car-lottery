@@ -274,6 +274,7 @@ class UserProfile extends Component {
 
   onChangeZipCodeText(zipCode) {
     this.setState({ zipCode });
+    console.log("ZipCode==",zipCode)
   }
 
   // onChangeEmailText(mobileNumber) {
