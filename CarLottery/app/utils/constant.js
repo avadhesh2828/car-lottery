@@ -14,6 +14,7 @@ export const screenNames = {
   CHANGE_PASSWORD_SCREEN: 'ChangePassword',
   DISPUTE_REASON: 'DisputeReason',
   TRANSACTION_SCREEN: 'TransactionListScreen',
+  INVITE_FRIEND_SCREEN: 'InviteFriend',
 };
 
 export const appIntervals = {
@@ -35,6 +36,7 @@ export const InputKey = {
   address: 'address',
   zipCode: 'zipCode',
   searchValue: 'searchValue',
+  inviteFriend: 'InviteFriend',
 };
 
 export const KeyboardType = {

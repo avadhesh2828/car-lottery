@@ -7,11 +7,14 @@ export const loginUrl = `${getBaseUrl()}/api/auth/user_login`;
 export const logoutUrl = `${getBaseUrl()}/api/logout`;
 export const signupUrl = `${getBaseUrl()}/api/auth/signup`;
 export const changepasswordUrl = `${getBaseUrl()}/api/my_profile/change_password`;
+export const inviteFriendUrl = `${getBaseUrl()}/api/contest_invite/get_all_invite_friends`;
 export const commonHotLotteriesUrl = `${getBaseUrl()}/api/common/hot_lotteries`;
 export const joinContestUrl = `${getBaseUrl()}/api/contest/join_contest`;
 export const lobbyFilterUrl = `${getBaseUrl()}/api/common/lobby_filter`;
 export const lobbyListUrl = `${getBaseUrl()}/api/common/lotteries_list`;
 export const forgetpasswordUrl = `${getBaseUrl()}/api/auth/forgot_password`;
+export const sendInvitationUrl = `${getBaseUrl()}/api/contest_invite/send_invitation`;
+
 // My Tickets
 export const myTicketsFilterUrl = `${getBaseUrl()}/api/contest/my_lotteries_filter`;
 export const myLotteriesUrl = `${getBaseUrl()}/api/contest/my_lotteries`;

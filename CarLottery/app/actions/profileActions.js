@@ -90,7 +90,6 @@ export const UPDATE_PROFILE_FAILURE = 'UPDATE_PROFILE_FAILURE';
 export const SET_USER_PROFILE_IMAGE = 'SET_USER_PROFILE_IMAGE';
 
 export const updateProfileRequest = (profileDetails) => {
-
   const body = {
     user_name: profileDetails.user_name,
     first_name: profileDetails.fname,
@@ -102,7 +101,7 @@ export const updateProfileRequest = (profileDetails) => {
     master_country: profileDetails.countryId,
     master_state_id: profileDetails.stateId,
     dob: profileDetails.dob,
-    gender: "0",
+    gender: '0',
     pincode: profileDetails.pincode,
   };
   return {
@@ -111,7 +110,7 @@ export const updateProfileRequest = (profileDetails) => {
   };
 };
 
-export const setUserProfileImage = url => ({
+export const setUserProfileImage = (url) => ({
   type: SET_USER_PROFILE_IMAGE,
   url,
 });
@@ -155,4 +154,42 @@ export const getTransactionsSuccess = (data) => ({
 
 export const getTransactionsFailure = () => ({
   type: GET_TRANSACTIONS_FAILURE,
+});
+
+
+export const INVITE_FRIEND_REQUEST = 'INVITE_FRIEND_REQUEST';
+export const INVITE_FRIEND_SUCCESS = 'INVITE_FRIEND_SUCCESS';
+export const INVITE_FRIEND_FAILURE = 'INVITE_FRIEND_FAILURE';
+
+export const inviteFriendRequest = (data) => ({
+  type: INVITE_FRIEND_REQUEST,
+  data,
+});
+
+export const inviteFriendSuccess = (data) => ({
+  type: INVITE_FRIEND_SUCCESS,
+  data,
+});
+
+export const inviteFriendFailure = () => ({
+  type: INVITE_FRIEND_FAILURE,
+});
+
+
+export const SEND_INVITATION_REQUEST = 'SEND_INVITATION_REQUEST';
+export const SEND_INVITATION_SUCCESS = 'SEND_INVITATION_SUCCESS';
+export const SEND_INVITATION_FAILURE = 'SEND_INVITATION_FAILURE';
+
+export const sendInvitationRequest = (data) => ({
+  type: SEND_INVITATION_REQUEST,
+  data,
+});
+
+export const sendInvitationSuccess = (data) => ({
+  type: SEND_INVITATION_SUCCESS,
+  data,
+});
+
+export const sendInvitationFailure = () => ({
+  type: SEND_INVITATION_FAILURE,
 });

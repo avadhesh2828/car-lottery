@@ -174,9 +174,6 @@ class Lobby extends Component {
   }
 
   handleLoadMoreLottery = () => {
-    // console.log('cureentpage',)
-    console.log('...calling');
-    // alert('aaya');
     if (this.props.dashboard.currentLobbyPage <= this.props.dashboard.lobbyListTotalPages && !this.props.dashboard.isLoadingLobbyLottery) {
       this.props.getLobbyHotLotteriesRequest({
         items_perpage: 10,

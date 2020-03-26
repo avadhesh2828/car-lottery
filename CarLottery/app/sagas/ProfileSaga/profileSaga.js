@@ -19,6 +19,12 @@ import {
   getProfileFailure,
   updateProfileSuccess,
   updateProfileFailure,
+  INVITE_FRIEND_REQUEST,
+  inviteFriendSuccess,
+  inviteFriendFailure,
+  sendInvitationFailure,
+  sendInvitationSuccess,
+  SEND_INVITATION_REQUEST,
 } from '../../actions/profileActions';
 
 import {
@@ -32,6 +38,8 @@ import {
   getProfileDataUrl,
   updateProfileDataUrl,
   getTransactionsUrl,
+  inviteFriendUrl,
+  sendInvitationUrl
 } from '../../api/urls';
 
 import {
@@ -186,6 +194,61 @@ function* getTransactionsRequest(action) {
   }
 }
 
+function* inviteFriendRequest(action) {
+  yield put(showLoader());
+  try {
+    const response = yield call(
+      apiCall,
+      inviteFriendUrl,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      // showErrorMessage(response, parsedResponse);
+      yield put(inviteFriendSuccess(dataResponse.Data));
+    } else {
+      yield put(inviteFriendFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(inviteFriendFailure());
+  }
+}
+
+function* sendInvitationRequest(action) {
+  yield put(showLoader());
+  try {
+    const response = yield call(
+      apiCall,
+      sendInvitationUrl,
+      METHOD_TYPE.POST,
+      JSON.stringify(action.data),
+    );
+    yield put(hideLoader());
+    const parsedResponse = yield call(parsedAPIResponse, response);
+    if (isSuccessAPI(response) && parsedResponse) {
+      let dataResponse = {};
+      dataResponse = parsedResponse;
+      // showErrorMessage(response, parsedResponse);
+      yield put(sendInvitationSuccess(dataResponse.Data));
+    } else {
+      yield put(sendInvitationFailure(parsedResponse));
+      showErrorMessage(response, parsedResponse);
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    showExceptionErrorMessage();
+    yield put(sendInvitationFailure());
+  }
+}
+
+
 export default function* getCountriesSaga() {
   yield all([
     takeLatest(GET_COUNTRY_REQUEST, getCountriesRequest),
@@ -193,5 +256,7 @@ export default function* getCountriesSaga() {
     takeLatest(GET_PROFILE_REQUEST, getProfileDataRequest),
     takeLatest(UPDATE_PROFILE_REQUEST, updateProfileDataRequest),
     takeLatest(GET_TRANSACTIONS_REQUEST, getTransactionsRequest),
+    takeLatest(INVITE_FRIEND_REQUEST, inviteFriendRequest),
+    takeLatest(SEND_INVITATION_REQUEST, sendInvitationRequest),
   ]);
 }

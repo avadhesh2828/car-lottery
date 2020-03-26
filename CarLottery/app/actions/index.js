@@ -43,6 +43,15 @@ import {
   getTransactionsSuccess,
   getTransactionsFailure,
 
+
+  inviteFriendFailure,
+  inviteFriendRequest,
+  inviteFriendSuccess,
+
+  sendInvitationFailure,
+  sendInvitationSuccess,
+  sendInvitationRequest,
+
 } from './profileActions';
 
 import {
@@ -196,6 +205,12 @@ const actions = {
   changepasswordFailure,
   changepasswordRequest,
   changepasswordSuccess,
+  inviteFriendFailure,
+  inviteFriendRequest,
+  inviteFriendSuccess,
+  sendInvitationFailure,
+  sendInvitationSuccess,
+  sendInvitationRequest,
   forgetpasswordRequest,
   forgetpasswordFailure,
   forgetpasswordSuccess,

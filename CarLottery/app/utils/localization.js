@@ -75,6 +75,8 @@ export const Localization = {
     zipCode: 'Zip Code',
     selectCountry: 'Select Country',
     selectState: 'Select State',
+    inviteFriend: 'Invite Friend',
+    invite: 'Invite',
   },
   myPrizeModelScreen: {
     live: '( Live )',
@@ -98,6 +100,13 @@ export const Localization = {
     Boughtat: 'Bought at',
     Print: 'Print',
     serialNo: '#',
+  },
+  inviteFriend: {
+    date: 'DATE',
+    email: 'EMAIL',
+    status: 'STATUS',
+    pending: 'Pending',
+    accept: 'Accept',
   },
   DisputeReason: {
     DisputeReason: 'Dispute Reason',

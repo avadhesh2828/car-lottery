@@ -198,7 +198,7 @@ class UserProfile extends Component {
         address: this.props.profileResponse.address,
         dob: this.props.profileResponse.dob,
         username: this.props.profileResponse.user_name,
-        // zipCode: this.props.profileResponse.pincode,
+        zipCode: this.props.profileResponse.pincode,
       });
     }
   }
@@ -238,7 +238,6 @@ class UserProfile extends Component {
   }
 
   isShowPopupDialog=() => {
-    console.log('calling popup dialog');
     this.setState({
       isShowImagePopup: !this.state.isShowImagePopup,
       // imageToShow: imageId,
@@ -533,7 +532,7 @@ class UserProfile extends Component {
       dob: dob.toString(),
       pincode: zipCode,
     };
-    if (/[^0-9a-zA-Z]/.test(username)) {
+    if (/^[a-zA-Z0-9]{3,30}$/.test(username)) {
       alert('username contain only numbers and alphabets');
     } else if (/[^0-9a-zA-Z]/.test(zipCode)) {
       alert('Zipcode contain only numbers and alphabets');

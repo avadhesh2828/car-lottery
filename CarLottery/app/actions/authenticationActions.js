@@ -44,6 +44,7 @@ export const forgetpasswordFailure = () => ({
   type: FORGOT_PASSWORD_FAILURE,
 });
 
+
 export const changepasswordRequest = (data) => ({
   type: CHANGE_PASSWORD_REQUEST,
   data,

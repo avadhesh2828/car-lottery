@@ -16,7 +16,7 @@ import MyTicketPrizeModel from '../screens/MyTicketPrizeModel';
 import ChangePassword from '../screens/ChangePassword';
 import DisputeReason from '../screens/Dispute';
 import TransactionListScreen from '../screens/Transactions';
-
+import InviteFriend from '../screens/InviteFriend';
 // const BeforeLoginTabNavigator = createStackNavigator(
 //   {
 //     Login: {
@@ -148,6 +148,14 @@ const MainNavigator = createStackNavigator(
     ChangePassword: {
       screen: ChangePassword,
       key: screenNames.CHANGE_PASSWORD_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    InviteFriend: {
+      screen: InviteFriend,
+      key: screenNames.INVITE_FRIEND_SCREEN,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,

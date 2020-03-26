@@ -105,7 +105,7 @@ const HeaderContainer = (props) => (
         <TouchableOpacity style={styles.changeBtn} onPress={() => Navigation.sharedInstance().pushToScreen(screenNames.CHANGE_PASSWORD_SCREEN)}>
           <Text style={styles.btnTxt}>Change Password</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.inviteBtn}>
+        <TouchableOpacity style={styles.inviteBtn} onPress={() => Navigation.sharedInstance().pushToScreen(screenNames.INVITE_FRIEND_SCREEN)}>
           <Text style={styles.btnTxt}>Invite Friend</Text>
         </TouchableOpacity>
       </View>
