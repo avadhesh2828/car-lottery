@@ -1,5 +1,5 @@
 import { api } from './api';
-import getHeaders from './headers';
+import getHeaders, { getHeadersWithMultipartContent } from './headers';
 import { UserData } from '../utils/global';
 
 const apiCall = (url, method, body, headers) => api(
@@ -9,4 +9,11 @@ const apiCall = (url, method, body, headers) => api(
   body,
 );
 
-export { apiCall };
+const apiCallWithMultipartContent = (url, method, body, headers) => api(
+  url,
+  method,
+  getHeadersWithMultipartContent(UserData.SessionKey, headers),
+  body,
+);
+
+export { apiCall, apiCallWithMultipartContent };

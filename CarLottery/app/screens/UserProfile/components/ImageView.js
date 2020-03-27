@@ -10,7 +10,7 @@ import {
 
 import { FONT_14, responsiveFontSize } from '../../../utils/utils_functions';
 import Loader from '../../../components/Loader';
-import { UIColors } from '../../../utils/variables';
+import { UIColors, fontSizes } from '../../../utils/variables';
 import { images } from '../../../assets/images';
 import { responsiveSize } from '../../../utils/utils';
 
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   textButton: {
     position: 'absolute',
     bottom: 0,
-    height: responsiveFontSize(40),
+    height: responsiveFontSize(20),
     backgroundColor: 'rgba(0,0,0, 0.5)',
     width: responsiveFontSize(80),
     borderBottomLeftRadius: 10,
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
     color: 'orange',
     alignSelf: 'center',
     bottom: 0,
-    fontSize: FONT_14,
+    fontSize: fontSizes.extraExtraSmall,
     fontWeight: '500',
   },
   imageField: {
     borderRadius: 10,
-    height: responsiveFontSize(70),
-    width: responsiveFontSize(70),
+    height: responsiveFontSize(80),
+    width: responsiveFontSize(80),
   },
 });
 

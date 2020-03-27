@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   optionsView: {
     position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 10 : 30,
+    bottom: Platform.OS === 'ios' ? 80 : 50,
     paddingHorizontal: 10,
     flex: 1,
   },
@@ -26,18 +26,18 @@ const styles = StyleSheet.create({
   },
   buttonContainerWhite: {
     justifyContent: 'center',
-    backgroundColor: UIColors.newAppBackgroundColorBlack,
+    backgroundColor: UIColors.whiteTxt,
   },
   buttonText: {
     fontSize: 16,
     alignSelf: 'center',
-    color: UIColors.newAppDirtyYelloeColor,
+    color: UIColors.blackTxt,
   },
   cancelButton: {
     flex: 1,
     height: 55,
     justifyContent: 'center',
-    backgroundColor: UIColors.newAppBackgroundColorBlack,
+    backgroundColor: UIColors.whiteTxt,
   },
   showPopupContainer: {
     position: 'absolute',

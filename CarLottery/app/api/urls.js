@@ -46,4 +46,5 @@ export const getCountriesUrl = `${getBaseUrl()}/api/auth/get_country`;
 export const getStatesbyCountryUrl = `${getBaseUrl()}/api/auth/get_state_by_country`;
 export const getProfileDataUrl = `${getBaseUrl()}/api/my_profile/my_profile`;
 export const updateProfileDataUrl = `${getBaseUrl()}/api/my_profile/update_profile`;
+export const uploadProfileImageUrl = `${getBaseUrl()}/api/upload_image/do_upload`;
 export const getTransactionsUrl = `${getBaseUrl()}/api/my_account/user_transaction_history`;

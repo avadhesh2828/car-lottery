@@ -206,33 +206,22 @@ class UserProfile extends Component {
   setAvaterSource(uri, multipartBody) {
     if (uri && uri.length > 0 && multipartBody) {
       this.props.setUserProfileImage(uri);
-      // await this.uploadKycImages(multipartBody);
+      this.uploadProfileImage(multipartBody);
     }
   }
 
   // eslint-disable-next-line react/sort-comp
-  uploadKycImages(paramsObject) {
+  uploadProfileImage(paramsObject) {
     // const { uploadKycImageRequest } = this.props;
     isNetworkConnected((isConnected) => {
       if (isConnected) {
-        // uploadKycImageRequest(paramsObject);
+        this.props.uploadProfileImageRequest(paramsObject);
       }
     });
   }
 
   changeImageLoadingState(boolean) {
     this.setState({
-      firstName: this.props.profileResponse.first_name,
-      lastName: this.props.profileResponse.last_name,
-      mobileNumber: this.props.profileResponse.phone_number,
-      email: this.props.profileResponse.email,
-      country: this.props.profileResponse.country_name,
-      main: this.props.profileResponse.state_name,
-      city: this.props.profileResponse.city,
-      address: this.props.profileResponse.address,
-      dob: this.props.profileResponse.dob,
-      username: this.props.profileResponse.user_name,
-      zipCode: this.props.profileResponse.pincode,
       imageLoading: boolean,
     });
   }

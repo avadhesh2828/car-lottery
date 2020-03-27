@@ -51,6 +51,9 @@ import {
   sendInvitationFailure,
   sendInvitationSuccess,
   sendInvitationRequest,
+  uploadProfileImageRequest,
+  uploadProfileImageSuccess,
+  uploadProfileImageFailure,
 
 } from './profileActions';
 
@@ -184,6 +187,9 @@ const actions = {
   getProfileRequest,
   getProfileFailure,
   getProfileSuccess,
+  uploadProfileImageRequest,
+  uploadProfileImageSuccess,
+  uploadProfileImageFailure,
   updateProfileRequest,
   updateProfileSuccess,
   updateProfileFailure,

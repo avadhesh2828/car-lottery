@@ -4,6 +4,7 @@ import {
   GET_PROFILE_FAILURE,
   SET_USER_PROFILE_IMAGE,
 } from '../actions/profileActions';
+import { userProfileImgUrl } from '../api/urls';
 
 const initialState = {
   isLoading: false,
@@ -37,6 +38,7 @@ function getProfileDataReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         profileResponse: action.data.user_profile,
+        userProfileImage: action.data.user_profile && (action.data.user_profile.image ? userProfileImgUrl(action.data.user_profile.image) : ''),
       };
     case GET_PROFILE_FAILURE:
       return {
