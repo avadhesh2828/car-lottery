@@ -208,6 +208,7 @@ class WagerLimitContainer extends Component {
   render() {
     const { saferGambling } = this.props;
     const { monthWagerLimitInfo, weekWagerLimitInfo, dayWagerLimitInfo } = saferGambling;
+    const { monthlyWagerLimit, weeklyWagerLimit, dailyWagerLimit } = this.state;
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
         {/* <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text> */}
@@ -219,7 +220,7 @@ class WagerLimitContainer extends Component {
               containerStyle={[styles.dropdownStyle, {}]}
               disabled={this.disableDropdown(monthWagerLimitInfo)}
               dropdownOffset={{ top: 0, left: 0 }}
-              label={'Select monthly wager limit'}
+              label={monthlyWagerLimit ? '' : 'Select monthly wager limit'}
               value={this.state.monthlyWagerLimit ? `₦${this.state.monthlyWagerLimit}` : ''}
               textColor={UIColors.blackTxt}
               data={monthlyDropdownLimits}
@@ -235,7 +236,7 @@ class WagerLimitContainer extends Component {
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
               disabled={this.disableDropdown(weekWagerLimitInfo)}
-              label={'Select weeky wager limit'}
+              label={weeklyWagerLimit ? '' : 'Select weeky wager limit'}
               dropdownOffset={{ top: 0, left: 0 }}
               textColor={UIColors.blackTxt}
               data={weeklyDropdownLimits}
@@ -253,7 +254,7 @@ class WagerLimitContainer extends Component {
               containerStyle={[styles.dropdownStyle, {}]}
               disabled={this.disableDropdown(dayWagerLimitInfo)}
               dropdownOffset={{ top: 0, left: 0 }}
-              label={'Select daily wager limit'}
+              label={dailyWagerLimit ? '' : 'Select daily wager limit'}
               textColor={UIColors.blackTxt}
               data={dailyDropdownLimits}
               value={this.state.dailyWagerLimit ? `₦${this.state.dailyWagerLimit}` : ''}

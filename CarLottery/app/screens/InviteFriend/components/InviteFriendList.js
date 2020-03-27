@@ -104,9 +104,9 @@ const InviteFriendList = (props) => (
             </View>
             <View style={styles.date}>
               <Text style={styles.rowTxt}>
-                {matchDate}
+                {matchDate.toString()}
                 {' '}
-                {time}
+                {time.toString()}
               </Text>
             </View>
           </View>

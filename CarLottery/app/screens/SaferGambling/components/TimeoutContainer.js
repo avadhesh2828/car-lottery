@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 const monthlyDropdownLimits = [
   { value: '30 days', duration: '30', unit: 'Days' },
   { value: '7 days', duration: '7', unit: 'Days' },
-  { value: '1 days', duration: '1', unit: 'Days' },
+  { value: '1 day', duration: '1', unit: 'Day' },
   { value: '6 hours', duration: '6', unit: 'Hours' },
 ];
 
@@ -128,6 +128,7 @@ class TimeoutContainer extends Component {
   }
 
   render() {
+    const {timeoutLimit}= this.state;
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
         {/* <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text> */}
@@ -138,7 +139,7 @@ class TimeoutContainer extends Component {
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
               dropdownOffset={{ top: 0, left: 0 }}
-              label={'Select here'}
+              label={ timeoutLimit ? '' : 'Select here'}
               value={this.state.timeoutLimit ? `${this.state.timeoutLimit}` : ''}
               textColor={UIColors.blackTxt}
               data={monthlyDropdownLimits}

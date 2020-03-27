@@ -34,7 +34,6 @@ export const InputKey = {
   referalId: 'referalId',
   city: 'city',
   address: 'address',
-  zipCode: 'zipCode',
   searchValue: 'searchValue',
   inviteFriend: 'InviteFriend',
 };

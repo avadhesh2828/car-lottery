@@ -208,6 +208,7 @@ class DepositLimitContainer extends Component {
   render() {
     const { saferGambling } = this.props;
     const { monthDepositLimitInfo, weekDepositLimitInfo, dayDepositLimitInfo } = saferGambling;
+    const { monthlyDepositLimit, weeklyDepositLimit, dailyDepositLimit } = this.state;
     return (
       <KeyboardAwareScrollView style={styles.mainContainer}>
         {/* <Text style={styles.textStyle}>{Localization.SaferGamblingScreen.dummyText}</Text> */}
@@ -220,7 +221,7 @@ class DepositLimitContainer extends Component {
               containerStyle={[styles.dropdownStyle]}
               dropdownOffset={{ top: 0, left: 0 }}
               labelFontSize={16}
-              label={'Select monthly deposit limit'}
+              label={monthlyDepositLimit ? '' : 'Select monthly deposit limit'}
               value={this.state.monthlyDepositLimit ? `₦${this.state.monthlyDepositLimit}` : ''}
               textColor={UIColors.blackTxt}
               data={monthlyDropdownLimits}
@@ -236,7 +237,7 @@ class DepositLimitContainer extends Component {
               fontSize={15}
               containerStyle={[styles.dropdownStyle, {}]}
               disabled={this.disableDropdown(weekDepositLimitInfo)}
-              label={'Select weeky deposit limit'}
+              label={weeklyDepositLimit ? '' : 'Select weeky deposit limit'}
               dropdownOffset={{ top: 0, left: 0 }}
               textColor={UIColors.blackTxt}
               data={weeklyDropdownLimits}
@@ -254,7 +255,7 @@ class DepositLimitContainer extends Component {
               containerStyle={[styles.dropdownStyle, {}]}
               disabled={this.disableDropdown(dayDepositLimitInfo)}
               dropdownOffset={{ top: 0, left: 0 }}
-              label={'Select daily deposit limit'}
+              label={dailyDepositLimit ? '' : 'Select daily deposit limit'}
               textColor={UIColors.blackTxt}
               data={dailyDropdownLimits}
               value={this.state.dailyDepositLimit ? `₦${this.state.dailyDepositLimit}` : ''}

@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Dropdown } from 'react-native-material-dropdown';
 import PropTypes from 'prop-types';
 import { prototype } from 'react-native-modal-dropdown';
+import { showPopupAlert } from '../../utils/showAlert';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
@@ -43,6 +44,9 @@ import { isIOS } from '../../utils/plateformSpecific';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
 import HeaderAd from '../../components/HeaderAd';
+import {
+  isValidUsername, isValidFirstName, isValidLastName, isValidCity,
+} from '../../utils/validators';
 
 const inputWidth = '90%';
 let isOpenDOBPicker = false;
@@ -163,7 +167,6 @@ class UserProfile extends Component {
       mainID: '',
       city: this.props.profileResponse && this.props.profileResponse.city,
       address: this.props.profileResponse && this.props.profileResponse.address,
-      zipCode: this.props.profileResponse && this.props.profileResponse.pincode,
       isPopupVisible: false,
       username: '',
       isShowImagePopup: false,
@@ -198,7 +201,6 @@ class UserProfile extends Component {
         address: this.props.profileResponse.address,
         dob: this.props.profileResponse.dob,
         username: this.props.profileResponse.user_name,
-        zipCode: this.props.profileResponse.pincode,
       });
     }
   }
@@ -261,10 +263,6 @@ class UserProfile extends Component {
     this.setState({ address });
   }
 
-  onChangeZipCodeText(zipCode) {
-    this.setState({ zipCode });
-    console.log("ZipCode==",zipCode)
-  }
 
   // onChangeEmailText(mobileNumber) {
   //   this.setState({ mobileNumber });
@@ -278,9 +276,6 @@ class UserProfile extends Component {
   //   this.setState({ address });
   // }
 
-  // onChangeEmailText(zipCode) {
-  //   this.setState({ zipCode });
-  // }
 
   onSubmitEditing(key) {
     try {
@@ -299,11 +294,6 @@ class UserProfile extends Component {
           break;
         case InputKey.city:
           this.addressInput.focus();
-          break;
-        case InputKey.address:
-          this.zipCodeInput.focus();
-          break;
-        case InputKey.zipCode:
           break;
         // this.mobileNumberInput.focus();
         // case InputKey.mobileNumber:
@@ -330,30 +320,66 @@ class UserProfile extends Component {
   }
 
   getValidationErrorMessage() {
-    // const {
-    //   email, username, password,
-    // } = this.state;
-    // // Email
-    // if (!email) {
-    //   return commonLocalizeStrings.emptyEmailErrorMessage;
-    // }
-    // if (!isValidEmail(email)) {
-    //   return commonLocalizeStrings.invalidEmailErrorMessage;
-    // }
+    const {
+      firstName, lastName, mobileNumber, email, dob, username, state, city, address, country, main
+    } = this.state;   
     // // Username
-    // if (!username) {
-    //   return commonLocalizeStrings.emptyUsernameErrorMessage;
+    if (!username) {
+      return Localization.emptyUserNameErrorMessage;
+    }
+
+    if (!isValidUsername(username)) {
+      return Localization.invalidUserNameErrorMessage;
+    }
+
+    // // First Name
+    if (!firstName) {
+      return Localization.emptyFirstNameErrorMessage;
+    }
+    if (!isValidFirstName(firstName)) {
+      return Localization.invalidFirstNameErrorMessage;
+    }
+
+    // // Last Name
+    if (!lastName) {
+      return Localization.emptyLastNameErrorMessage;
+    }
+    if (!isValidLastName(lastName)) {
+      return Localization.invalidLastNameErrorMessage;
+    }
+    // // Date of Birth
+    if (!dob) {
+      return Localization.emptyDobErrorMessage;
+    }
+    //  // // Country
+    // if (!country) {
+    //   return Localization.emptyCountryErrorMessage;
     // }
-    // if (!isValidUsername(username)) {
-    //   return commonLocalizeStrings.invalidUsernameErrorMessage;
+    // // // State
+    // if (!main) {
+    //   return Localization.emptyStateErrorMessage;
     // }
-    // // Password
-    // if (!password) {
-    //   return commonLocalizeStrings.emptyPasswordErrorMessage;
-    // }
-    // // if (!isValidPassword(password)) {
-    // //   return commonLocalizeStrings.invalidPasswordErrorMessage;
-    // // }
+    // // City
+    if (!city) {
+      return Localization.emptyCityErrorMessage;
+    }
+
+    if (!isValidCity(city)) {
+      return Localization.invalidCityErrorMessage;
+    }
+
+    // // Address
+    if (!address) {
+      return Localization.emptyAddressErrorMessage;
+    }
+
+    if (address.length < 5) {
+      return Localization.invalidAddressErrorMessage;
+    }
+ 
+    
+    
+
     return null;
   }
 
@@ -376,9 +402,6 @@ class UserProfile extends Component {
         break;
       case InputKey.address:
         this.addressInput = reference;
-        break;
-      case InputKey.zipCode:
-        this.zipCodeInput = reference;
         break;
       // case InputKey.password:
       //   this.passwordInput = reference;
@@ -507,27 +530,29 @@ class UserProfile extends Component {
 
   updateProfile() {
     const {
-      firstName, lastName, mobileNumber, email, dob, username, state, city, address, zipCode,
+      firstName, lastName, mobileNumber, email, dob, username, state, city, address,
     } = this.state;
-    const profileObject = {
-      user_name: username,
-      fname: firstName,
-      lname: lastName,
-      email,
-      contact: mobileNumber,
-      address,
-      city,
-      countryId: this.state.countryID,
-      stateId: this.state.mainID,
-      dob: dob.toString(),
-      pincode: zipCode,
-    };
-    if (/^[a-zA-Z0-9]{3,30}$/.test(username)) {
-      alert('username contain only numbers and alphabets');
-    } else if (/[^0-9a-zA-Z]/.test(zipCode)) {
-      alert('Zipcode contain only numbers and alphabets');
+    const errorMessage = this.getValidationErrorMessage();
+    if (errorMessage) {
+      showPopupAlert(errorMessage);
     } else {
-      this.props.updateProfileRequest(profileObject);
+      isNetworkConnected((isConnected) => {
+        const profileObject = {
+          user_name: username,
+          fname: firstName,
+          lname: lastName,
+          email,
+          contact: mobileNumber,
+          address,
+          city,
+          countryId: this.state.countryID,
+          stateId: this.state.mainID,
+          dob: dob.toString(),
+        };
+        if (isConnected) {
+          this.props.updateProfileRequest(profileObject);
+        }
+      });
     }
   }
 
@@ -539,8 +564,8 @@ class UserProfile extends Component {
 
   render() {
     const {
-      email, firstName, lastName, mobileNumber, dob, gender, country,
-      state, city, address, zipCode, isShowDatePicker, isPopupVisible,
+      email, firstName, lastName, mobileNumber, dob, gender, country, main,
+      state, city, address, isShowDatePicker, isPopupVisible, countryId, mainID,
     } = this.state || this.props.profileResponse;
     const { dashboard } = this.props;
     return (
@@ -654,7 +679,7 @@ class UserProfile extends Component {
                   style={{ flex: 1 }}
                   onPress={() => this.updateStateDOB()}
                 >
-                  <Text style={[isOpenDOBPicker ? { color: UIColors.primaryText } : { color: UIColors.grayText }]}>
+                  <Text style={[isOpenDOBPicker ? { fontSize: fontSizes.small, color: UIColors.textTitle } : { fontSize: fontSizes.small, color: UIColors.textTitle, }]}>
                     {isOpenDOBPicker ? DateManager.formatDateWithDash(dob) : 'Date of Birth'}
                   </Text>
                 </TouchableOpacity>
@@ -664,16 +689,14 @@ class UserProfile extends Component {
             {
               // eslint-disable-next-line react/destructuring-assignment
               this.props.countryResponse && this.props.countryResponse.length > 0 && (
-                <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
+                <View style={[styles.textInputContainer,{}]}>
                   <Image style={styles.emailIcon} source={images.country} />
                   <View style={styles.dropdownConatiner}>
                     <Dropdown
                       fontSize={15}
-                      baseColor={this.state.country ? 'transparent' : UIColors.grayText}
                       containerStyle={styles.dropdownStyle}
                       dropdownOffset={{ top: 0, left: 0 }}
-                      labelFontSize={this.state.country ? 0 : 12}
-                      label={this.state.country ? '' : Localization.userProfileScreen.selectCountry}
+                      label={Localization.userProfileScreen.selectCountry}
                       value={this.state.country === null ? '' : this.state.country}
                       data={this.props.countryResponse}
                       onChangeText={(item, index, data) => this.selectedCountryItem(item, index, data)}
@@ -685,15 +708,14 @@ class UserProfile extends Component {
             }
             {
               this.props.stateResponse && this.props.stateResponse.length > 0 && (
-                <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
+                <View style={[styles.textInputContainer, {}]}>
                   <Image style={styles.emailIcon} source={images.place} />
                   <View style={[styles.dropdownConatiner, {}]}>
                     <Dropdown
                       fontSize={14}
                       dropdownOffset={{ top: 0, left: 0 }}
                       containerStyle={styles.dropdownStyle}
-                      baseColor={this.state.main ? 'transparent' : UIColors.grayText}
-                      label={this.state.main ? '' : Localization.userProfileScreen.selectState}
+                      label={Localization.userProfileScreen.selectState}
                     // label={Localization.userProfileScreen.selectState}
                       data={this.props.stateResponse}
                       value={this.state.main === null ? '' : this.state.main}
@@ -735,23 +757,6 @@ class UserProfile extends Component {
                 value={this.state.address}
                 returnKeyType={ReturnKeyType.next}
                 onChangeText={(value) => this.onChangeAddressText(value)}
-                onSubmitEditing={(key) => this.onSubmitEditing(key)}
-                autoCapitalize="none"
-              />
-            </View>
-            <View style={[styles.textInputContainer, {}]}>
-              <Image style={styles.emailIcon} source={images.place} />
-              <CustomTextInput
-                textInput={StyleSheet.flatten(styles.textInput)}
-                inputView={StyleSheet.flatten(styles.textInputView)}
-                placeholderTextColor={UIColors.defaultTextColor}
-                placeholder={Localization.userProfileScreen.zipCode}
-                inputKey={InputKey.zipCode}
-                getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
-                keyboardType={KeyboardType.phonePad}
-                value={this.state.zipCode}
-                returnKeyType={ReturnKeyType.done}
-                onChangeText={(value) => this.onChangeZipCodeText(value)}
                 onSubmitEditing={(key) => this.onSubmitEditing(key)}
                 autoCapitalize="none"
               />
