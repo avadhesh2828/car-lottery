@@ -20,8 +20,6 @@ const demoData = [
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: UIColors.APP_THEME_COLOUR,
-    marginRight: itemSizes.defaultHeight,
     paddingHorizontal: spacing.medium,
     padding: spacing.extraSmall,
   },
