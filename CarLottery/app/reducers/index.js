@@ -10,6 +10,7 @@ import saferGamblingReducer from './saferGamblingReducer';
 import authWelcomeReducer from './authWelcomeReducer';
 import getTransactionsReducer from './getTransactionsReducer';
 import getInviteFriendReducer from './InviteFriendRedducer';
+import notificationReducer from './notificationReducer';
 
 const appReducer = combineReducers({
   loaderReducers,
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   authWelcomeReducer,
   getTransactionsReducer,
   getInviteFriendReducer,
+  notificationReducer,
 });
 
 const rootReducer = (state, action) => appReducer(state, action);
