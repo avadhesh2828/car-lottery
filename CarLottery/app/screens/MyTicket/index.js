@@ -32,6 +32,7 @@ import { isIOS } from '../../utils/plateformSpecific';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
 import HeaderAd from '../../components/HeaderAd';
+import SideMenu from '../../components/SideMenu';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -152,6 +153,7 @@ class MyTicket extends Component {
       isPopupVisible: false,
       // Showlottery: images.uncheckedIconRadio,
       radioStatusValue: 'all',
+      isSideMenuVisible: false,
     };
   }
 
@@ -278,7 +280,7 @@ class MyTicket extends Component {
 
   render() {
     const {
-      multiSliderValue, radioStatusValue, isVisible, isPopupVisible,
+      multiSliderValue, radioStatusValue, isVisible, isPopupVisible, isSideMenuVisible,
     } = this.state;
     const { dashboard } = this.props;
     const { myLotteries } = dashboard;
@@ -289,6 +291,8 @@ class MyTicket extends Component {
           showRightUserImageIcon
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <ScrollView
           style={{ flex: 1 }}
@@ -448,6 +452,11 @@ class MyTicket extends Component {
               )
               : null
         }
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

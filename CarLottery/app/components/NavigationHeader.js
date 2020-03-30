@@ -48,6 +48,16 @@ const styles = StyleSheet.create({
     top: isIOS ? responsiveSize(20) : responsiveSize(13),
     // backgroundColor: 'pink',
     right: 0,
+    marginRight: responsiveSize(30),
+    marginLeft: spacing.semiMedium,
+    width: responsiveSize(40),
+    // height: responsiveSize(30),
+  },
+  menubutton: {
+    position: 'absolute',
+    top: isIOS ? responsiveSize(20) : responsiveSize(13),
+    // backgroundColor: 'pink',
+    right: 0,
     marginLeft: spacing.semiMedium,
     width: responsiveSize(40),
     // height: responsiveSize(30),
@@ -56,11 +66,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: isIOS ? responsiveSize(20) : responsiveSize(13),
     right: 0,
-    marginRight: responsiveSize(30),
+    marginRight: responsiveSize(60),
     width: responsiveSize(40),
     // height: responsiveSize(30),
   },
   userIcon: {
+    tintColor: UIColors.appBackGroundColor,
+    marginHorizontal: spacing.semiMedium,
+    // backgroundColor: 'orange',
+    width: itemSizes.iconMedium,
+    height: itemSizes.iconSmall,
+  },
+  menuIcon: {
     tintColor: UIColors.appBackGroundColor,
     marginHorizontal: spacing.semiMedium,
     // backgroundColor: 'orange',
@@ -113,6 +130,8 @@ class NavigationHeader extends Component {
       showRightUserImageIcon,
       rightImageIcon,
       showRightBellImageIcon,
+      onPressSideMenuRightIcon,
+      showRightSideMenuImageIcon,
       onPressRightIcon,
     } = this.props;
 
@@ -142,6 +161,14 @@ class NavigationHeader extends Component {
               && (
                 <TouchableOpacity style={styles.userbutton} onPress={onPressRightIcon}>
                   <Image source={images.usernav} style={styles.userIcon} resizeMode={'contain'} />
+                </TouchableOpacity>
+              )
+          }
+          {
+            showRightSideMenuImageIcon
+              && (
+                <TouchableOpacity style={styles.menubutton} onPress={onPressSideMenuRightIcon}>
+                  <Image source={images.menu} style={styles.menuIcon} resizeMode={'contain'} />
                 </TouchableOpacity>
               )
           }

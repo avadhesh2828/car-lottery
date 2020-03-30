@@ -19,6 +19,7 @@ import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
 import { showPopupAlert } from '../../utils/showAlert';
 import { isNetworkConnected } from '../../utils/utils';
+import SideMenu from '../../components/SideMenu';
 
 
 const inputWidth = '90%';
@@ -107,6 +108,7 @@ class ChangePassword extends Component {
       oldPassword: '',
       newPassword: '',
       confirmPassword: '',
+      isSideMenuVisible: false,
       // isShowPassword: false,
     };
   }
@@ -246,13 +248,15 @@ class ChangePassword extends Component {
       oldPassword,
       newPassword,
       confirmPassword,
-
+      isSideMenuVisible,
     } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
           logo
           showBackButton
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
@@ -325,6 +329,11 @@ class ChangePassword extends Component {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

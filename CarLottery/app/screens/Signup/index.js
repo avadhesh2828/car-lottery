@@ -20,7 +20,7 @@ import { isIOS } from '../../utils/plateformSpecific';
 import { showPopupAlert } from '../../utils/showAlert';
 import { isNetworkConnected } from '../../utils/utils';
 import { isValidEmail } from '../../utils/validators';
-
+import SideMenu from '../../components/SideMenu';
 
 const inputWidth = '90%';
 
@@ -111,6 +111,7 @@ class Signup extends Component {
       referalId: '',
       isReferalCheck: false,
       isTermsCheck: false,
+      isSideMenuVisible: false,
       // isShowPassword: false,
     };
   }
@@ -263,12 +264,15 @@ class Signup extends Component {
       referalId,
       isReferalCheck,
       isTermsCheck,
+      isSideMenuVisible,
 
     } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
           logo
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
@@ -385,6 +389,11 @@ class Signup extends Component {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

@@ -22,6 +22,7 @@ import { isNetworkConnected } from '../../utils/utils';
 import CustomTextInput from '../../components/CustomTextInput';
 import InviteFriendList from './components/InviteFriendList';
 import { isValidEmail } from '../../utils/validators';
+import SideMenu from '../../components/SideMenu';
 
 const inputWidth = '90%';
 
@@ -108,6 +109,7 @@ class InviteFriend extends Component {
     this.state = {
       inviteFriend: '',
       // isShowPassword: false,
+      isSideMenuVisible: false,
     };
   }
 
@@ -192,6 +194,7 @@ class InviteFriend extends Component {
     // } = this.props;
     const {
       inviteFriend,
+      isSideMenuVisible,
     } = this.state;
     const { inviteFriendReducer } = this.props;
     const { userInviteResponse } = inviteFriendReducer;
@@ -200,6 +203,8 @@ class InviteFriend extends Component {
         <NavigationHeader
           logo
           showBackButton
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
@@ -235,6 +240,11 @@ class InviteFriend extends Component {
             userInviteResponse={userInviteResponse}
           />
         </KeyboardAwareScrollView>
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

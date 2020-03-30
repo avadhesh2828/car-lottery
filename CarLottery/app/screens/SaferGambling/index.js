@@ -22,6 +22,7 @@ import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
 import HeaderAd from '../../components/HeaderAd';
 import { responsiveSize } from '../../utils/utils';
+import SideMenu from '../../components/SideMenu';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -88,6 +89,7 @@ class SaferGambling extends Component {
     this.state = {
       // tabIndex: 0,
       isPopupVisible: false,
+      isSideMenuVisible: false,
       // eslint-disable-next-line react/no-unused-state
       index: 0,
       // eslint-disable-next-line react/no-unused-state
@@ -111,7 +113,7 @@ class SaferGambling extends Component {
   render() {
     // const {} = this.state;
     const { saferGambling, dashboard } = this.props;
-    const { isPopupVisible } = this.state;
+    const { isPopupVisible, isSideMenuVisible } = this.state;
     // const {} = saferGambling;
     return (
       <SafeAreaView style={styles.mainContainer}>
@@ -122,6 +124,8 @@ class SaferGambling extends Component {
           showRightUserImageIcon
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={styles.subContainer}>
           <HeaderAd adData={dashboard.headerAd} />
@@ -153,6 +157,11 @@ class SaferGambling extends Component {
         )
         : null
   }
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

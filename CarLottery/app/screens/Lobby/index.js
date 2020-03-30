@@ -33,6 +33,7 @@ import PopUpScreen from '../../components/PopupScreen';
 import { UserData } from '../../utils/global';
 import HeaderAd from '../../components/HeaderAd';
 import { Localization } from '../../utils/localization';
+import SideMenu from '../../components/SideMenu';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -134,6 +135,7 @@ class Lobby extends Component {
       is_Radio_check: false,
       multiSliderValue: [0.2, 99.8],
       isPopupVisible: false,
+      isSideMenuVisible: false,
     };
   }
 
@@ -278,6 +280,7 @@ class Lobby extends Component {
     const { dashboard } = this.props;
     const { multiSliderValue, isPopupVisible } = this.state;
     const { lobbyHotLotteries } = dashboard;
+    const { isSideMenuVisible } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
@@ -285,6 +288,8 @@ class Lobby extends Component {
           showRightUserImageIcon
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <ScrollView
           style={{ flex: 1 }}
@@ -429,6 +434,11 @@ class Lobby extends Component {
           )
           : null
   }
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

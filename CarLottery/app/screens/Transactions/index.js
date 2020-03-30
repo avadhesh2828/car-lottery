@@ -13,7 +13,7 @@ import Navigation from '../../utils/navigation';
 import { images } from '../../assets/images';
 // import AccountContainer from './components/containers/AccountContainer';
 import { UIColors, spacing } from '../../utils/variables';
-
+import SideMenu from '../../components/SideMenu';
 import { screenNames } from '../../utils/constant';
 import TransactionContainer from './components/TransactionContainer';
 import NavigationHeader from '../../components/NavigationHeader';
@@ -47,6 +47,7 @@ class TransactionList extends Component {
     super(props);
     this.state = {
       isPopupVisible: false,
+      isSideMenuVisible: false,
       // eslint-disable-next-line react/no-unused-state
       index: 0,
       // eslint-disable-next-line react/no-unused-state
@@ -74,7 +75,7 @@ class TransactionList extends Component {
   }
 
   render() {
-    const { isPopupVisible } = this.state;
+    const { isPopupVisible, isSideMenuVisible } = this.state;
     const { dashboard } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: UIColors.navigationBar }}>
@@ -84,6 +85,8 @@ class TransactionList extends Component {
           showRightUserImageIcon
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={{ backgroundColor: UIColors.appBackGroundColor, flex: 1 }}>
           <HeaderAd adData={dashboard.headerAd} />
@@ -121,6 +124,11 @@ class TransactionList extends Component {
         )
         : null
   }
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }
