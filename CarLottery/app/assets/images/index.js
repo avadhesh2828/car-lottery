@@ -39,6 +39,8 @@ const calendar = require('./calendar.png');
 const gender = require('./gender.png');
 const country = require('./global.png');
 const place = require('./place.png');
+const menu = require('./menu.png');
+const banner = require('./banner.jpg');
 
 export const images = {
   splash,
@@ -82,4 +84,6 @@ export const images = {
   gender,
   place,
   country,
+  menu,
+  banner,
 };
