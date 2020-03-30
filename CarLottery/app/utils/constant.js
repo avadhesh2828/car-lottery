@@ -15,6 +15,7 @@ export const screenNames = {
   DISPUTE_REASON: 'DisputeReason',
   TRANSACTION_SCREEN: 'TransactionListScreen',
   INVITE_FRIEND_SCREEN: 'InviteFriend',
+  NOTIFICATION: 'Notification',
 };
 
 export const appIntervals = {

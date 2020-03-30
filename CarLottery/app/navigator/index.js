@@ -17,6 +17,7 @@ import ChangePassword from '../screens/ChangePassword';
 import DisputeReason from '../screens/Dispute';
 import TransactionListScreen from '../screens/Transactions';
 import InviteFriend from '../screens/InviteFriend';
+import Notification from '../screens/Notification';
 // const BeforeLoginTabNavigator = createStackNavigator(
 //   {
 //     Login: {
@@ -156,6 +157,14 @@ const MainNavigator = createStackNavigator(
     InviteFriend: {
       screen: InviteFriend,
       key: screenNames.INVITE_FRIEND_SCREEN,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    Notification: {
+      screen: Notification,
+      key: screenNames.NOTIFICATION,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,
