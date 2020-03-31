@@ -36,6 +36,10 @@ export const suspendUserUrl = `${getBaseUrl()}/api/auth/suspend`;
 // Advertisement
 export const headerAdUrl = `${getBaseUrl()}/api/common/get_all_header_advertisement`;
 export const FooterAdUrl = `${getBaseUrl()}/api/common/get_all_footer_advertisement`;
+
+// Notifications
+export const getAllNotificationsUrl = `${getBaseUrl()}/api/notifications/get_all_notifications`;
+export const userUnreadNotificationsUrl = `${getBaseUrl()}/api/notifications/user_unread_notifications`;
 // Image Urls
 export const contestImgUrl = (imgName) => `${getBaseUrl()}/uploads/contests/${imgName}`;
 export const adImgUrl = (imgName) => `${getBaseUrl()}/uploads/advertisement/${imgName}`;

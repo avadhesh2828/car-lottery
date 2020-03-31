@@ -23,6 +23,8 @@ import {
 import { isIOS, isIphoneX, NavBarHeight } from '../utils/plateformSpecific';
 import { responsiveSize } from '../utils/utils';
 import PopUpScreen from './PopupScreen';
+import { screenNames } from '../utils/constant';
+import { UserData } from '../utils/global';
 
 const styles = StyleSheet.create({
   container: {
@@ -150,7 +152,14 @@ class NavigationHeader extends Component {
           {
             showRightBellImageIcon
               && (
-                <TouchableOpacity style={styles.bellbutton}>
+                <TouchableOpacity
+                  style={styles.bellbutton}
+                  onPress={() => {
+                    if (UserData.SessionKey) {
+                      Navigation.sharedInstance().pushToScreen(screenNames.NOTIFICATION);
+                    }
+                  }}
+                >
                   <Image source={images.bellIcon} style={styles.bellIcon} resizeMode={'contain'} />
                 </TouchableOpacity>
               )

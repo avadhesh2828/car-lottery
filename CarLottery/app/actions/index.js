@@ -163,6 +163,15 @@ import {
   getFooterAdSuccess,
 } from './advertisementActions';
 
+import {
+  getAllNotificationsRequest,
+  getAllNotificationsFailure,
+  getAllNotificationsSuccess,
+  userUnreadNotificationRequest,
+  userUnreadNotificationSuccess,
+  userUnreadNotificationFailure,
+} from './notificationActions';
+
 const actions = {
   getSportsRequest,
   getSportsSuccess,
@@ -299,6 +308,13 @@ const actions = {
   getTransactionsRequest,
   getTransactionsSuccess,
   getTransactionsFailure,
+  // notifications
+  getAllNotificationsRequest,
+  getAllNotificationsFailure,
+  getAllNotificationsSuccess,
+  userUnreadNotificationRequest,
+  userUnreadNotificationSuccess,
+  userUnreadNotificationFailure,
 };
 
 export default bindActionCreators(actions, store.dispatch);
