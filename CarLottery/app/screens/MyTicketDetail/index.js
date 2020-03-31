@@ -20,6 +20,7 @@ import TicketsTable from './components/TicketsTable';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
 import { screenNames } from '../../utils/constant';
+import SideMenu from '../../components/SideMenu';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -36,6 +37,7 @@ class MyTicketDetail extends Component {
     this.state = {
       searchValue: '',
       isPopupVisible: false,
+      isSideMenuVisible: false,
     };
   }
 
@@ -98,7 +100,7 @@ class MyTicketDetail extends Component {
   }
 
   render() {
-    const { isPopupVisible, searchValue } = this.state;
+    const { isPopupVisible, searchValue, isSideMenuVisible } = this.state;
     const { dashboard } = this.props;
     const { selectedContestDetails, myContestTickets } = dashboard;
     const { item } = this.props.navigation.state.params;
@@ -110,6 +112,8 @@ class MyTicketDetail extends Component {
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
           showBackButton
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <HeaderContainer
           item={item}
@@ -135,6 +139,11 @@ class MyTicketDetail extends Component {
         )
         : null
   }
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

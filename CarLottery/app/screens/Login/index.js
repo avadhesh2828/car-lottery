@@ -21,6 +21,7 @@ import { isIOS } from '../../utils/plateformSpecific';
 import { AuthWelcomeView } from '../../utils/enum';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
+import SideMenu from '../../components/SideMenu';
 
 const inputWidth = '90%';
 
@@ -117,6 +118,7 @@ class Login extends Component {
       password: '',
       forgetEmail: '',
       isShowPassword: false,
+      isSideMenuVisible: false,
     };
   }
 
@@ -360,14 +362,22 @@ class Login extends Component {
 
   render() {
     const { currentAuthWelcomeView } = this.props;
+    const { isSideMenuVisible } = this.state;
     return (
       <SafeAreaView style={styles.mainContainer}>
         <NavigationHeader
           logo
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <View style={styles.subContainer}>
           {this.renderCurrentView(currentAuthWelcomeView)}
         </View>
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

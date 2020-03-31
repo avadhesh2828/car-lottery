@@ -19,6 +19,7 @@ import { InputKey, KeyboardType, ReturnKeyType } from '../../utils/constant';
 import { isIOS } from '../../utils/plateformSpecific';
 import { showPopupAlert } from '../../utils/showAlert';
 import { isNetworkConnected, responsiveSize } from '../../utils/utils';
+import SideMenu from '../../components/SideMenu';
 
 
 const inputWidth = '90%';
@@ -87,6 +88,7 @@ class DisputeReason extends Component {
     this.state = {
       reason: '',
       // isShowPassword: false,
+      isSideMenuVisible: false,
     };
   }
 
@@ -112,6 +114,7 @@ class DisputeReason extends Component {
     // } = this.props;
     const {
       reason,
+      isSideMenuVisible,
     } = this.state;
     const { item } = this.props.navigation.state.params;
     return (
@@ -119,6 +122,8 @@ class DisputeReason extends Component {
         <NavigationHeader
           logo
           showBackButton
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.subContainer}>
@@ -158,6 +163,11 @@ class DisputeReason extends Component {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

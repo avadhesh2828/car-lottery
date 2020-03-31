@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, FlatList, RefreshControl, Dimensions, ScrollView,
+  StyleSheet, SafeAreaView, View, FlatList, RefreshControl, Dimensions, ScrollView, Image,
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,8 +10,8 @@ import _ from 'lodash';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import NavigationHeader from '../../components/NavigationHeader';
-import { spacing, UIColors } from '../../utils/variables';
-import { formateData } from '../../utils/utils';
+import { spacing, UIColors, itemSizes } from '../../utils/variables';
+import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
 import { contestImgUrl } from '../../api/urls';
@@ -19,6 +19,9 @@ import { screenNames } from '../../utils/constant';
 import PopUpScreen from '../../components/PopupScreen';
 import { UserData } from '../../utils/global';
 import HeaderAd from '../../components/HeaderAd';
+import SideMenu from '../../components/SideMenu';
+import { images } from '../../assets/images';
+import Banner from '../../components/Banner';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -48,6 +51,7 @@ class Home extends Component {
     super(props);
     this.state = {
       isPopupVisible: false,
+      isSideMenuVisible: false,
     };
   }
 
@@ -78,7 +82,7 @@ class Home extends Component {
   }
 
   render() {
-    const { isPopupVisible } = this.state;
+    const { isPopupVisible, isSideMenuVisible } = this.state;
     const { dashboard } = this.props;
     const { hotLotteries } = dashboard;
     return (
@@ -87,6 +91,8 @@ class Home extends Component {
           logo
           showRightUserImageIcon
           showRightBellImageIcon
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
           onPressRightIcon={() => { this.onChangeView(); }}
         />
         <ScrollView
@@ -99,6 +105,7 @@ class Home extends Component {
           )}
         >
           <HeaderAd adData={dashboard.headerAd} />
+          <Banner />
           <View style={styles.listView}>
             {hotLotteries.length !== 0 ? (
               <FlatList
@@ -139,6 +146,11 @@ class Home extends Component {
         )
         : null
   }
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

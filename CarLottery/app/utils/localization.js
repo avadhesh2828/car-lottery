@@ -126,4 +126,14 @@ export const Localization = {
     DisputeReason: 'Dispute Reason',
     Submit: 'Submit',
   },
+  SideMenu: {
+    AboutUs: 'ABOUT US',
+    HowToPlay: 'HOW TO PLAY',
+    Help: 'HELP',
+    GameRules: 'GAME RULES',
+    FAQs: 'FAQs',
+    TermsContions: 'TERMS & CONDITIONS',
+    PrivacyPolicy: 'PRIVACY POLICY',
+    Copyright: 'Copyright © 2020 Car lottery Company. All rights reserved.',
+  },
 };

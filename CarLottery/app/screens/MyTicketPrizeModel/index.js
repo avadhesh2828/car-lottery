@@ -25,6 +25,7 @@ import PrizeModelCell from './components/PrizeModelCell';
 import { contestImgUrl } from '../../api/urls';
 import { UserData } from '../../utils/global';
 import PopUpScreen from '../../components/PopupScreen';
+import SideMenu from '../../components/SideMenu';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -112,6 +113,7 @@ class MyTicketPrizeModel extends Component {
     super(props);
     this.state = {
       isPopupVisible: false,
+      isSideMenuVisible: false,
     };
   }
 
@@ -152,7 +154,7 @@ class MyTicketPrizeModel extends Component {
   }
 
   render() {
-    const { isPopupVisible } = this.state;
+    const { isPopupVisible, isSideMenuVisible } = this.state;
     const { dashboard } = this.props;
     const { userWinnerTickets, selectedLotterieWinnerslist } = dashboard;
     const { item } = this.props.navigation.state.params;
@@ -165,6 +167,8 @@ class MyTicketPrizeModel extends Component {
           showRightUserImageIcon
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <View style={styles.subContainer}>
           <View style={styles.LotterytextConatiner}>
@@ -251,6 +255,11 @@ class MyTicketPrizeModel extends Component {
         )
         : null
   }
+        {
+       isSideMenuVisible
+         ? <SideMenu />
+         : null
+     }
       </SafeAreaView>
     );
   }

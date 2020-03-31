@@ -47,6 +47,7 @@ import HeaderAd from '../../components/HeaderAd';
 import {
   isValidUsername, isValidFirstName, isValidLastName, isValidCity,
 } from '../../utils/validators';
+import SideMenu from '../../components/SideMenu';
 
 const inputWidth = '90%';
 let isOpenDOBPicker = false;
@@ -172,6 +173,7 @@ class UserProfile extends Component {
       isShowImagePopup: false,
       imageToShow: '',
       imageLoading: false,
+      isSideMenuVisible: false,
       // isShowPassword: false,
     };
   }
@@ -321,8 +323,8 @@ class UserProfile extends Component {
 
   getValidationErrorMessage() {
     const {
-      firstName, lastName, mobileNumber, email, dob, username, state, city, address, country, main
-    } = this.state;   
+      firstName, lastName, mobileNumber, email, dob, username, state, city, address, country, main,
+    } = this.state;
     // // Username
     if (!username) {
       return Localization.emptyUserNameErrorMessage;
@@ -376,9 +378,7 @@ class UserProfile extends Component {
     if (address.length < 5) {
       return Localization.invalidAddressErrorMessage;
     }
- 
-    
-    
+
 
     return null;
   }
@@ -575,6 +575,8 @@ class UserProfile extends Component {
           showRightUserImageIcon
           showRightBellImageIcon
           onPressRightIcon={() => { this.onChangeView(); }}
+          showRightSideMenuImageIcon
+          onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !this.state.isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
           <HeaderAd adData={dashboard.headerAd} />
@@ -679,7 +681,7 @@ class UserProfile extends Component {
                   style={{ flex: 1 }}
                   onPress={() => this.updateStateDOB()}
                 >
-                  <Text style={[isOpenDOBPicker ? { fontSize: fontSizes.small, color: UIColors.textTitle } : { fontSize: fontSizes.small, color: UIColors.textTitle, }]}>
+                  <Text style={[isOpenDOBPicker ? { fontSize: fontSizes.small, color: UIColors.textTitle } : { fontSize: fontSizes.small, color: UIColors.textTitle }]}>
                     {isOpenDOBPicker ? DateManager.formatDateWithDash(dob) : 'Date of Birth'}
                   </Text>
                 </TouchableOpacity>
@@ -689,7 +691,7 @@ class UserProfile extends Component {
             {
               // eslint-disable-next-line react/destructuring-assignment
               this.props.countryResponse && this.props.countryResponse.length > 0 && (
-                <View style={[styles.textInputContainer,{}]}>
+                <View style={[styles.textInputContainer, {}]}>
                   <Image style={styles.emailIcon} source={images.country} />
                   <View style={styles.dropdownConatiner}>
                     <Dropdown
@@ -816,6 +818,11 @@ class UserProfile extends Component {
             )
             : null
         }
+        {
+        this.state.isSideMenuVisible
+          ? <SideMenu />
+          : null
+     }
       </SafeAreaView>
     );
   }
