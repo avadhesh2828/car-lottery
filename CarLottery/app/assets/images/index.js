@@ -41,6 +41,9 @@ const country = require('./global.png');
 const place = require('./place.png');
 const menu = require('./menu.png');
 const banner = require('./banner.jpg');
+const feature1 = require('./feature1.png');
+const feature2 = require('./feature2.png');
+const feature3 = require('./feature3.png');
 
 export const images = {
   splash,
@@ -86,4 +89,7 @@ export const images = {
   country,
   menu,
   banner,
+  feature1,
+  feature2,
+  feature3,
 };

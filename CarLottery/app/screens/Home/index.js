@@ -2,15 +2,18 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
-  StyleSheet, SafeAreaView, View, FlatList, RefreshControl, Dimensions, ScrollView, Image,
+  StyleSheet, SafeAreaView, View, FlatList, RefreshControl, Dimensions, ScrollView, Image, Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import Carousel from 'react-native-snap-carousel';
 import UserActions from '../../actions';
 import Navigation from '../../utils/navigation';
 import NavigationHeader from '../../components/NavigationHeader';
-import { spacing, UIColors, itemSizes } from '../../utils/variables';
+import {
+  spacing, UIColors, itemSizes, fontSizes, fontName,
+} from '../../utils/variables';
 import { formateData, responsiveSize } from '../../utils/utils';
 import BackgroundMessage from '../../components/BackgroundMessage';
 import LotteryCell from './components/LotteryCell';
@@ -27,6 +30,37 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: UIColors.grayBackgroundColor,
+  },
+  carouselkmainContainer: {
+    flex: 1,
+    padding: spacing.medium,
+    backgroundColor: UIColors.appBackGroundColor,
+    margin: spacing.medium,
+    borderRadius: spacing.medium,
+  },
+  carouselImage: {
+    width: responsiveSize(70),
+    height: responsiveSize(70),
+  },
+  carouselTitle: {
+    margin: spacing.medium,
+    fontSize: fontSizes.extraLarge,
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+    textAlign: 'center',
+  },
+  carouselSubTitle: {
+    fontSize: fontSizes.extraLarge,
+    color: UIColors.textTitle,
+    fontFamily: fontName.sourceSansProRegular,
+    paddingLeft: spacing.semiMedium,
+    paddingRight: spacing.semiMedium,
+  },
+  carouseltext: {
+    fontSize: fontSizes.small,
+    color: UIColors.textTitle,
+    paddingLeft: spacing.semiMedium,
+    paddingRight: spacing.semiMedium,
   },
   listView: {
     marginHorizontal: spacing.extraSmall,
@@ -52,6 +86,23 @@ class Home extends Component {
     this.state = {
       isPopupVisible: false,
       isSideMenuVisible: false,
+      Data: [
+        {
+          title: 'Feature 1',
+          subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+          image: images.feature1,
+        },
+        {
+          title: 'Feature 2',
+          subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+          image: images.feature2,
+        },
+        {
+          title: 'Feature 3',
+          subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+          image: images.feature3,
+        },
+      ],
     };
   }
 
@@ -79,6 +130,18 @@ class Home extends Component {
 
   buyLottery(item) {
     this.props.joinLotteryRequest(item.contest_unique_id);
+  }
+
+  _renderItem({ item, index }) {
+    return (
+      <View style={styles.carouselkmainContainer}>
+        <View style={{ flexDirection: 'row-reverse', paddingLeft: spacing.semiMedium }}>
+          <Image source={item.image} style={styles.carouselImage} />
+        </View>
+        <Text style={styles.carouselSubTitle}>{ item.title }</Text>
+        <Text numberOfLines={10} style={styles.carouseltext}>{item.subtitle}</Text>
+      </View>
+    );
   }
 
   render() {
@@ -132,6 +195,25 @@ class Home extends Component {
               />
             )
               : (<BackgroundMessage title="No data available" />)}
+          </View>
+          <View>
+            <Text style={styles.carouselTitle}>H E A D I N G</Text>
+            <Carousel
+              data={this.state.Data}
+              renderItem={this._renderItem}
+              sliderWidth={Dimensions.get('window').width - 10}
+              itemWidth={Dimensions.get('window').width - 10}
+              inactiveSlideScale={1}
+              inactiveSlideOpacity={1}
+              enableMomentum
+              activeSlideAlignment={'start'}
+              // autoplay
+              // autoplayDelay={500}
+              // autoplayInterval={2500}
+              containerCustomStyle
+              contentContainerCustomStyle
+              removeClippedSubviews={false}
+            />
           </View>
           <HeaderAd adData={dashboard.footerAd} />
         </ScrollView>
