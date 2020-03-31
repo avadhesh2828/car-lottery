@@ -55,8 +55,8 @@ function* getAllNotifications(action) {
       dataResponse = parsedResponse;
       yield put(getAllNotificationsSuccess({
         response: dataResponse,
-        current_page: action.data.current_page,
-        items_perpage: action.data.items_perpage,
+        current_page: action.data.currentPage,
+        items_perpage: action.data.itemsPerPage,
       }));
     } else {
       yield put(getAllNotificationsFailure(parsedResponse));
