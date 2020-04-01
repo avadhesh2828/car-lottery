@@ -194,7 +194,7 @@ class Home extends Component {
                 }}
               />
             )
-              : (<BackgroundMessage title="No data available" />)}
+              : null }
           </View>
           <View>
             <Text style={styles.carouselTitle}>H E A D I N G</Text>

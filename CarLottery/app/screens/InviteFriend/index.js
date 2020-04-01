@@ -1,7 +1,7 @@
 /* eslint-disable react/sort-comp */
 import React, { Component } from 'react';
 import {
-  SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity,
+  SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity, ScrollView,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
@@ -207,38 +207,40 @@ class InviteFriend extends Component {
           onPressSideMenuRightIcon={() => this.setState({ isSideMenuVisible: !isSideMenuVisible })}
         />
         <KeyboardAwareScrollView style={{ flex: 1 }}>
-          <View style={styles.subContainer}>
-            <Text style={styles.loginText}>{Localization.userProfileScreen.inviteFriend}</Text>
-            <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
-              <Image style={styles.emailIcon} source={images.email} />
-              <CustomTextInput
-                textInput={StyleSheet.flatten(styles.textInput)}
-                inputView={StyleSheet.flatten(styles.textInputView)}
-                placeholderTextColor={UIColors.defaultTextColor}
-                placeholder={Localization.loginScreen.Email}
-                inputKey={InputKey.inviteFriend}
-                getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
-                keyboardType={KeyboardType.emailAddress}
-                value={inviteFriend}
-                returnKeyType={ReturnKeyType.next}
-                onChangeText={(value) => this.onChangeinviteFriendText(value)}
-                onSubmitEditing={(key) => this.onSubmitEditing(key)}
-                autoCapitalize="none"
-              />
-              {/* <ToggleIcon
+          <ScrollView>
+            <View style={styles.subContainer}>
+              <Text style={styles.loginText}>{Localization.userProfileScreen.inviteFriend}</Text>
+              <View style={[styles.textInputContainer, { marginTop: spacing.large }]}>
+                <Image style={styles.emailIcon} source={images.email} />
+                <CustomTextInput
+                  textInput={StyleSheet.flatten(styles.textInput)}
+                  inputView={StyleSheet.flatten(styles.textInputView)}
+                  placeholderTextColor={UIColors.defaultTextColor}
+                  placeholder={Localization.loginScreen.Email}
+                  inputKey={InputKey.inviteFriend}
+                  getTextInputReference={(key, reference) => this.getTextInputReference(key, reference)}
+                  keyboardType={KeyboardType.emailAddress}
+                  value={inviteFriend}
+                  returnKeyType={ReturnKeyType.next}
+                  onChangeText={(value) => this.onChangeinviteFriendText(value)}
+                  onSubmitEditing={(key) => this.onSubmitEditing(key)}
+                  autoCapitalize="none"
+                />
+                {/* <ToggleIcon
                 isShowPassword={isShowPassword}
                 showPassowrdText={() => this.showPassowrdText()}
                 // screenOrientation={screenOrientation}
               /> */}
-            </View>
+              </View>
 
-            <TouchableOpacity style={styles.loginBtn} onPress={() => this.InviteFriendAction()}>
-              <Text style={styles.loginBtntxt}>{Localization.userProfileScreen.invite}</Text>
-            </TouchableOpacity>
-          </View>
-          <InviteFriendList
-            userInviteResponse={userInviteResponse}
-          />
+              <TouchableOpacity style={styles.loginBtn} onPress={() => this.InviteFriendAction()}>
+                <Text style={styles.loginBtntxt}>{Localization.userProfileScreen.invite}</Text>
+              </TouchableOpacity>
+            </View>
+            <InviteFriendList
+              userInviteResponse={userInviteResponse}
+            />
+          </ScrollView>
         </KeyboardAwareScrollView>
         {
        isSideMenuVisible
