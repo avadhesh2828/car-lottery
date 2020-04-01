@@ -698,7 +698,7 @@ class UserProfile extends Component {
                       fontSize={15}
                       containerStyle={styles.dropdownStyle}
                       dropdownOffset={{ top: 0, left: 0 }}
-                      label={Localization.userProfileScreen.selectCountry}
+                      label={this.state.country === null ? Localization.userProfileScreen.selectCountry : ''}
                       value={this.state.country === null ? '' : this.state.country}
                       data={this.props.countryResponse}
                       onChangeText={(item, index, data) => this.selectedCountryItem(item, index, data)}
@@ -717,7 +717,7 @@ class UserProfile extends Component {
                       fontSize={14}
                       dropdownOffset={{ top: 0, left: 0 }}
                       containerStyle={styles.dropdownStyle}
-                      label={Localization.userProfileScreen.selectState}
+                      label={this.state.main === null ? Localization.userProfileScreen.selectState : ''}
                     // label={Localization.userProfileScreen.selectState}
                       data={this.props.stateResponse}
                       value={this.state.main === null ? '' : this.state.main}

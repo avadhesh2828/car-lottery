@@ -6,7 +6,7 @@ import dashboardSaga from './Dashboard/dashboardSaga';
 import getCountriesSaga from './ProfileSaga/profileSaga';
 import saferGamblingSaga from './SaferGambling/saferGamblingSaga';
 import advertisementSaga from './AdvertisementSaga/advertisementSaga';
-import notificationSaga from './Notification/notificationSaga';
+import notificationSaga from './Notification/NotificationSaga';
 
 function* root() {
   yield fork(sportsSaga);
