@@ -183,7 +183,19 @@ class MyTicket extends Component {
   }
 
   onChangeText(text) {
-    this.setState({ searchValue: text });
+    if (!(_.isEmpty(text))) {
+      this.setState({ searchValue: text });
+      this.refreshMyLotteries();
+    } else {
+      this.setState({ searchValue: text });
+      this.props.getMyLotteriesRequest({
+        items_perpage: 10,
+        current_page: 1,
+        sort_field: '',
+        sort_order: '',
+        only_hot_lotteries: true,
+      });
+    }
   }
 
   onPressAllRadiobtn() {
