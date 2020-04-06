@@ -8,7 +8,10 @@ import {
   Image,
 } from 'react-native';
 import { images } from '../../../assets/images';
-import { fontName, UIColors, fontSizes, spacing, itemSizes } from '../../../utils/variables';
+import {
+  fontName, UIColors, fontSizes, spacing, itemSizes,
+} from '../../../utils/variables';
+import { Localization } from '../../../utils/localization';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,11 +25,12 @@ const styles = StyleSheet.create({
 });
 
 /* Main Component which is rendering the transaction list using flatList . */
-const TransactionList = props => (
+const TransactionList = (props) => (
   <FlatList
     data={props.data}
     showsVerticalScrollIndicator={false}
-    renderItem={item => <TransactionRow element={item.item} containerProps={props} />}
+    ListHeaderComponent={FlatlistHeader}
+    renderItem={(item) => <TransactionRow element={item.item} containerProps={props} />}
     ItemSeparatorComponent={() => <View style={styles.itemSeparatorStyle} />}
   />
 );
@@ -82,9 +86,10 @@ function findTransactionType(elementStatus, depositStatus) {
   return isTransactionTypeDeposit;
 }
 
-const TransactionRow = props => (
+const TransactionRow = (props) => (
   <View style={rowStyles.container}>
-    <Text style={[rowStyles.rowTypeText, rowStyles.centerTextStyle, { flex: 0.5 }]}>
+    <Text style={[rowStyles.rowTypeText, rowStyles.centerTextStyle, { flex: 0.6 }]}>
+      ₦
       {props.element.amount}
     </Text>
 
@@ -100,6 +105,27 @@ const TransactionRow = props => (
 
     <Text style={[rowStyles.rowTypeText, rowStyles.rightTextStyle]}>
       {props.element.is_processed == 1 ? 'Completed' : 'Pending'}
+    </Text>
+  </View>
+);
+
+const FlatlistHeader = () => (
+  <View style={rowStyles.container}>
+    <Text style={[rowStyles.rowTypeText, rowStyles.centerTextStyle, { flex: 0.6 }]}>
+      {Localization.Transaction.amount}
+    </Text>
+
+    {/* Text component which displays date of transaction: DD/Month */}
+    <Text style={[rowStyles.rowTypeText, rowStyles.centerTextStyle, { flex: 0.8 }]}>
+      {Localization.Transaction.date}
+    </Text>
+
+    {/* Text component which displays value of transaction */}
+    <Text style={[rowStyles.rowTypeText, rowStyles.rightTextStyle, { color: 'black' }]}>
+      {Localization.Transaction.description}
+    </Text>
+    <Text style={[rowStyles.rowTypeText, rowStyles.rightTextStyle, { color: 'black' }]}>
+      {Localization.Transaction.status}
     </Text>
   </View>
 );

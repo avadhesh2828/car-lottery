@@ -136,4 +136,12 @@ export const Localization = {
     PrivacyPolicy: 'PRIVACY POLICY',
     Copyright: 'Copyright © 2020 Car lottery Company. All rights reserved.',
   },
+  Transaction: {
+    amount: 'AMOUNT',
+    Transaction: 'TRANSACTION',
+    date: 'DATE',
+    // TransactionId: 'TRANSACTION ID',
+    description: 'DESCRIPTION',
+    status: 'STATUS',
+  },
 };
